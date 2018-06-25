@@ -23,5 +23,5 @@
 hs_err_pid*
 
 # idea config
-/ACC/.idea/
-/ACC/ACC.iml
+.idea/
+Adaptive_Concurrency_Control.iml
