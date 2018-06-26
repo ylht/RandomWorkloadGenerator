@@ -8,4 +8,16 @@ public class TupleChar extends TupleKind {
         fixedOrNot = !(Math.random() < 0.5);
         charNum=(int)(Math.random() * 120);
     }
+
+    @Override
+    public String getKindSql()
+    {
+        String sql="";
+        if(!fixedOrNot)
+        {
+            sql+="VAR";
+        }
+        sql+="CHAR("+String.valueOf(charNum)+")";
+        return sql;
+    }
 }

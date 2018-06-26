@@ -13,4 +13,15 @@ public class TupleDouble extends TupleKind{
         pointNum=(int)(Math.random()*10);
     }
 
+    @Override
+    public String getKindSql()
+    {
+        String sql="decimal("+String.valueOf(intNum)+","+String.valueOf(pointNum)+")";
+        if (!signedOrNot)
+        {
+            sql += "UN";
+        }
+        sql +="UNSIGNED";
+        return sql;
+    }
 }

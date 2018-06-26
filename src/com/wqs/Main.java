@@ -4,6 +4,8 @@ public class Main {
 
     public static void main(String[] args) {
 	// write your code here
-        System.out.println("hello word!");
+        String a="add";
+
+        System.out.println(a.substring(0,2));
     }
 }

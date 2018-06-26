@@ -17,4 +17,10 @@ public class TupleKind {
     {
         this.keyOrNot=true;
     }
+
+    public String getKindSql()
+    {
+        return null;
+    }
+
 }
