@@ -6,29 +6,29 @@
 
 文件夹架构为
 
->.
->├── Main.java
->├── README.md
->├── base
->│   ├── RandomControl.java
->│   ├── format
->│   │   ├── ArrayToString.java
->│   │   ├── KeyAndValue.java
->│   │   └── RangeKeyAndValue.java
->│   └── tuple
->│       ├── TupleChar.java
->│       ├── TupleDate.java
->│       ├── TupleDouble.java
->│       ├── TupleInt.java
->│       └── TupleType.java
->├── generator
->│   └── GenerateTable.java
->└── template
->    ├── sql
->    │   └── SelectTemplate.java
->    ├── table
->    │   └── TableTemplate.java
->    └── transaction
+>.<br>
+>├── Main.java<br>
+>├── README.md<br>
+>├── base<br>
+>│   ├── RandomControl.java<br>
+>│   ├── format<br>
+>│   │   ├── ArrayToString.java<br>
+>│   │   ├── KeyAndValue.java<br>
+>│   │   └── RangeKeyAndValue.java<br>
+>│   └── tuple<br>
+>│       ├── TupleChar.java<br>
+>│       ├── TupleDate.java<br>
+>│       ├── TupleDouble.java<br>
+>│       ├── TupleInt.java<br>
+>│       └── TupleType.java<br>
+>├── generator<br>
+>│   └── GenerateTable.java<br>
+>└── template<br>
+>    ├── sql<br>
+>    │   └── SelectTemplate.java<br>
+>    ├── table<br>
+>    │   └── TableTemplate.java<br>
+>    └── transaction<br> 
 
 ### 1.base 基础库 
 
