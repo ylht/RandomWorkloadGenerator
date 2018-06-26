@@ -1,5 +1,7 @@
 package com.wqs.base.tuple;
 
+import com.wqs.base.RandomControl;
+
 /**
  * @author wangqingshuai
  */
@@ -9,7 +11,7 @@ public class TupleInt extends TupleKind {
     private Boolean signedOrNot;
     public TupleInt() {
         super("int");
-        signedOrNot=Math.random()<0.5;
+        signedOrNot=RandomControl.getIntSignedOrNot();
     }
 
     @Override
@@ -20,7 +22,7 @@ public class TupleInt extends TupleKind {
         {
             sql += "UN";
         }
-        sql +="UNSIGNED";
+        sql +="SIGNED";
         return sql;
     }
 

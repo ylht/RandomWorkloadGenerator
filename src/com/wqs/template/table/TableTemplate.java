@@ -13,13 +13,13 @@ public class TableTemplate {
         private String tableName;
         private int keyNum;
         private int totalNum;
-        private ArrayList<TupleKind> values;
+        private ArrayList<TupleKind> values=new ArrayList<TupleKind>();
 
-        private TableTemplate(String tableName,
-                              int intNum,int sqlDoubleNum,int sqlCharNum,int dateNum,
+        public TableTemplate(String tableName,
+                              int intNum,int doubleNum,int charNum,int dateNum,
                               int keyNum)
         {
-            int totalNum=intNum+sqlCharNum+sqlDoubleNum+dateNum;
+            int totalNum=intNum+charNum+doubleNum+dateNum;
             this.tableName=tableName;
             this.totalNum=totalNum;
             this.keyNum=keyNum;
@@ -32,11 +32,11 @@ public class TableTemplate {
             {
                 values.get(i).makeKey();
             }
-            for(int i=0;i<sqlDoubleNum;i++)
+            for(int i=0;i<doubleNum;i++)
             {
                 values.add(new TupleDouble());
             }
-            for(int i=0;i<sqlCharNum;i++)
+            for(int i=0;i<charNum;i++)
             {
                 values.add(new TupleChar());
             }
@@ -62,7 +62,7 @@ public class TableTemplate {
 
         public String toSql()
         {
-            StringBuilder sql= new StringBuilder("CREATE TABLE" + tableName + "{ ");
+            StringBuilder sql= new StringBuilder("CREATE TABLE " + tableName + "{\n");
             for(int i=0;i<totalNum;i++)
             {
                 sql.append("tv").append(String.valueOf(i)).append(" ")
@@ -70,11 +70,12 @@ public class TableTemplate {
             }
             if(keyNum>0)
             {
-                sql.append("PRIMARY KEY ( tv0");
+                sql.append("PRIMARY KEY (tv0");
                 for(int i=1;i<keyNum;i++)
                 {
                     sql.append(",tv").append(String.valueOf(i));
                 }
+                sql.append(")");
             }
             else
             {

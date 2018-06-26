@@ -1,5 +1,7 @@
 package com.wqs.base.tuple;
 
+import com.wqs.base.RandomControl;
+
 import java.util.Random;
 
 /**
@@ -11,9 +13,8 @@ public class TupleChar extends TupleKind {
     private int charNum;
     public TupleChar()  {
         super("char");
-        fixedOrNot =Math.random()<0.5;
-        Random r=new Random();
-        charNum=r.nextInt(129)+1;
+        fixedOrNot =RandomControl.getFixedOrNot();
+        charNum=RandomControl.getTupleCharNum();
     }
 
     @Override

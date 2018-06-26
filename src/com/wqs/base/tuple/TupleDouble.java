@@ -1,5 +1,7 @@
 package com.wqs.base.tuple;
 
+import com.wqs.base.RandomControl;
+
 import java.util.Random;
 
 /**
@@ -14,21 +16,20 @@ public class TupleDouble extends TupleKind{
     public TupleDouble()
     {
         super("double");
-        signedOrNot=Math.random()<0.5;
-        Random r = new Random();
-        intNum= r.nextInt(20)+1;
-        pointNum= r.nextInt(21);
+        signedOrNot=RandomControl.getDoubleSignedOrNot();
+        intNum= RandomControl.getTupleDoubleIntNum();
+        pointNum= RandomControl.getTupleDoublePointNum();
     }
 
     @Override
     public String getKindSql()
     {
-        String sql="decimal("+String.valueOf(intNum)+","+String.valueOf(pointNum)+")";
+        String sql="decimal("+String.valueOf(intNum)+","+String.valueOf(pointNum)+") ";
         if (!signedOrNot)
         {
             sql += "UN";
         }
-        sql +="UNSIGNED";
+        sql +="SIGNED";
         return sql;
     }
 }
