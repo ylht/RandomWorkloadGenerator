@@ -14,7 +14,7 @@ public class TableTemplate {
         private String tableName;
         private int keyNum;
         private int totalNum;
-        private ArrayList<TupleKind> values=new ArrayList<TupleKind>();
+        private ArrayList<TupleType> values=new ArrayList<TupleType>();
 
         public TableTemplate(String tableName,
                               int intNum,int doubleNum,int charNum,int dateNum,
@@ -53,7 +53,7 @@ public class TableTemplate {
             for(int i =keyNum-1;i<totalNum;i++)
             {
                 int randomIndex=i+(int)(Math.random()*(totalNum-i));
-                TupleKind temp= values.get(i);
+                TupleType temp= values.get(i);
                 values.set(i,values.get(randomIndex));
                 values.set(randomIndex,temp);
             }

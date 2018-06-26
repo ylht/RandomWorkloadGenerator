@@ -6,7 +6,7 @@ import load.generator.base.RandomControl;
  * @author wangqingshuai
  */
 
-public class TupleChar extends TupleKind {
+public class TupleChar extends TupleType {
     private Boolean fixedOrNot;
     private int charNum;
     public TupleChar()  {

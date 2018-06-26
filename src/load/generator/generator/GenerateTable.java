@@ -1,4 +1,4 @@
-package load.generator.template.transaction;
+package load.generator.generator;
 
 import load.generator.base.RandomControl;
 import load.generator.template.table.TableTemplate;
@@ -6,13 +6,13 @@ import load.generator.template.table.TableTemplate;
 /**
  * @author wangqingshuai
  */
-public class ProduceTransaction {
+public class GenerateTable {
     private int tableNum;
     private TableTemplate[] tables;
 
 
 
-    public ProduceTransaction()
+    public GenerateTable()
     {
         tableNum=RandomControl.getTableNum();
         tables=new TableTemplate[tableNum];

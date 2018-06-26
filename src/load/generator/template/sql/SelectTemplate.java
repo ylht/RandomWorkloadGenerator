@@ -1,9 +1,9 @@
 
 package load.generator.template.sql;
 
-import load.generator.base.ArrayToString;
-import load.generator.base.KeyAndValue;
-import load.generator.base.RangeKeyAndValue;
+import load.generator.base.format.ArrayToString;
+import load.generator.base.format.KeyAndValue;
+import load.generator.base.format.RangeKeyAndValue;
 
 /**
  * @author wangqingshuai

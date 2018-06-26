@@ -7,7 +7,7 @@ import load.generator.base.RandomControl;
  */
 
 
-public class TupleInt extends TupleKind {
+public class TupleInt extends TupleType {
     private Boolean signedOrNot;
     public TupleInt() {
         super("int");

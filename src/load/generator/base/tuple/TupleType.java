@@ -3,12 +3,12 @@ package load.generator.base.tuple;
 /**
  * @author wangqingshuai
  */
-public class TupleKind {
+public class TupleType {
     private String name;
 
     private Boolean keyOrNot=false;
 
-    TupleKind(String name)
+    TupleType(String name)
     {
         this.name=name;
     }

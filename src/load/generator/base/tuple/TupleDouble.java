@@ -6,7 +6,7 @@ import load.generator.base.RandomControl;
  * @author wangqingshuai
  */
 
-public class TupleDouble extends TupleKind{
+public class TupleDouble extends TupleType {
     private Boolean signedOrNot;
     private int intNum;
     private int pointNum;
