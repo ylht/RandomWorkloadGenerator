@@ -1,10 +1,15 @@
 package com.wqs.base.tuple;
 
+/**
+ * @author wangqingshuai
+ */
+
+
 public class TupleInt extends TupleKind {
     private Boolean signedOrNot;
     public TupleInt() {
         super("int");
-        signedOrNot=!(Math.random()<0.5);
+        signedOrNot=Math.random()<0.5;
     }
 
     @Override

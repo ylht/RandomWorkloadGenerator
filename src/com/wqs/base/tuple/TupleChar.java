@@ -1,12 +1,19 @@
 package com.wqs.base.tuple;
 
+import java.util.Random;
+
+/**
+ * @author wangqingshuai
+ */
+
 public class TupleChar extends TupleKind {
     private Boolean fixedOrNot;
     private int charNum;
     public TupleChar()  {
         super("char");
-        fixedOrNot = !(Math.random() < 0.5);
-        charNum=(int)(Math.random() * 120);
+        fixedOrNot =Math.random()<0.5;
+        Random r=new Random();
+        charNum=r.nextInt(129)+1;
     }
 
     @Override

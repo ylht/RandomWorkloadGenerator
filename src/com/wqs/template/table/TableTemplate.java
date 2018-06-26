@@ -4,6 +4,10 @@ import com.wqs.base.tuple.*;
 
 import java.util.ArrayList;
 
+/**
+ * @author wangqingshuai
+ */
+
 public class TableTemplate {
 
         private String tableName;

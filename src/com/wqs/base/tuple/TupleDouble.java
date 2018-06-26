@@ -1,5 +1,11 @@
 package com.wqs.base.tuple;
 
+import java.util.Random;
+
+/**
+ * @author wangqingshuai
+ */
+
 public class TupleDouble extends TupleKind{
     private Boolean signedOrNot;
     private int intNum;
@@ -8,9 +14,10 @@ public class TupleDouble extends TupleKind{
     public TupleDouble()
     {
         super("double");
-        signedOrNot=!(Math.random()<0.5);
-        intNum=(int)(Math.random()*20);
-        pointNum=(int)(Math.random()*10);
+        signedOrNot=Math.random()<0.5;
+        Random r = new Random();
+        intNum= r.nextInt(20)+1;
+        pointNum= r.nextInt(21);
     }
 
     @Override

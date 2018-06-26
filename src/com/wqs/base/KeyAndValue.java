@@ -1,5 +1,9 @@
 package com.wqs.base;
 
+/**
+ * @author wangqingshuai
+ */
+
 public class KeyAndValue {
     private String key;
     private Object value;

@@ -1,5 +1,9 @@
 package com.wqs.base;
 
+/**
+ * @author wangqingshuai
+ */
+
 public class RangeKeyAndValue {
     private String key;
     private Object leftValue;
