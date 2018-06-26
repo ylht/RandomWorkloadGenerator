@@ -1,4 +1,4 @@
-package com.wqs.base;
+package load.generator.base;
 
 /**
  * @author wangqingshuai

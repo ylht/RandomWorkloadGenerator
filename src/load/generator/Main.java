@@ -1,6 +1,6 @@
-package com.wqs;
+package load.generator;
 
-import com.wqs.template.transaction.ProduceTransaction;
+import load.generator.template.transaction.ProduceTransaction;
 
 /**
  * @author wangqingshuai

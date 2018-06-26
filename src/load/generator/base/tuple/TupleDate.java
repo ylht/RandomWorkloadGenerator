@@ -1,4 +1,4 @@
-package com.wqs.base.tuple;
+package load.generator.base.tuple;
 
 /**
  * @author wangqingshuai

@@ -1,8 +1,6 @@
-package com.wqs.base.tuple;
+package load.generator.base.tuple;
 
-import com.wqs.base.RandomControl;
-
-import java.util.Random;
+import load.generator.base.RandomControl;
 
 /**
  * @author wangqingshuai

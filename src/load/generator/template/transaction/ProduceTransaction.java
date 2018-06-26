@@ -1,7 +1,7 @@
-package com.wqs.template.transaction;
+package load.generator.template.transaction;
 
-import com.wqs.base.RandomControl;
-import com.wqs.template.table.TableTemplate;
+import load.generator.base.RandomControl;
+import load.generator.template.table.TableTemplate;
 
 /**
  * @author wangqingshuai

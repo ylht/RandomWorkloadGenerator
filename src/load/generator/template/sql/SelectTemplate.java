@@ -1,9 +1,9 @@
 
-package com.wqs.template.sql;
+package load.generator.template.sql;
 
-import com.wqs.base.ArrayToString;
-import com.wqs.base.KeyAndValue;
-import com.wqs.base.RangeKeyAndValue;
+import load.generator.base.ArrayToString;
+import load.generator.base.KeyAndValue;
+import load.generator.base.RangeKeyAndValue;
 
 /**
  * @author wangqingshuai

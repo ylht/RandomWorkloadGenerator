@@ -1,6 +1,7 @@
-package com.wqs.template.table;
+package load.generator.template.table;
 
 import com.wqs.base.tuple.*;
+import load.generator.base.tuple.*;
 
 import java.util.ArrayList;
 
