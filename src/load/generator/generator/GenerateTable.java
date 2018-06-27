@@ -10,8 +10,6 @@ public class GenerateTable {
     private int tableNum;
     private TableTemplate[] tables;
 
-
-
     public GenerateTable()
     {
         tableNum=RandomControl.getTableNum();

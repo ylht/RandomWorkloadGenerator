@@ -1,6 +1,5 @@
 package load.generator.template.table;
 
-import com.wqs.base.tuple.*;
 import load.generator.base.tuple.*;
 
 import java.util.ArrayList;
@@ -57,8 +56,6 @@ public class TableTemplate {
                 values.set(i,values.get(randomIndex));
                 values.set(randomIndex,temp);
             }
-
-
         }
 
         public String toSql()

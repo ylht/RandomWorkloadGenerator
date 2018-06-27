@@ -31,6 +31,7 @@ public class RandomControl {
     }
 
     public static int getTableKeyNum(int max){return r.nextInt(max-1)+1;}
+
     public static int getTupleCharNum()
     {
         return r.nextInt(10)+2;

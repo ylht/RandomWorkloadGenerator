@@ -5,25 +5,30 @@ package load.generator.base.format;
  */
 
 public class ArrayToString {
-    public static String toString(Object[] values)
+
+    private static String subToString(Object[] values,Boolean forUpdate)
     {
+        String prefix="";
+        if(forUpdate)
+        {
+            prefix="= %s";
+        }
         int attributesNum=values.length;
         StringBuilder attributesStr= new StringBuilder(values[0].toString());
+        attributesStr.append(prefix);
         for(int i=1;i<attributesNum;i++)
         {
-            attributesStr.append(',').append(values[i].toString());
+            attributesStr.append(',').append(values[i].toString()).append(prefix);
         }
         return attributesStr.toString();
     }
-
-    public static String toStringWithAnd(Object[] values)
+    public static String toString(Object[] values)
     {
-        int attributesNum=values.length;
-        StringBuilder attributesStr= new StringBuilder(values[0].toString());
-        for(int i=1;i<attributesNum;i++)
-        {
-            attributesStr.append("and").append(values[i].toString());
-        }
-        return attributesStr.toString();
+        return subToString(values,false);
+    }
+
+    public static String toStringAsUpdate(Object[] values)
+    {
+       return subToString(values,true);
     }
 }
