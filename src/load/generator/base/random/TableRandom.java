@@ -1,9 +1,17 @@
-package load.generator.base;
+package load.generator.base.random;
 
 import java.util.Random;
 
-public class RandomControl {
+/**
+ * @author wangqingshuai
+ */
+public class TableRandom {
     private static Random r=new Random();
+
+    public static int getSelectTable(int totalNum)
+    {
+        return r.nextInt(totalNum);
+    }
 
     public static int getTableNum()
     {

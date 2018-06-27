@@ -1,4 +1,4 @@
-package load.generator.template.sql;
+package load.generator.template;
 
 /**
  * @author wangqingshuai
@@ -25,7 +25,7 @@ public class ConditionTemplate {
 
         public String singleTable(String tableName)
         {
-            return String.format("from %s \n where", tableName);
+            return String.format("from %s \nwhere ", tableName);
         }
 
         public String joinTable(String tableFirst,String tableSecond,
@@ -36,7 +36,7 @@ public class ConditionTemplate {
         }
         public String singleCondition(String[] keyNames)
         {
-            return  keyToSql(keyNames,false)+';';
+            return keyToSql(keyNames,false)+';';
         }
 
         public String rangeCondition(String[] keyNames)

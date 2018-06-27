@@ -1,6 +1,6 @@
 package load.generator;
 
-import load.generator.generator.GenerateTable;
+import load.generator.generator.Generator;
 
 /**
  * @author wangqingshuai
@@ -10,7 +10,7 @@ public class Main {
 
     public static void main(String[] args) {
 	// write your code here
-        GenerateTable a=new GenerateTable();
-        a.printAllTable();
+        Generator a=new Generator();
+        a.printAllSelectSql();
     }
 }

@@ -1,5 +1,5 @@
 
-package load.generator.template.sql;
+package load.generator.template;
 
 import load.generator.base.format.ArrayToString;
 
@@ -10,17 +10,17 @@ import load.generator.base.format.ArrayToString;
 public class SqlTemplate {
     public String selectTemplate(String[] selectAttributes)
     {
-        return String.format("select %s ", ArrayToString.toString(selectAttributes));
+        return String.format("select %s \n", ArrayToString.toString(selectAttributes));
     }
 
     public String deleteTemplate()
     {
-        return "delete";
+        return "delete \n";
     }
 
     public String updateTemplate(String tableName,String[] updateAttributes)
     {
-        return String.format("update %s set %s", tableName,
+        return String.format("update %s \nset %s \n", tableName,
                 ArrayToString.toStringAsUpdate(updateAttributes));
     }
     public String insertTemplate(String tableName,String[] insertAttributes)

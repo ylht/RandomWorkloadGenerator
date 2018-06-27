@@ -1,4 +1,4 @@
-package load.generator.template.table;
+package load.generator.template;
 
 import load.generator.base.tuple.*;
 
@@ -14,6 +14,21 @@ public class TableTemplate {
         private int keyNum;
         private int totalNum;
         private ArrayList<TupleType> values=new ArrayList<TupleType>();
+
+        public int getTableAttNum()
+        {
+            return totalNum;
+        }
+
+        public int getKeyNum()
+        {
+            return keyNum;
+        }
+
+        public int getSecondIndexNum()
+        {
+            return totalNum-keyNum;
+        }
 
         public TableTemplate(String tableName,
                               int intNum,int doubleNum,int charNum,int dateNum,

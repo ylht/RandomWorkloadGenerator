@@ -1,6 +1,6 @@
 package load.generator.base.tuple;
 
-import load.generator.base.RandomControl;
+import load.generator.base.random.TableRandom;
 
 /**
  * @author wangqingshuai
@@ -14,9 +14,9 @@ public class TupleDouble extends TupleType {
     public TupleDouble()
     {
         super("double");
-        signedOrNot=RandomControl.getDoubleSignedOrNot();
-        intNum= RandomControl.getTupleDoubleIntNum();
-        pointNum= RandomControl.getTupleDoublePointNum();
+        signedOrNot=TableRandom.getDoubleSignedOrNot();
+        intNum= TableRandom.getTupleDoubleIntNum();
+        pointNum= TableRandom.getTupleDoublePointNum();
     }
 
     @Override

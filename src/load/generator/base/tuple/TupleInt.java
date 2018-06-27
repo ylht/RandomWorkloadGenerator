@@ -1,6 +1,6 @@
 package load.generator.base.tuple;
 
-import load.generator.base.RandomControl;
+import load.generator.base.random.TableRandom;
 
 /**
  * @author wangqingshuai
@@ -11,7 +11,7 @@ public class TupleInt extends TupleType {
     private Boolean signedOrNot;
     public TupleInt() {
         super("int");
-        signedOrNot=RandomControl.getIntSignedOrNot();
+        signedOrNot=TableRandom.getIntSignedOrNot();
     }
 
     @Override
