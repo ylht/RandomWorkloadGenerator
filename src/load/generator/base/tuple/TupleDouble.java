@@ -11,23 +11,20 @@ public class TupleDouble extends TupleType {
     private int intNum;
     private int pointNum;
 
-    public TupleDouble()
-    {
+    public TupleDouble() {
         super("double");
-        signedOrNot=TableRandom.getDoubleSignedOrNot();
-        intNum= TableRandom.getTupleDoubleIntNum();
-        pointNum= TableRandom.getTupleDoublePointNum();
+        signedOrNot = TableRandom.getDoubleSignedOrNot();
+        intNum = TableRandom.getTupleDoubleIntNum();
+        pointNum = TableRandom.getTupleDoublePointNum();
     }
 
     @Override
-    public String getKindSql()
-    {
-        String sql="decimal("+String.valueOf(intNum)+","+String.valueOf(pointNum)+") ";
-        if (!signedOrNot)
-        {
+    public String getKindSql() {
+        String sql = "decimal(" + String.valueOf(intNum) + "," + String.valueOf(pointNum) + ") ";
+        if (!signedOrNot) {
             sql += "UN";
         }
-        sql +="SIGNED";
+        sql += "SIGNED";
         return sql;
     }
 }

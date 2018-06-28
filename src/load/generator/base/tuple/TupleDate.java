@@ -10,8 +10,7 @@ public class TupleDate extends TupleType {
     }
 
     @Override
-    public String getKindSql()
-    {
+    public String getKindSql() {
         return "DATE";
     }
 }

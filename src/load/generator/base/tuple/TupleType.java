@@ -6,20 +6,17 @@ package load.generator.base.tuple;
 public class TupleType {
     private String name;
 
-    private Boolean keyOrNot=false;
+    private Boolean keyOrNot = false;
 
-    TupleType(String name)
-    {
-        this.name=name;
+    TupleType(String name) {
+        this.name = name;
     }
 
-    public void makeKey()
-    {
-        this.keyOrNot=true;
+    public void makeKey() {
+        this.keyOrNot = true;
     }
 
-    public String getKindSql()
-    {
+    public String getKindSql() {
         return null;
     }
 

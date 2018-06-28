@@ -9,8 +9,8 @@ import load.generator.generator.Generator;
 public class Main {
 
     public static void main(String[] args) {
-	// write your code here
-        Generator a=new Generator();
-        a.printAllSelectSql();
+        // write your code here
+        Generator a = new Generator();
+        a.printAllUpdateSql();
     }
 }

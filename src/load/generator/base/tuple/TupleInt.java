@@ -9,20 +9,19 @@ import load.generator.base.random.TableRandom;
 
 public class TupleInt extends TupleType {
     private Boolean signedOrNot;
+
     public TupleInt() {
         super("int");
-        signedOrNot=TableRandom.getIntSignedOrNot();
+        signedOrNot = TableRandom.getIntSignedOrNot();
     }
 
     @Override
-    public String getKindSql()
-    {
-        String sql="INT ";
-        if (!signedOrNot)
-        {
+    public String getKindSql() {
+        String sql = "INT ";
+        if (!signedOrNot) {
             sql += "UN";
         }
-        sql +="SIGNED";
+        sql += "SIGNED";
         return sql;
     }
 
