@@ -21,6 +21,9 @@ public class ArrayToString {
     }
 
     public static String toString(Object[] values) {
+        if (values.length == 0) {
+            return null;
+        }
         return subToString(values, false);
     }
 

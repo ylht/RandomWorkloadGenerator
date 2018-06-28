@@ -20,13 +20,17 @@ public class SqlTemplate {
                 ArrayToString.toStringAsUpdate(updateAttributes));
     }
 
-    public String insertTemplate(String tableName, String[] insertAttributes) {
+    public String insertTemplate(String tableName, String[] insertAttributes, int keyNum) {
         StringBuilder sqlMiddle = new StringBuilder();
+        StringBuilder sqlSelect = new StringBuilder();
+        for (int i = 0; i < keyNum; i++) {
+            sqlSelect.append("tv").append(String.valueOf(i)).append(",");
+        }
         sqlMiddle.append("%s");
-        for (int i = 1; i < insertAttributes.length; i++) {
+        for (int i = 1; i < insertAttributes.length + keyNum; i++) {
             sqlMiddle.append(",%s");
         }
-        return String.format("insert into %s (%s) values (%s)", tableName,
-                ArrayToString.toStringAsUpdate(insertAttributes), sqlMiddle);
+        return String.format("insert into %s (%s%s) values (%s);", tableName,
+                sqlSelect, ArrayToString.toString(insertAttributes), sqlMiddle);
     }
 }

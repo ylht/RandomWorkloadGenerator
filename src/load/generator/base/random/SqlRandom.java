@@ -43,8 +43,8 @@ public class SqlRandom {
         return r.nextInt(10) + 2;
     }
 
-    public static int getInsertAttributesNum() {
-        return r.nextInt(10) + 2;
+    public static int getInsertAttributesNum(int maxNum) {
+        return r.nextInt(maxNum);
     }
 
     public static int getDeleteNum() {

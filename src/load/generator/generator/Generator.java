@@ -53,6 +53,25 @@ public class Generator {
             updateTemplates[i] = st.updateTemplate(randomTableName, randomUpdateAtt) + "where " +
                     ct.singleCondition(randomConditionAtt);
         }
+        deleteTemplates = new String[SqlRandom.getDeleteNum()];
+        for (int i = 0; i < deleteTemplates.length; i++) {
+            int randomTableIndex = SqlRandom.getRandomTable(tables.length);
+            TableTemplate randomTable = tables[randomTableIndex];
+            String randomTableName = "t" + String.valueOf(randomTableIndex);
+            String[] randomConditionAtt = getRandomKeyAttributes(randomTable, SqlRandom.getConditionNum(randomTable.getKeyNum()));
+            deleteTemplates[i] = st.deleteTemplate() +
+                    ct.singleTable(randomTableName) +
+                    ct.singleCondition(randomConditionAtt);
+        }
+        insertTemplates = new String[SqlRandom.getInsertNum()];
+        for (int i = 0; i < insertTemplates.length; i++) {
+            int randomTableIndex = SqlRandom.getRandomTable(tables.length);
+            TableTemplate randomTable = tables[randomTableIndex];
+            String randomTableName = "t" + String.valueOf(randomTableIndex);
+            String[] randomInsertAtt = getRandomSecondIndexAttributes(randomTable, SqlRandom.getInsertAttributesNum
+                    (randomTable.getSecondIndexNum()));
+            insertTemplates[i] = st.insertTemplate(randomTableName, randomInsertAtt, randomTable.getKeyNum());
+        }
     }
 
     private ArrayList<Integer> getRandomList(int begin, int end) {
@@ -105,6 +124,18 @@ public class Generator {
 
     public void printAllUpdateSql() {
         for (String i : updateTemplates) {
+            System.out.println(i);
+        }
+    }
+
+    public void printAllInsertSql() {
+        for (String i : insertTemplates) {
+            System.out.println(i);
+        }
+    }
+
+    public void printAllDeleteSql() {
+        for (String i : deleteTemplates) {
             System.out.println(i);
         }
     }
