@@ -1,6 +1,6 @@
 package load.generator.base.tuple;
 
-import load.generator.base.random.TableRandom;
+import load.generator.base.random.RandomGenerateTableAttributesVaule;
 
 /**
  * @author wangqingshuai
@@ -13,13 +13,13 @@ public class TupleDouble extends TupleType {
 
     public TupleDouble() {
         super("double");
-        signedOrNot = TableRandom.getDoubleSignedOrNot();
-        intNum = TableRandom.getTupleDoubleIntNum();
-        pointNum = TableRandom.getTupleDoublePointNum();
+        signedOrNot = RandomGenerateTableAttributesVaule.doubleSignedOrNot();
+        intNum = RandomGenerateTableAttributesVaule.tupleDoubleIntNum();
+        pointNum = RandomGenerateTableAttributesVaule.tupleDoublePointNum();
     }
 
     @Override
-    public String getKindSql() {
+    public String getTupleType() {
         String sql = "decimal(" + String.valueOf(intNum) + "," + String.valueOf(pointNum) + ") ";
         if (!signedOrNot) {
             sql += "UN";

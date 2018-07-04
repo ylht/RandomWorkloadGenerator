@@ -66,7 +66,7 @@ public class TableTemplate {
         StringBuilder sql = new StringBuilder("CREATE TABLE " + tableName + "{\n");
         for (int i = 0; i < totalNum; i++) {
             sql.append("tv").append(String.valueOf(i)).append(" ")
-                    .append(values.get(i).getKindSql()).append(",\n");
+                    .append(values.get(i).getTupleType()).append(",\n");
         }
         if (keyNum > 0) {
             sql.append("PRIMARY KEY (tv0");

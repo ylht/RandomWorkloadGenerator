@@ -1,6 +1,6 @@
 package load.generator.template;
 
-import load.generator.base.format.ArrayToString;
+import load.generator.base.format.GenerateSqlListFromArray;
 
 /**
  * @author wangqingshuai
@@ -8,7 +8,7 @@ import load.generator.base.format.ArrayToString;
 
 public class SqlTemplate {
     public String selectTemplate(String[] selectAttributes) {
-        return String.format("select %s \n", ArrayToString.toString(selectAttributes));
+        return String.format("select %s \n", GenerateSqlListFromArray.generateSelectListFromArray(selectAttributes));
     }
 
     public String deleteTemplate() {
@@ -17,7 +17,7 @@ public class SqlTemplate {
 
     public String updateTemplate(String tableName, String[] updateAttributes) {
         return String.format("update %s \nset %s \n", tableName,
-                ArrayToString.toStringAsUpdate(updateAttributes));
+                GenerateSqlListFromArray.generateUpdateListFromArray(updateAttributes));
     }
 
     public String insertTemplate(String tableName, String[] insertAttributes, int keyNum) {
@@ -31,6 +31,6 @@ public class SqlTemplate {
             sqlMiddle.append(",%s");
         }
         return String.format("insert into %s (%s%s) values (%s);", tableName,
-                sqlSelect, ArrayToString.toString(insertAttributes), sqlMiddle);
+                sqlSelect, GenerateSqlListFromArray.generateSelectListFromArray(insertAttributes), sqlMiddle);
     }
 }

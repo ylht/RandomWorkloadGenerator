@@ -1,6 +1,6 @@
 package load.generator.base.tuple;
 
-import load.generator.base.random.TableRandom;
+import load.generator.base.random.RandomGenerateTableAttributesVaule;
 
 /**
  * @author wangqingshuai
@@ -12,11 +12,11 @@ public class TupleInt extends TupleType {
 
     public TupleInt() {
         super("int");
-        signedOrNot = TableRandom.getIntSignedOrNot();
+        signedOrNot = RandomGenerateTableAttributesVaule.intSignedOrNot();
     }
 
     @Override
-    public String getKindSql() {
+    public String getTupleType() {
         String sql = "INT ";
         if (!signedOrNot) {
             sql += "UN";

@@ -4,9 +4,9 @@ package load.generator.base.format;
  * @author wangqingshuai
  */
 
-public class ArrayToString {
+public class GenerateSqlListFromArray {
 
-    private static String subToString(Object[] values, Boolean forUpdate) {
+    private static String generateModule(Object[] values, Boolean forUpdate) {
         String prefix = "";
         if (forUpdate) {
             prefix = "= %s";
@@ -20,14 +20,15 @@ public class ArrayToString {
         return attributesStr.toString();
     }
 
-    public static String toString(Object[] values) {
+    public static String generateSelectListFromArray(Object[] values) {
         if (values.length == 0) {
             return null;
         }
-        return subToString(values, false);
+        return generateModule(values, false);
     }
 
-    public static String toStringAsUpdate(Object[] values) {
-        return subToString(values, true);
+
+    public static String generateUpdateListFromArray(Object[] values) {
+        return generateModule(values, true);
     }
 }

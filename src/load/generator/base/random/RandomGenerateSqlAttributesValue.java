@@ -2,27 +2,27 @@ package load.generator.base.random;
 
 import java.util.Random;
 
-public class SqlRandom {
+public class RandomGenerateSqlAttributesValue {
     private static Random r = new Random();
 
-    public static int getSelectNum() {
+    public static int selectNum() {
         return r.nextInt(10) + 2;
     }
 
-    public static int getRandomTable(int totalNum) {
+    public static int randomTable(int totalNum) {
         return r.nextInt(totalNum);
     }
 
 
-    public static int getSelectAttributesNum(int maxNum) {
+    public static int selectAttributesNum(int maxNum) {
         return r.nextInt(maxNum - 1) + 1;
     }
 
-    public static Boolean getSelectWithJoin() {
+    public static Boolean selectWithJoin() {
         return Math.random() < 0.5;
     }
 
-    public static int getConditionNum(int maxNum) {
+    public static int conditionNum(int maxNum) {
         if (maxNum == 1) {
             return 1;
         } else {
@@ -31,23 +31,23 @@ public class SqlRandom {
 
     }
 
-    public static int getUpdateNum() {
+    public static int updateNum() {
         return r.nextInt(10) + 2;
     }
 
-    public static int getUpdateAttributesNum(int maxNum) {
+    public static int updateAttributesNum(int maxNum) {
         return r.nextInt(maxNum - 1) + 1;
     }
 
-    public static int getInsertNum() {
+    public static int insertNum() {
         return r.nextInt(10) + 2;
     }
 
-    public static int getInsertAttributesNum(int maxNum) {
+    public static int insertAttributesNum(int maxNum) {
         return r.nextInt(maxNum);
     }
 
-    public static int getDeleteNum() {
+    public static int deleteNum() {
         return r.nextInt(10) + 2;
     }
 

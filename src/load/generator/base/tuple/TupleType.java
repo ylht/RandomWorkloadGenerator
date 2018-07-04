@@ -16,7 +16,7 @@ public class TupleType {
         this.keyOrNot = true;
     }
 
-    public String getKindSql() {
+    public String getTupleType() {
         return null;
     }
 

@@ -1,6 +1,6 @@
 package load.generator.base.tuple;
 
-import load.generator.base.random.TableRandom;
+import load.generator.base.random.RandomGenerateTableAttributesVaule;
 
 /**
  * @author wangqingshuai
@@ -12,12 +12,12 @@ public class TupleChar extends TupleType {
 
     public TupleChar() {
         super("char");
-        fixedOrNot = TableRandom.getFixedOrNot();
-        charNum = TableRandom.getTupleCharNum();
+        fixedOrNot = RandomGenerateTableAttributesVaule.fixedOrNot();
+        charNum = RandomGenerateTableAttributesVaule.tupleCharNum();
     }
 
     @Override
-    public String getKindSql() {
+    public String getTupleType() {
         String sql = "";
         if (!fixedOrNot) {
             sql += "VAR";

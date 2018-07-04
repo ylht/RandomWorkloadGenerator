@@ -1,7 +1,7 @@
 package load.generator.generator;
 
-import load.generator.base.random.SqlRandom;
-import load.generator.base.random.TableRandom;
+import load.generator.base.random.RandomGenerateSqlAttributesValue;
+import load.generator.base.random.RandomGenerateTableAttributesVaule;
 import load.generator.template.ConditionTemplate;
 import load.generator.template.SqlTemplate;
 import load.generator.template.TableTemplate;
@@ -20,55 +20,55 @@ public class Generator {
     private String[] deleteTemplates;
 
     public Generator() {
-        int tableNum = TableRandom.getTableNum();
+        int tableNum = RandomGenerateTableAttributesVaule.tableNum();
         tables = new TableTemplate[tableNum];
         for (int i = 0; i < tableNum; i++) {
-            int intNum = TableRandom.getTableIntNum();
+            int intNum = RandomGenerateTableAttributesVaule.intNum();
             tables[i] = new TableTemplate("t" + String.valueOf(i), intNum,
-                    TableRandom.getTableDoubleNum(),
-                    TableRandom.getTableCharNum(),
-                    TableRandom.getTableDateNum(),
-                    TableRandom.getTableKeyNum(intNum));
+                    RandomGenerateTableAttributesVaule.doubleNum(),
+                    RandomGenerateTableAttributesVaule.charNum(),
+                    RandomGenerateTableAttributesVaule.dateNum(),
+                    RandomGenerateTableAttributesVaule.keyNum(intNum));
         }
         SqlTemplate st = new SqlTemplate();
         ConditionTemplate ct = new ConditionTemplate();
-        selectTemplates = new String[SqlRandom.getSelectNum()];
+        selectTemplates = new String[RandomGenerateSqlAttributesValue.selectNum()];
         for (int i = 0; i < selectTemplates.length; i++) {
-            int randomTableIndex = SqlRandom.getRandomTable(tables.length);
+            int randomTableIndex = RandomGenerateSqlAttributesValue.randomTable(tables.length);
             TableTemplate randomTable = tables[randomTableIndex];
-            String[] randomSelectAtt = getRandomAllAttributes(randomTable, SqlRandom.getSelectAttributesNum(randomTable.getTableAttNum()));
+            String[] randomSelectAtt = getRandomAllAttributes(randomTable, RandomGenerateSqlAttributesValue.selectAttributesNum(randomTable.getTableAttNum()));
             String randomTableName = "t" + String.valueOf(randomTableIndex);
-            String[] randomConditionAtt = getRandomKeyAttributes(randomTable, SqlRandom.getConditionNum(randomTable.getKeyNum()));
+            String[] randomConditionAtt = getRandomKeyAttributes(randomTable, RandomGenerateSqlAttributesValue.conditionNum(randomTable.getKeyNum()));
             selectTemplates[i] = st.selectTemplate(randomSelectAtt) +
                     ct.singleTable(randomTableName)
                     + ct.singleCondition(randomConditionAtt);
         }
-        updateTemplates = new String[SqlRandom.getUpdateNum()];
+        updateTemplates = new String[RandomGenerateSqlAttributesValue.updateNum()];
         for (int i = 0; i < updateTemplates.length; i++) {
-            int randomTableIndex = SqlRandom.getRandomTable(tables.length);
+            int randomTableIndex = RandomGenerateSqlAttributesValue.randomTable(tables.length);
             TableTemplate randomTable = tables[randomTableIndex];
-            String[] randomUpdateAtt = getRandomAllAttributes(randomTable, SqlRandom.getUpdateAttributesNum(randomTable.getTableAttNum()));
+            String[] randomUpdateAtt = getRandomAllAttributes(randomTable, RandomGenerateSqlAttributesValue.updateAttributesNum(randomTable.getTableAttNum()));
             String randomTableName = "t" + String.valueOf(randomTableIndex);
-            String[] randomConditionAtt = getRandomKeyAttributes(randomTable, SqlRandom.getConditionNum(randomTable.getKeyNum()));
+            String[] randomConditionAtt = getRandomKeyAttributes(randomTable, RandomGenerateSqlAttributesValue.conditionNum(randomTable.getKeyNum()));
             updateTemplates[i] = st.updateTemplate(randomTableName, randomUpdateAtt) + "where " +
                     ct.singleCondition(randomConditionAtt);
         }
-        deleteTemplates = new String[SqlRandom.getDeleteNum()];
+        deleteTemplates = new String[RandomGenerateSqlAttributesValue.deleteNum()];
         for (int i = 0; i < deleteTemplates.length; i++) {
-            int randomTableIndex = SqlRandom.getRandomTable(tables.length);
+            int randomTableIndex = RandomGenerateSqlAttributesValue.randomTable(tables.length);
             TableTemplate randomTable = tables[randomTableIndex];
             String randomTableName = "t" + String.valueOf(randomTableIndex);
-            String[] randomConditionAtt = getRandomKeyAttributes(randomTable, SqlRandom.getConditionNum(randomTable.getKeyNum()));
+            String[] randomConditionAtt = getRandomKeyAttributes(randomTable, RandomGenerateSqlAttributesValue.conditionNum(randomTable.getKeyNum()));
             deleteTemplates[i] = st.deleteTemplate() +
                     ct.singleTable(randomTableName) +
                     ct.singleCondition(randomConditionAtt);
         }
-        insertTemplates = new String[SqlRandom.getInsertNum()];
+        insertTemplates = new String[RandomGenerateSqlAttributesValue.insertNum()];
         for (int i = 0; i < insertTemplates.length; i++) {
-            int randomTableIndex = SqlRandom.getRandomTable(tables.length);
+            int randomTableIndex = RandomGenerateSqlAttributesValue.randomTable(tables.length);
             TableTemplate randomTable = tables[randomTableIndex];
             String randomTableName = "t" + String.valueOf(randomTableIndex);
-            String[] randomInsertAtt = getRandomSecondIndexAttributes(randomTable, SqlRandom.getInsertAttributesNum
+            String[] randomInsertAtt = getRandomSecondIndexAttributes(randomTable, RandomGenerateSqlAttributesValue.insertAttributesNum
                     (randomTable.getSecondIndexNum()));
             insertTemplates[i] = st.insertTemplate(randomTableName, randomInsertAtt, randomTable.getKeyNum());
         }
