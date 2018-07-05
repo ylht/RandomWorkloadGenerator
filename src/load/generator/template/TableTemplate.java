@@ -1,6 +1,6 @@
 package load.generator.template;
 
-import load.generator.base.tuple.*;
+import load.generator.template.tuple.*;
 
 import java.util.ArrayList;
 

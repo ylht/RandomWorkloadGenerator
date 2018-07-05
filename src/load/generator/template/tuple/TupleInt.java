@@ -1,6 +1,6 @@
-package load.generator.base.tuple;
+package load.generator.template.tuple;
 
-import load.generator.base.random.RandomGenerateTableAttributesVaule;
+import load.generator.generator.RandomGenerateTableAttributesVaule;
 
 /**
  * @author wangqingshuai

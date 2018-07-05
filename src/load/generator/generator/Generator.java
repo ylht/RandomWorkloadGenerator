@@ -1,7 +1,5 @@
 package load.generator.generator;
 
-import load.generator.base.random.RandomGenerateSqlAttributesValue;
-import load.generator.base.random.RandomGenerateTableAttributesVaule;
 import load.generator.template.ConditionTemplate;
 import load.generator.template.SqlTemplate;
 import load.generator.template.TableTemplate;

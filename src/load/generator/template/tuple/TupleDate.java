@@ -1,4 +1,4 @@
-package load.generator.base.tuple;
+package load.generator.template.tuple;
 
 /**
  * @author wangqingshuai

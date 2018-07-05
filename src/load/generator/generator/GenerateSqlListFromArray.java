@@ -1,4 +1,4 @@
-package load.generator.base.format;
+package load.generator.generator;
 
 /**
  * @author wangqingshuai

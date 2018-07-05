@@ -1,11 +1,11 @@
-package load.generator.base.random;
+package load.generator.generator;
 
 import java.util.Random;
 
 /**
  * 生成用于table随机的各种属性值
- * @author wangqingshuai
  *
+ * @author wangqingshuai
  */
 public class RandomGenerateTableAttributesVaule {
 
@@ -54,8 +54,6 @@ public class RandomGenerateTableAttributesVaule {
         return r.nextInt(max - 1) + 1;
     }
 
-    /********Tuple有关的随机值生成*************/
-
     /**
      * @return char属性在本tuple采用varchar或者char
      */
@@ -97,7 +95,5 @@ public class RandomGenerateTableAttributesVaule {
     public static Boolean intSignedOrNot() {
         return Math.random() < 0.5;
     }
-
-
 
 }

@@ -1,6 +1,6 @@
 package load.generator.template;
 
-import load.generator.base.format.GenerateSqlListFromArray;
+import load.generator.generator.GenerateSqlListFromArray;
 
 /**
  * @author wangqingshuai

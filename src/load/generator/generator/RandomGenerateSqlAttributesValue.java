@@ -1,6 +1,10 @@
-package load.generator.base.random;
+package load.generator.generator;
 
 import java.util.Random;
+
+/**
+ * @author wangqingshuai
+ */
 
 public class RandomGenerateSqlAttributesValue {
     private static Random r = new Random();
