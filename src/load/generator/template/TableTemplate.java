@@ -11,9 +11,20 @@ import java.util.ArrayList;
 public class TableTemplate {
 
     private String tableName;
-    private int keyNum;
+
+
     private int totalNum;
-    private ArrayList<TupleType> values = new ArrayList<TupleType>();
+    private int keyNum;
+
+    private ArrayList<TupleType> tuples = new ArrayList<TupleType>();
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public ArrayList<TupleType> getTuples() {
+        return tuples;
+    }
 
     public TableTemplate(String tableName,
                          int intNum, int doubleNum, int charNum, int dateNum,
@@ -24,19 +35,20 @@ public class TableTemplate {
         this.keyNum = keyNum;
 
         for (int i = 0; i < intNum; i++) {
-            values.add(new TupleInt());
+            tuples.add(new TupleInt());
         }
         for (int i = 0; i < keyNum; i++) {
-            values.get(i).makeKey();
+            tuples.get(i).makeKey();
         }
+
         for (int i = 0; i < doubleNum; i++) {
-            values.add(new TupleDouble());
+            tuples.add(new TupleDouble());
         }
         for (int i = 0; i < charNum; i++) {
-            values.add(new TupleChar());
+            tuples.add(new TupleChar());
         }
         for (int i = 0; i < dateNum; i++) {
-            values.add(new TupleDate());
+            tuples.add(new TupleDate());
         }
         if (keyNum == 0) {
             keyNum = 1;
@@ -44,9 +56,9 @@ public class TableTemplate {
 
         for (int i = keyNum - 1; i < totalNum; i++) {
             int randomIndex = i + (int) (Math.random() * (totalNum - i));
-            TupleType temp = values.get(i);
-            values.set(i, values.get(randomIndex));
-            values.set(randomIndex, temp);
+            TupleType temp = tuples.get(i);
+            tuples.set(i, tuples.get(randomIndex));
+            tuples.set(randomIndex, temp);
         }
     }
 
@@ -66,7 +78,7 @@ public class TableTemplate {
         StringBuilder sql = new StringBuilder("CREATE TABLE " + tableName + "{\n");
         for (int i = 0; i < totalNum; i++) {
             sql.append("tv").append(String.valueOf(i)).append(" ")
-                    .append(values.get(i).getTupleType()).append(",\n");
+                    .append(tuples.get(i).getTupleType()).append(",\n");
         }
         if (keyNum > 0) {
             sql.append("PRIMARY KEY (tv0");

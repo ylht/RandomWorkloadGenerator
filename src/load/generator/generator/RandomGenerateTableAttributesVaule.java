@@ -15,8 +15,9 @@ public class RandomGenerateTableAttributesVaule {
      * @return 在本次负载中需要随机的表格数量
      */
     public static int tableNum() {
-        return r.nextInt(10) + 2;
+        return r.nextInt(7) + 3;
     }
+
 
     /**
      * @return 在本张表中，int属性的数量

@@ -27,4 +27,5 @@ public class TupleDouble extends TupleType {
         sql += "SIGNED";
         return sql;
     }
+
 }

@@ -20,4 +20,6 @@ public class TupleType {
         return null;
     }
 
+    public Boolean getKeyOrNot(){return keyOrNot;}
+
 }

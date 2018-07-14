@@ -35,7 +35,7 @@ public class Generator {
             int randomTableIndex = RandomGenerateSqlAttributesValue.randomTable(tables.length);
             TableTemplate randomTable = tables[randomTableIndex];
             String[] randomSelectAtt = getRandomAllAttributes(randomTable, RandomGenerateSqlAttributesValue.selectAttributesNum(randomTable.getTableAttNum()));
-            String randomTableName = "t" + String.valueOf(randomTableIndex);
+            String randomTableName = randomTable.getTableName();
             String[] randomConditionAtt = getRandomKeyAttributes(randomTable, RandomGenerateSqlAttributesValue.conditionNum(randomTable.getKeyNum()));
             selectTemplates[i] = st.selectTemplate(randomSelectAtt) +
                     ct.singleTable(randomTableName)
@@ -46,7 +46,7 @@ public class Generator {
             int randomTableIndex = RandomGenerateSqlAttributesValue.randomTable(tables.length);
             TableTemplate randomTable = tables[randomTableIndex];
             String[] randomUpdateAtt = getRandomAllAttributes(randomTable, RandomGenerateSqlAttributesValue.updateAttributesNum(randomTable.getTableAttNum()));
-            String randomTableName = "t" + String.valueOf(randomTableIndex);
+            String randomTableName = randomTable.getTableName();
             String[] randomConditionAtt = getRandomKeyAttributes(randomTable, RandomGenerateSqlAttributesValue.conditionNum(randomTable.getKeyNum()));
             updateTemplates[i] = st.updateTemplate(randomTableName, randomUpdateAtt) + "where " +
                     ct.singleCondition(randomConditionAtt);
@@ -55,7 +55,7 @@ public class Generator {
         for (int i = 0; i < deleteTemplates.length; i++) {
             int randomTableIndex = RandomGenerateSqlAttributesValue.randomTable(tables.length);
             TableTemplate randomTable = tables[randomTableIndex];
-            String randomTableName = "t" + String.valueOf(randomTableIndex);
+            String randomTableName = randomTable.getTableName();
             String[] randomConditionAtt = getRandomKeyAttributes(randomTable, RandomGenerateSqlAttributesValue.conditionNum(randomTable.getKeyNum()));
             deleteTemplates[i] = st.deleteTemplate() +
                     ct.singleTable(randomTableName) +
@@ -65,7 +65,7 @@ public class Generator {
         for (int i = 0; i < insertTemplates.length; i++) {
             int randomTableIndex = RandomGenerateSqlAttributesValue.randomTable(tables.length);
             TableTemplate randomTable = tables[randomTableIndex];
-            String randomTableName = "t" + String.valueOf(randomTableIndex);
+            String randomTableName = randomTable.getTableName();
             String[] randomInsertAtt = getRandomSecondIndexAttributes(randomTable, RandomGenerateSqlAttributesValue.insertAttributesNum
                     (randomTable.getSecondIndexNum()));
             insertTemplates[i] = st.insertTemplate(randomTableName, randomInsertAtt, randomTable.getKeyNum());
