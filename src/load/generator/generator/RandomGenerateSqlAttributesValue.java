@@ -19,7 +19,7 @@ public class RandomGenerateSqlAttributesValue {
 
 
     public static int selectAttributesNum(int maxNum) {
-        return r.nextInt(maxNum - 1) + 1;
+        return r.nextInt(maxNum) + 1;
     }
 
     public static Boolean selectWithJoin() {
@@ -30,7 +30,7 @@ public class RandomGenerateSqlAttributesValue {
         if (maxNum == 1) {
             return 1;
         } else {
-            return r.nextInt(maxNum - 1) + 1;
+            return r.nextInt(maxNum+1) + 1;
         }
 
     }
