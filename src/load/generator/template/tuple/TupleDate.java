@@ -11,6 +11,12 @@ public class TupleDate extends TupleType {
 
     @Override
     public String getTupleType() {
-        return "DATE";
+        return "TIMESTAMP";
+    }
+
+    @Override
+    public String getValueType()
+    {
+        return "date";
     }
 }

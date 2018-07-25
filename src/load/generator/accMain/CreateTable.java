@@ -4,14 +4,14 @@ import load.generator.utils.MysqlConnector;
 
 import java.sql.Statement;
 
-public class CreateTable {
+class CreateTable {
     private String[] sql;
     private MysqlConnector mc=MysqlConnector.getInstance();
-    public CreateTable(String[] sql){
+    CreateTable(String[] sql){
         this.sql=sql;
     }
 
-    public boolean work()
+    boolean work()
     {
         String drop="DROP TABLE IF EXISTS t";
         for(int i=9;i>-1;i--)

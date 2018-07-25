@@ -17,11 +17,9 @@ public class TupleChar extends TupleType {
     private charValueType cvt;
     private CharTemplate cT;
     private boolean isVarChar;
-    private boolean getVauleByInt;
     public TupleChar(boolean isVarChar,boolean getVauleByInt) {
         super("char");
         this.isVarChar=isVarChar;
-        this.getVauleByInt=getVauleByInt;
         if(getVauleByInt)
         {
             cvt=charValueType.transFromInt;
@@ -42,14 +40,13 @@ public class TupleChar extends TupleType {
         charNum=24;
     }
 
-    public int getVauleType()
-    {
-        return cvt.ordinal();
+    public CharTemplate getcT() {
+        return cT;
     }
 
-    public String getValue()
+    public int getCharType()
     {
-        return cT.getWord();
+        return cvt.ordinal();
     }
 
     @Override
@@ -62,6 +59,11 @@ public class TupleChar extends TupleType {
         {
             return  "CHAR(" + String.valueOf(charNum) + ")";
         }
+    }
+    @Override
+    public String getValueType()
+    {
+        return "char";
     }
 
 //    @Override

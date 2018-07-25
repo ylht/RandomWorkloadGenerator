@@ -22,6 +22,12 @@ public class TupleDecimal extends TupleType {
     }
 
     @Override
+    public String getValueType()
+    {
+        return "double";
+    }
+
+    @Override
     public String getTupleType() {
         return "decimal(" + String.valueOf(intNum) + "," + String.valueOf(pointNum) + ") ";
     }

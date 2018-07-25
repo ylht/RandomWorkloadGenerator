@@ -21,6 +21,12 @@ public class TupleInt extends TupleType {
     }
 
     @Override
+    public String getValueType()
+    {
+        return "int";
+    }
+
+    @Override
     public String getTupleType() {
         return "INT ";
     }

@@ -11,7 +11,11 @@ public class TupleFloat extends TupleType{
         this.min=min;
         this.max=min+range;
     }
-
+    @Override
+    public String getValueType()
+    {
+        return "double";
+    }
     @Override
     public String getTupleType() {
         return "FLOAT ";

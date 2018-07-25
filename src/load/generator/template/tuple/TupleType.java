@@ -19,6 +19,11 @@ public class TupleType {
         this.keyOrNot = true;
     }
 
+    public String getValueType()
+    {
+        return null;
+    }
+
     public String getTupleType() {
         return null;
     }
