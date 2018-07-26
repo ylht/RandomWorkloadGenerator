@@ -51,7 +51,7 @@ public class GeneratorTableAndSqlTemplate {
                     int index2=-1;
                     allTableFront.remove(index1);
                     total--;
-                    int arr[]=new int[tables[index1].getKeyNum()];
+                    int arr[]=new int[min(tables[index1].getKeyNum(),foreignKeyNum)];
                     int self[]=new int[arr.length];
                     int rmin[]=new int[arr.length];
                     int rmax[]=new int[arr.length];
@@ -82,7 +82,7 @@ public class GeneratorTableAndSqlTemplate {
                         int self2[]=new int[arr2.length];
                         int rmin2[]=new int[arr2.length];
                         int rmax2[]=new int[arr2.length];
-                        ArrayList<TupleType> tt2=tables[index2].getTuples();
+                        ArrayList<TupleType> tt2=tables[allTableFront.get(index2)].getTuples();
                         for(int j=0;j<arr2.length;j++)
                         {
                             arr2[j]=j;
@@ -90,9 +90,7 @@ public class GeneratorTableAndSqlTemplate {
                             rmin2[j]=(int)tt2.get(j).getMin();
                             rmax2[j]=(int)tt2.get(j).getMax();
                         }
-                        tfs.add(new TupleForeign(index2,self2,arr2,rmin2,rmax2));
-
-
+                        tfs.add(new TupleForeign(allTableFront.get(index2),self2,arr2,rmin2,rmax2));
                     }
             }
             tables[i] = new TableTemplate("t" + String.valueOf(i), intNum,

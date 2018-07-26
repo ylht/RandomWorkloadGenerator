@@ -44,11 +44,14 @@ public class TableTemplate {
                     RandomGenerateTableAttributesVaule.tupleIntRange()));
         }
         for (int i = 0; i < keyNum; i++) {
+            if(i>=intNum)
+            {
+                break;
+            }
             tuples.get(i).makeKey();
         }
 
         for (int i = 0; i < doubleNum; i++) {
-
             tuples.add(new TupleDecimal(RandomGenerateTableAttributesVaule.tupleDoubleMin(),
                     RandomGenerateTableAttributesVaule.tupleDoubleRange()));
         }

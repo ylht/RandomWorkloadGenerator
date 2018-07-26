@@ -12,7 +12,7 @@ import java.util.Map;
 public class TupleChar extends TupleType {
     private Boolean fixedOrNot;
     private int charNum;
-    private int min;
+    private int min=1;
     private enum charValueType{transFromInt,rangeOfLength,choiceFromTemplate};
     private charValueType cvt;
     private CharTemplate cT;
@@ -66,15 +66,15 @@ public class TupleChar extends TupleType {
         return "char";
     }
 
-//    @Override
-//    public Object getMin()
-//    {
-//        return min;
-//    }
-//
-//    @Override
-//    public Object getMax()
-//    {
-//        return charNum;
-//    }
+    @Override
+    public Object getMin()
+    {
+        return min;
+    }
+
+    @Override
+    public Object getMax()
+    {
+        return charNum;
+    }
 }

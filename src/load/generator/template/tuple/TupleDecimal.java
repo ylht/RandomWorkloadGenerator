@@ -9,7 +9,7 @@ import java.util.Map;
  */
 
 public class TupleDecimal extends TupleType {
-    private int intNum;
+    private int totalNum;
     private int pointNum;
     private double min;
     private double max;
@@ -17,8 +17,12 @@ public class TupleDecimal extends TupleType {
         super("double");
         this.min=min;
         this.max=min+range;
-        intNum = RandomGenerateTableAttributesVaule.tupleDoubleIntNum();
+        totalNum = RandomGenerateTableAttributesVaule.tupleDoubleIntNum();
         pointNum = RandomGenerateTableAttributesVaule.tupleDoublePointNum();
+        if(pointNum>totalNum)
+        {
+            totalNum=pointNum;
+        }
     }
 
     @Override
@@ -29,7 +33,7 @@ public class TupleDecimal extends TupleType {
 
     @Override
     public String getTupleType() {
-        return "decimal(" + String.valueOf(intNum) + "," + String.valueOf(pointNum) + ") ";
+        return "decimal(" + String.valueOf(totalNum) + "," + String.valueOf(pointNum) + ") ";
     }
 
     @Override
@@ -40,6 +44,11 @@ public class TupleDecimal extends TupleType {
     @Override
     public Object getMax()
     {
+        double t=Math.pow(10,totalNum-pointNum)-1;
+        if(max>t)
+        {
+            return t;
+        }
         return max;
     }
 }

@@ -24,6 +24,7 @@ public class TupleFloat extends TupleType{
     @Override
     public Object getMin()
     {
+
         return min;
     }
 

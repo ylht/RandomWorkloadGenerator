@@ -231,12 +231,12 @@ public class RandomGenerateTableAttributesVaule {
     }
     public static int tupleIntRange()
     {
-        return r.nextInt(5000)+5000;
+        return r.nextInt(50)+10;
     }
 
     public static double tupleDoubleMin()
     {
-        return r.nextDouble()*10000+5000;
+        return 0;
     }
     public static double tupleDoubleRange()
     {

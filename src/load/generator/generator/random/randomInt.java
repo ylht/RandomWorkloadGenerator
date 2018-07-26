@@ -6,12 +6,14 @@ public class randomInt extends randomValue{
     private int min;
     private int max;
     private int current;
+    private boolean getMin=false;
     private Random r=new Random();
 
     public randomInt(int min,int max)
     {
         this.min=min;
         this.max=max;
+        this.current=min;
     }
 
     public String getNext()
@@ -21,16 +23,18 @@ public class randomInt extends randomValue{
             current=min;
             return String.valueOf(current);
         }
-        return String.valueOf(current++);
+        if(!getMin && current==min)
+        {
+            getMin=true;
+            return String.valueOf(min);
+        }
+        return String.valueOf(++current);
     }
 
     public String getSameValue()
     {
-        if(current-1>min)
-        {
-            return String.valueOf(current-1);
-        }
-        return String.valueOf(min);
+        getMin=true;
+        return String.valueOf(current);
     }
     @Override
     public String getValue()

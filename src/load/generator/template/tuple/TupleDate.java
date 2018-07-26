@@ -11,7 +11,7 @@ public class TupleDate extends TupleType {
 
     @Override
     public String getTupleType() {
-        return "TIMESTAMP";
+        return "TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00'";
     }
 
     @Override

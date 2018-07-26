@@ -66,5 +66,7 @@ public class ACCMain {
             keyNums.add(table.getKeyNum());
         }
         LoadData ld=new LoadData(randomLists,keyNums);
+        ld.load();
     }
+
 }

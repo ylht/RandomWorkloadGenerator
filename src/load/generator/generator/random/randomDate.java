@@ -9,7 +9,7 @@ public class randomDate extends randomValue{
     public String getValue()
     {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return df.format(System.currentTimeMillis());
+        return '\''+df.format(System.currentTimeMillis())+'\'';
     }
 }
 
