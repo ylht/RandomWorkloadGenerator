@@ -1,27 +1,68 @@
 package load.generator.accMain;
 
-import load.generator.generator.random.randomInt;
-import load.generator.generator.random.randomValue;
+import load.generator.generator.random.*;
+import load.generator.template.TableTemplate;
+import load.generator.template.tuple.TupleChar;
+import load.generator.template.tuple.TupleType;
 import load.generator.utils.MysqlConnector;
 
 import java.util.ArrayList;
 
 public class LoadData {
-    private ArrayList<ArrayList<randomValue>>randomLists;
-    private ArrayList<Integer> keyNums;
+    private ArrayList<ArrayList<randomValue>>randomLists=new ArrayList<ArrayList<randomValue>>();
+    private ArrayList<Integer> keyNums=new ArrayList<Integer>();
     private int [] temp=new int[200];
     private MysqlConnector mysqlConnector=MysqlConnector.getInstance();
-    public LoadData(ArrayList<ArrayList<randomValue>>randomLists,ArrayList<Integer>keyNums)
+    LoadData(TableTemplate[] tables)
     {
-        this.randomLists=randomLists;
-        this.keyNums=keyNums;
+        for(TableTemplate table:tables)
+        {
+            ArrayList<TupleType> tt=table.getTuples();
+            ArrayList<randomValue> rv=new ArrayList<randomValue>();
+            for(TupleType t:tt)
+            {
+                randomValue temprv=new randomValue();
+                switch (t.getValueType()){
+                    case  "int":
+                        temprv=new randomInt((int)t.getMin(),(int)t.getMax());
+                        break;
+                    case "double":
+                        temprv=new randomDemical((double)t.getMin(),(double)t.getMax());
+                        break;
+                    case "char":
+                        TupleChar chart=(TupleChar)t;
+                        int l=chart.getCharType();
+                        switch (l)
+                        {
+                            case 0:
+                                temprv=new randomChar((int)t.getMax(),(randomInt)rv.get(0));
+                                break;
+                            case 1:
+                                temprv=new randomChar((int)t.getMin(),(int)t.getMax());
+                                break;
+                            case 2:
+                                temprv=new randomChar(chart.getcT());
+                                break;
+                            default:
+                                System.out.println("没有匹配到应生成的随机数据类型");
+                                break;
+                        }
+                        break;
+                    case "date":
+                        temprv=new randomDate();
+                        break;
+                    default:
+                        System.out.println("没有匹配到应生成的随机数据类型");
+                        System.exit(-1);
+                }
+                rv.add(temprv);
+            }
+            randomLists.add(rv);
+            keyNums.add(table.getKeyNum());
+        }
     }
     private String getValues(ArrayList<randomValue> randomList,int keyNum)
     {
-//        if(keyNum>1)
-//        {
-//            System.out.println(1);
-//        }
         StringBuilder values= new StringBuilder("(");
         int i;
         for(i=0;i<keyNum;i++)

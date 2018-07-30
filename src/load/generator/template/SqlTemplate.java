@@ -8,15 +8,15 @@ import load.generator.generator.GenerateSqlListFromArray;
 
 public class SqlTemplate {
     public String selectTemplate(String[] selectAttributes) {
-        return String.format("select %s \n", GenerateSqlListFromArray.generateSelectListFromArray(selectAttributes));
+        return String.format("select %s ", GenerateSqlListFromArray.generateSelectListFromArray(selectAttributes));
     }
 
     public String deleteTemplate() {
-        return "delete \n";
+        return "delete ";
     }
 
     public String updateTemplate(String tableName, String[] updateAttributes) {
-        return String.format("update %s \nset %s \n", tableName,
+        return String.format("update %s set %s ", tableName,
                 GenerateSqlListFromArray.generateUpdateListFromArray(updateAttributes));
     }
 

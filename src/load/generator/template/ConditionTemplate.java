@@ -20,12 +20,12 @@ public class ConditionTemplate {
     }
 
     public String singleTable(String tableName) {
-        return String.format("from %s \nwhere ", tableName);
+        return String.format("from %s where ", tableName);
     }
 
     public String joinTable(String tableFirst, String tableSecond,
                             String valueFirst, String valueSecond) {
-        return String.format("from %s , %s \n where %s.%s=%s.%s", tableFirst, tableSecond,
+        return String.format("from %s , %s  where %s.%s=%s.%s", tableFirst, tableSecond,
                 tableFirst, valueFirst, tableSecond, valueSecond);
     }
 
