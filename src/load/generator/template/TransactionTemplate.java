@@ -27,7 +27,7 @@ public class TransactionTemplate {
         for (int i = 0; i < selectTemplates.length; i++) {
             int randomTableIndex = RandomGenerateSqlAttributesValue.randomTable(tables.length);
             TableTemplate randomTable = tables[randomTableIndex];
-            String[] randomSelectAtt = getRandomAllAttributes(randomTable, RandomGenerateSqlAttributesValue.selectAttributesNum(randomTable.getTableAttNum()));
+            String[] randomSelectAtt = getRandomAllAttributes(randomTable, RandomGenerateSqlAttributesValue.selectAttributesNum(randomTable.getAttNums()));
             String randomTableName = randomTable.getTableName();
             String[] randomConditionAtt = getRandomKeyAttributes(randomTable, randomTable.getKeyNum());
             int[] rCA=getLoction(randomConditionAtt);
@@ -181,6 +181,27 @@ public class TransactionTemplate {
             result[i] = "tv" + String.valueOf(al.get(i));
         }
         return result;
+    }
+
+    private String[] getRandomAllAttributes(TableTemplate table, int[] randomNum){
+        int[] allAtt=table.getAttNums().clone();
+        for(int i=allAtt.length-1;i>0;i--)
+        {
+            allAtt[i]=allAtt[i-1];
+        }
+        allAtt[0]=0;
+        ArrayList<String> result=new ArrayList<>();
+        for(int i=0;i<randomNum.length;i++)
+        {
+            for(int j=0;j<randomNum[i];j++)
+            {
+                result.add("tv"+String.valueOf(allAtt[i]+j));
+            }
+        }
+        String[] stockArr;
+        stockArr = new String[result.size()];
+        stockArr = result.toArray(stockArr);
+        return stockArr;
     }
 
     private String[] getRandomAllAttributes(TableTemplate table, int randomNum) {

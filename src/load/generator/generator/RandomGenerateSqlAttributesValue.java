@@ -85,37 +85,34 @@ public class RandomGenerateSqlAttributesValue {
         {
             attNum[2]=min(r.nextInt(10)+3,maxNum[2]);
         }
-        return attNum;
-    }
-
-    public static int selectAttributesNum(int maxNum)
-    {
-        if(maxNum==1)
+        t=r.nextDouble();
+        if(t<0.91)
         {
-            return 1;
+            attNum[3]=0;
         }
-        return r.nextInt(maxNum-1)+1;
+        else if(t<0.98)
+        {
+            attNum[3]=min(maxNum[3],1);
+        }
+        else
+        {
+            attNum[3]=min(maxNum[3],2);
+        }
+        return attNum;
     }
 
     public static Boolean selectWithJoin() {
         return Math.random() < 0.5;
     }
 
-    public static int conditionNum(int maxNum) {
-        if (maxNum == 1) {
-            return 1;
-        } else {
-            return r.nextInt(maxNum+1) + 1;
-        }
-
-    }
 
     public static int updateNum() {
         return r.nextInt(3) + 2;
     }
 
-    public static int updateAttributesNum(int maxNum) {
-        return r.nextInt(maxNum - 1) + 1;
+    public static int[] updateAttributesNum(int[] maxNum) {
+        double t=r.nextDouble();
+        return null;
     }
 
     public static int insertNum() {

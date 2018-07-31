@@ -18,7 +18,7 @@ public class TableTemplate {
     private ArrayList<TupleForeign> tf;
     private int totalNum;
     private int keyNum;
-
+    private int attNums[]=new int[4];
     private ArrayList<TupleType> tuples = new ArrayList<TupleType>();
 
     public String getTableName() {
@@ -38,6 +38,10 @@ public class TableTemplate {
         this.tableName = tableName;
         this.totalNum = totalNum;
         this.keyNum = keyNum;
+        attNums[0]=intNum;
+        attNums[1]=doubleNum+floatNum;
+        attNums[2]=charNum+varCharNum;
+        attNums[3]=dateNum;
         this.tf=tableForeign;
         for (int i = 0; i < intNum; i++) {
             tuples.add(new TupleInt(RandomGenerateTableAttributesVaule.tupleIntMin(),
@@ -88,6 +92,10 @@ public class TableTemplate {
 //            tuples.set(i, tuples.get(randomIndex));
 //            tuples.set(randomIndex, temp);
 //        }
+    }
+    public int[] getAttNums()
+    {
+        return attNums;
     }
 
     public int getTableAttNum() {

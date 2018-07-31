@@ -28,20 +28,12 @@ public class TupleType {
         return null;
     }
 
-    public Boolean getKeyOrNot(){return keyOrNot;}
-
     public Object getMin()
     {
         return null;
     }
 
     public Object getMax()
-    {
-        return null;
-    }
-
-
-    public String getVaule()
     {
         return null;
     }

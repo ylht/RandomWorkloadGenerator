@@ -22,7 +22,17 @@ public class MysqlConnector {
 
     public Boolean excuteSql(String sql)
     {
+
+
+
         try{
+            PreparedStatement pstmt = conn.prepareCall("insert into table_1 values (?,?,?)");
+            pstmt.setInt(1, 1);
+            pstmt.setInt(2, 1);
+            pstmt.setInt(3, 1);
+            pstmt.executeUpdate();
+
+
             stmt.execute(sql);
             return true;
         }
