@@ -18,8 +18,8 @@ public class TransactionTemplate {
     private String[] updateTemplates;
     private String[] insertTemplates;
     private String[] deleteTemplates;
-    private ArrayList<RandomValue[]> selectRandoms = new ArrayList<>();
-    private ArrayList<RandomValue[]> updateRandoms = new ArrayList<>();
+    private ArrayList<RandomValue[]> selectRandoms = new ArrayList<RandomValue[]>();
+    private ArrayList<RandomValue[]> updateRandoms = new ArrayList<RandomValue[]>();
     private RandomValue[] insertRandom;
     private RandomValue[] deleteRandom;
 

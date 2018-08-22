@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class LoadData {
     private ArrayList<ArrayList<RandomValue>> randomLists = new ArrayList<ArrayList<RandomValue>>();
-    private ArrayList<Integer> keyNums = new ArrayList<>();
+    private ArrayList<Integer> keyNums = new ArrayList<Integer>();
     private int[] temp = new int[200];
     private MysqlConnector mysqlConnector = new MysqlConnector();
 

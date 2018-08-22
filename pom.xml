@@ -7,4 +7,8 @@
     <groupId>ecnu</groupId>
     <artifactId>Adaptive_Concurrency_Control</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java-version>10.0.2</java-version>
+    </properties>
 </project>
