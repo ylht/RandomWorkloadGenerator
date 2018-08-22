@@ -7,7 +7,7 @@ import java.util.Random;
  *
  * @author wangqingshuai
  */
-public class RandomGenerateTableAttributesVaule { //dasddsadas
+public class RandomGenerateTableAttributesVaule1 { //dasddsadas
 
     private static Random r = new Random();
 
