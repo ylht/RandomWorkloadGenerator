@@ -1,6 +1,6 @@
 package load.generator.template.tuple;
 
-import load.generator.generator.RandomGenerateTableAttributesVaule;
+import load.generator.generator.RandomGenerateTableAttributesVaule1;
 
 /**
  * @author wangqingshuai
@@ -16,8 +16,8 @@ public class TupleDecimal extends TupleType {
         super("double");
         this.min = min;
         this.max = min + range;
-        totalNum = RandomGenerateTableAttributesVaule.tupleDoubleIntNum();
-        pointNum = RandomGenerateTableAttributesVaule.tupleDoublePointNum();
+        totalNum = RandomGenerateTableAttributesVaule1.tupleDoubleIntNum();
+        pointNum = RandomGenerateTableAttributesVaule1.tupleDoublePointNum();
         if (pointNum > totalNum) {
             totalNum = pointNum;
         }

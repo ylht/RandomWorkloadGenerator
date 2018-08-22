@@ -1,6 +1,6 @@
 package load.generator.template.tuple;
 
-import load.generator.generator.RandomGenerateTableAttributesVaule;
+import load.generator.generator.RandomGenerateTableAttributesVaule1;
 import load.generator.template.CharTemplate;
 
 /**
@@ -24,7 +24,7 @@ public class TupleChar extends TupleType {
             charNum = 10;
         } else {
             cvt = charValueType.rangeOfLength;
-            charNum = RandomGenerateTableAttributesVaule.tupleCharNum();
+            charNum = RandomGenerateTableAttributesVaule1.tupleCharNum();
         }
     }
 

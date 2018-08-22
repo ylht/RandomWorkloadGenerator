@@ -17,11 +17,11 @@ public class GeneratorTable {
     private TableTemplate[] tables;
 
     public GeneratorTable() {
-        int tableNum = RandomGenerateTableAttributesVaule.tableNum();
+        int tableNum = RandomGenerateTableAttributesVaule1.tableNum();
         tables = new TableTemplate[tableNum];
         Random r = new Random();
         for (int i = 0; i < tableNum; i++) {
-            int intNum = RandomGenerateTableAttributesVaule.intNum();
+            int intNum = RandomGenerateTableAttributesVaule1.intNum();
             int keyNum = 0;
             if (i > 0) {
                 keyNum = r.nextInt(min(min(intNum, i), 4)) + 1;
@@ -80,11 +80,11 @@ public class GeneratorTable {
                 }
             }
             tables[i] = new TableTemplate("t" + String.valueOf(i), intNum,
-                    RandomGenerateTableAttributesVaule.decimalNum(),
-                    RandomGenerateTableAttributesVaule.charNum(),
-                    RandomGenerateTableAttributesVaule.dateNum(),
-                    RandomGenerateTableAttributesVaule.varcharNum(),
-                    RandomGenerateTableAttributesVaule.floatNum(),
+                    RandomGenerateTableAttributesVaule1.decimalNum(),
+                    RandomGenerateTableAttributesVaule1.charNum(),
+                    RandomGenerateTableAttributesVaule1.dateNum(),
+                    RandomGenerateTableAttributesVaule1.varcharNum(),
+                    RandomGenerateTableAttributesVaule1.floatNum(),
                     keyNum, tfs
             );
         }
