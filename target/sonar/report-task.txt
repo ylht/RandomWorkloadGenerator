@@ -1,0 +1,7 @@
+organization=ecnudatabase
+projectKey=ecnu:Adaptive_Concurrency_Control
+serverUrl=https://sonarcloud.io
+serverVersion=7.3.0.15267
+dashboardUrl=https://sonarcloud.io/dashboard?id=ecnu%3AAdaptive_Concurrency_Control
+ceTaskId=AWVa59bw4iommrDx07Xq
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AWVa59bw4iommrDx07Xq

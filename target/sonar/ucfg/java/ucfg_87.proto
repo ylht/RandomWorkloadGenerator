@@ -1,0 +1,8 @@
+
+Hload.generator.template.tuple.TupleDate#getTupleType()Ljava/lang/String;
+__unknown_file ("1*Ð
+1‡
+}/Users/wangqingshuai/Documents/GitHub/Adaptive_Concurrency_Control/src/main/java/load/generator/template/tuple/TupleDate.java (A"À
+‡
+}/Users/wangqingshuai/Documents/GitHub/Adaptive_Concurrency_Control/src/main/java/load/generator/template/tuple/TupleDate.java (B42
+0TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00'

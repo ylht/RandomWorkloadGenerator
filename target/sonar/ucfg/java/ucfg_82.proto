@@ -1,0 +1,44 @@
+
+Hload.generator.template.tuple.TupleChar#getTupleType()Ljava/lang/String;
+__unknown_file ("2"1*Ê
+1‡
+}/Users/wangqingshuai/Documents/GitHub/Adaptive_Concurrency_Control/src/main/java/load/generator/template/tuple/TupleChar.java4 4(Í
+‡
+}/Users/wangqingshuai/Documents/GitHub/Adaptive_Concurrency_Control/src/main/java/load/generator/template/tuple/TupleChar.java4 4(4%3-java.lang.String#valueOf(I)Ljava/lang/String;"
+"""
+""«
+‡
+}/Users/wangqingshuai/Documents/GitHub/Adaptive_Concurrency_Control/src/main/java/load/generator/template/tuple/TupleChar.java4 4(4%4__concat"	
+CHAR("
+
+%3§
+‡
+}/Users/wangqingshuai/Documents/GitHub/Adaptive_Concurrency_Control/src/main/java/load/generator/template/tuple/TupleChar.java4 4(:%5__concat"
+
+%4"
+)"’
+‡
+}/Users/wangqingshuai/Documents/GitHub/Adaptive_Concurrency_Control/src/main/java/load/generator/template/tuple/TupleChar.java4 4(;
+
+%5*Í
+2‡
+}/Users/wangqingshuai/Documents/GitHub/Adaptive_Concurrency_Control/src/main/java/load/generator/template/tuple/TupleChar.java2 2(Í
+‡
+}/Users/wangqingshuai/Documents/GitHub/Adaptive_Concurrency_Control/src/main/java/load/generator/template/tuple/TupleChar.java2  2(7%0-java.lang.String#valueOf(I)Ljava/lang/String;"
+"""
+""®
+‡
+}/Users/wangqingshuai/Documents/GitHub/Adaptive_Concurrency_Control/src/main/java/load/generator/template/tuple/TupleChar.java2 2(7%1__concat"
+
+VARCHAR("
+
+%0§
+‡
+}/Users/wangqingshuai/Documents/GitHub/Adaptive_Concurrency_Control/src/main/java/load/generator/template/tuple/TupleChar.java2 2(=%2__concat"
+
+%1"
+)"’
+‡
+}/Users/wangqingshuai/Documents/GitHub/Adaptive_Concurrency_Control/src/main/java/load/generator/template/tuple/TupleChar.java2 2(>
+
+%2
