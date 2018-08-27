@@ -7,40 +7,73 @@ import java.util.Random;
  *
  * @author wangqingshuai
  */
-public class RandomGenerateTableAttributesVaule1 { //dasddsadas
+public class RandomGenerateTableAttributesVaule {
 
+    private static final int TABLE_MIN_NUM = 3;
+
+    ;
+    private static final int TABLE_MAX_NUM = 10;
+    private static final double TABLE_INT_NUM1_TO5_PER = 0.69;
+    private static final double TABLE_INT_NUM6_TO10_PER = 0.73;
+    private static final double TABLE_INT_NUM11_TO20_PER = 0.88;
+    private static final double TABLE_INT_NUM21_TO30_PER = 0.92;
+    private static final double TABLE_INT_NUM31_TO40_PER = 1;
+    private static RandomGenerateTableAttributesVaule instance = new RandomGenerateTableAttributesVaule();
     private static Random r = new Random();
+    private RandomGenerateTableAttributesVaule() {
+    }
+
+    public static RandomGenerateTableAttributesVaule getInstance() {
+        return instance;
+    }
+
+    public static int tupleIntMin() {
+        return r.nextInt(100) + 5;
+    }
+
+    public static int tupleIntRange() {
+        return r.nextInt(50) + 10;
+    }
+
+    public static double tupleDoubleMin() {
+        return 0;
+    }
+
+    public static double tupleDoubleRange() {
+        return r.nextDouble() * 10000 + 5000;
+    }
 
     /**
      * @return 在本次负载中需要随机的表格数量
      */
-    public static int tableNum() {
-        return r.nextInt(7) + 3;
+    int tableNum() {
+        return r.nextInt(TABLE_MAX_NUM - TABLE_MIN_NUM) + TABLE_MIN_NUM;
     }
-
 
     /**
      * @return 在本张表中，int属性的数量
      */
-    public static int intNum() {
-        double temp = r.nextDouble() * 100;
-        if (temp < 69.23) {
+    int intNum() {
+        double temp = r.nextDouble();
+        if (temp < TABLE_INT_NUM1_TO5_PER) {
             return r.nextInt(5) + 1;
-        } else if (temp < 73.08) {
+        } else if (temp < TABLE_INT_NUM6_TO10_PER) {
             return r.nextInt(5) + 6;
-        } else if (temp < 88.46) {
+        } else if (temp < TABLE_INT_NUM11_TO20_PER) {
             return r.nextInt(10) + 11;
-        } else if (temp < 92.31) {
+        } else if (temp < TABLE_INT_NUM21_TO30_PER) {
             return r.nextInt(10) + 21;
-        } else {
+        } else if (temp < TABLE_INT_NUM31_TO40_PER) {
             return r.nextInt(10) + 31;
+        } else {
+            return -1;
         }
     }
 
     /**
      * @return 在本张表中，double属性的数量
      */
-    public static int decimalNum() {
+    int decimalNum() {
         double t = r.nextDouble() * 100;
         if (t < 69.23) {
             return 0;
@@ -49,7 +82,7 @@ public class RandomGenerateTableAttributesVaule1 { //dasddsadas
         }
     }
 
-    public static int floatNum() {
+    int floatNum() {
         double t = r.nextDouble() * 100;
         if (t < 65.38) {
             return 0;
@@ -63,7 +96,7 @@ public class RandomGenerateTableAttributesVaule1 { //dasddsadas
     /**
      * @return 在本张表中，char属性的数量
      */
-    public static int charNum() {
+    int charNum() {
         double t = r.nextDouble() * 100;
         if (t < 80.77) {
             return 0;
@@ -74,7 +107,7 @@ public class RandomGenerateTableAttributesVaule1 { //dasddsadas
         }
     }
 
-    public static int varcharNum() {
+    int varcharNum() {
         double t = r.nextDouble() * 100;
         if (t < 34.62) {
             return 0;
@@ -90,7 +123,7 @@ public class RandomGenerateTableAttributesVaule1 { //dasddsadas
     /**
      * @return 在本张表中，date属性的数量
      */
-    public static int dateNum() {
+    int dateNum() {
         double t = r.nextDouble() * 100;
         if (t < 76.92) {
             return 0;
@@ -101,11 +134,12 @@ public class RandomGenerateTableAttributesVaule1 { //dasddsadas
         }
     }
 
+    //value
 
     /**
      * @return char属性在本tuple采用varchar或者char
      */
-    public static int tupleCharNum() {
+    public int tupleCharNum() {
         double t = r.nextDouble() * 100;
         if (t < 24) {
             return r.nextInt(4) + 2;
@@ -118,7 +152,7 @@ public class RandomGenerateTableAttributesVaule1 { //dasddsadas
         }
     }
 
-    public static int tupleVarCharNum() {
+    int tupleVarCharNum() {
         double t = r.nextDouble() * 100;
         if (t < 16) {
             return r.nextInt(4) + 2;
@@ -138,7 +172,7 @@ public class RandomGenerateTableAttributesVaule1 { //dasddsadas
     /**
      * @return double属性在本tuple中整数部分的位数
      */
-    public static int tupleDoubleIntNum() {
+    public int tupleDoubleIntNum() {
         double t = r.nextDouble() * 100;
         if (t < 63.16) {
             return 4 + r.nextInt(2);
@@ -152,7 +186,7 @@ public class RandomGenerateTableAttributesVaule1 { //dasddsadas
     /**
      * @return double属性在本tuple中小数部分的位数
      */
-    public static int tupleDoublePointNum() {
+    public int tupleDoublePointNum() {
         double t = r.nextDouble() * 100;
         if (t < 47.37) {
             return 0;
@@ -161,23 +195,5 @@ public class RandomGenerateTableAttributesVaule1 { //dasddsadas
         } else {
             return 4;
         }
-    }
-
-    //value
-
-    public static int tupleIntMin() {
-        return r.nextInt(100) + 5;
-    }
-
-    public static int tupleIntRange() {
-        return r.nextInt(50) + 10;
-    }
-
-    public static double tupleDoubleMin() {
-        return 0;
-    }
-
-    public static double tupleDoubleRange() {
-        return r.nextDouble() * 10000 + 5000;
     }
 }

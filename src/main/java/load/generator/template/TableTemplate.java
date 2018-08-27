@@ -1,7 +1,7 @@
 package load.generator.template;
 
 import load.generator.generator.GenerateSqlListFromArray;
-import load.generator.generator.RandomGenerateTableAttributesVaule1;
+import load.generator.generator.RandomGenerateTableAttributesVaule;
 import load.generator.template.tuple.*;
 
 import java.util.ArrayList;
@@ -35,8 +35,8 @@ public class TableTemplate {
         attNums[3] = dateNum;
         this.tf = tableForeign;
         for (int i = 0; i < intNum; i++) {
-            tuples.add(new TupleInt(RandomGenerateTableAttributesVaule1.tupleIntMin(),
-                    RandomGenerateTableAttributesVaule1.tupleIntRange()));
+            tuples.add(new TupleInt(RandomGenerateTableAttributesVaule.tupleIntMin(),
+                    RandomGenerateTableAttributesVaule.tupleIntRange()));
         }
         for (int i = 0; i < keyNum; i++) {
             if (i >= intNum) {
@@ -46,12 +46,12 @@ public class TableTemplate {
         }
 
         for (int i = 0; i < doubleNum; i++) {
-            tuples.add(new TupleDecimal(RandomGenerateTableAttributesVaule1.tupleDoubleMin(),
-                    RandomGenerateTableAttributesVaule1.tupleDoubleRange()));
+            tuples.add(new TupleDecimal(RandomGenerateTableAttributesVaule.tupleDoubleMin(),
+                    RandomGenerateTableAttributesVaule.tupleDoubleRange()));
         }
         for (int i = 0; i < floatNum; i++) {
-            tuples.add(new TupleFloat(RandomGenerateTableAttributesVaule1.tupleDoubleMin(),
-                    RandomGenerateTableAttributesVaule1.tupleDoubleRange()));
+            tuples.add(new TupleFloat(RandomGenerateTableAttributesVaule.tupleDoubleMin(),
+                    RandomGenerateTableAttributesVaule.tupleDoubleRange()));
         }
         for (int i = 0; i < charNum; i++) {
             tuples.add(new TupleChar(false, false));

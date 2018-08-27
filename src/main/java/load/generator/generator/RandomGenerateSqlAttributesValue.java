@@ -10,6 +10,25 @@ import static java.lang.Math.min;
 
 public class RandomGenerateSqlAttributesValue {
 
+    private static final double SELECT_INT_NUM0_PER = 0.32;
+    private static final double SELECT_INT_NUM1_PER = 0.75;
+    private static final double SELECT_INT_NUM2_PER = 0.86;
+    private static final double SELECT_INT_NUM3_PER = 0.895;
+    private static final double SELECT_INT_NUM_MORE_THAN3_PER = 1;
+
+    private static final double SELECT_DOUBLE_NUM0_PER = 0.59;
+    private static final double SELECT_DOUBLE_NUM1_PER = 0.93;
+    private static final double SELECT_DOUBLE_NUM2_PER = 0.965;
+    private static final double SELECT_DOUBLE_NUM4_PER = 1;
+
+    private static final double SELECT_CHAR_NUM0_PER = 0.57;
+    private static final double SELECT_CHAR_NUM1_PER = 0.77;
+    private static final double SELECT_CHAR_NUM2_PER = 0.82;
+    private static final double SELECT_CHAR_NUM_MORE_THAN2_PER = 1;
+
+    private static final double SELECT_DATE_NUM0_PER = 0.91;
+    private static final double SELECT_DATE_NUM1_PER = 0.98;
+    private static final double SELECT_DATE_NUM2_PER = 1;
 
     private static Random r = new Random();
 
@@ -27,64 +46,45 @@ public class RandomGenerateSqlAttributesValue {
 
 
     public int[] selectAttributesNum(int[] maxNum) {
-        double selectIntNum0Per = 0.32;
-        double selectIntNum1Per = 0.75;
-        double selectIntNum2Per = 0.86;
-        double selectIntNum3Per = 0.895;
-        double selectIntNumMoreThan3Per = 1;
-
-        double selectDoubleNum0Per = 0.59;
-        double selectDoubleNum1Per = 0.93;
-        double selectDoubleNum2Per = 0.965;
-        double selectDoubleNum4Per = 1;
-
-        double selectCharNum0Per = 0.57;
-        double selectCharNum1Per = 0.77;
-        double selectCharNum2Per = 0.82;
-        double selectCharNumMoreThan2Per = 1;
-
-        double selectDateNum0Per = 0.91;
-        double selectDateNum1Per = 0.98;
-        double selectDateNum2Per = 1;
         int[] attNum = new int[4];
         double t = r.nextDouble();
-        if (t < selectIntNum0Per) {
+        if (t < SELECT_INT_NUM0_PER) {
             attNum[0] = 0;
-        } else if (t < selectIntNum1Per) {
+        } else if (t < SELECT_INT_NUM1_PER) {
             attNum[0] = min(maxNum[0], 1);
-        } else if (t < selectIntNum2Per) {
+        } else if (t < SELECT_INT_NUM2_PER) {
             attNum[0] = min(maxNum[0], 2);
-        } else if (t < selectIntNum3Per) {
+        } else if (t < SELECT_INT_NUM3_PER) {
             attNum[0] = min(maxNum[0], 3);
-        } else if (t < selectIntNumMoreThan3Per) {
+        } else if (t < SELECT_INT_NUM_MORE_THAN3_PER) {
             attNum[0] = min(maxNum[0], r.nextInt(20) + 3);
         }
         t = r.nextDouble();
-        if (t < selectDoubleNum0Per) {
+        if (t < SELECT_DOUBLE_NUM0_PER) {
             attNum[1] = 0;
-        } else if (t < selectDoubleNum1Per) {
+        } else if (t < SELECT_DOUBLE_NUM1_PER) {
             attNum[1] = min(attNum[1], 1);
-        } else if (t < selectDoubleNum2Per) {
+        } else if (t < SELECT_DOUBLE_NUM2_PER) {
             attNum[1] = min(attNum[1], 2);
-        } else if (t < selectDoubleNum4Per) {
+        } else if (t < SELECT_DOUBLE_NUM4_PER) {
             attNum[1] = min(attNum[1], 4);
         }
         t = r.nextDouble();
-        if (t < selectCharNum0Per) {
+        if (t < SELECT_CHAR_NUM0_PER) {
             attNum[2] = 0;
-        } else if (t < selectCharNum1Per) {
+        } else if (t < SELECT_CHAR_NUM1_PER) {
             attNum[2] = min(1, maxNum[2]);
-        } else if (t < selectCharNum2Per) {
+        } else if (t < SELECT_CHAR_NUM2_PER) {
             attNum[2] = min(2, maxNum[2]);
-        } else if (t < selectCharNumMoreThan2Per) {
+        } else if (t < SELECT_CHAR_NUM_MORE_THAN2_PER) {
             attNum[2] = min(r.nextInt(10) + 3, maxNum[2]);
         }
         t = r.nextDouble();
-        if (t < selectDateNum0Per) {
+        if (t < SELECT_DATE_NUM0_PER) {
             attNum[3] = 0;
-        } else if (t < selectDateNum1Per) {
+        } else if (t < SELECT_DATE_NUM1_PER) {
             attNum[3] = min(maxNum[3], 1);
-        } else if (t < selectDateNum2Per) {
+        } else if (t < SELECT_DATE_NUM2_PER) {
             attNum[3] = min(maxNum[3], 2);
         }
         int total = 0;

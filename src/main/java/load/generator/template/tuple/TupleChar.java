@@ -1,6 +1,6 @@
 package load.generator.template.tuple;
 
-import load.generator.generator.RandomGenerateTableAttributesVaule1;
+import load.generator.generator.RandomGenerateTableAttributesVaule;
 import load.generator.template.CharTemplate;
 
 /**
@@ -16,6 +16,7 @@ public class TupleChar extends TupleType {
     ;
     private CharTemplate cT;
     private boolean isVarChar;
+
     public TupleChar(boolean isVarChar, boolean getVauleByInt) {
         super("char");
         this.isVarChar = isVarChar;
@@ -24,7 +25,8 @@ public class TupleChar extends TupleType {
             charNum = 10;
         } else {
             cvt = charValueType.rangeOfLength;
-            charNum = RandomGenerateTableAttributesVaule1.tupleCharNum();
+            RandomGenerateTableAttributesVaule rgta = RandomGenerateTableAttributesVaule.getInstance();
+            charNum = rgta.tupleCharNum();
         }
     }
 
@@ -71,8 +73,7 @@ public class TupleChar extends TupleType {
     /**
      * 转换int为char
      * 根据特定的长度随机char
-     *
-      */
+     */
 
     private enum charValueType {
         //转换int为char
@@ -80,5 +81,6 @@ public class TupleChar extends TupleType {
         //根据特定的长度随机char
         rangeOfLength,
         //在模版库中选择
-        choiceFromTemplate}
+        choiceFromTemplate
+    }
 }
