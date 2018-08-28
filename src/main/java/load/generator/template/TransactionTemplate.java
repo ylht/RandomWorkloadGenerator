@@ -13,7 +13,6 @@ import java.util.Collections;
 public class TransactionTemplate {
     private ArrayList<ArrayList<RandomValue>> rvs;
     private MysqlConnector msc = new MysqlConnector();
-    private RandomGenerateSqlAttributesValue randomSqlAtt = new RandomGenerateSqlAttributesValue();
     private String[] selectTemplates;
     private String[] updateTemplates;
     private String[] insertTemplates;
@@ -26,27 +25,29 @@ public class TransactionTemplate {
     public TransactionTemplate(TableTemplate[] tables) {
         SqlTemplate st = new SqlTemplate();
         ConditionTemplate ct = new ConditionTemplate();
-        int sNum = randomSqlAtt.selectNum();
-        selectTemplates = new String[sNum];
+        RandomGenerateSqlAttributesValue randomSqlAtt = new RandomGenerateSqlAttributesValue();
+        selectTemplates = new String[randomSqlAtt.selectNum()];
         for (int i = 0; i < selectTemplates.length; i++) {
             int randomTableIndex = randomSqlAtt.randomTable(tables.length);
             TableTemplate randomTable = tables[randomTableIndex];
-            String[] randomSelectAtt = getRandomAllAttributes(randomTable, randomSqlAtt.selectAttributesNum(randomTable.getAttNums()));
+            int[] selectAttLocation= randomSqlAtt.selectAttributesNum(randomTable.getAttNums());
+            Integer[] randomSelectAtt = getRandomAllAttributesIndex(randomTable,selectAttLocation);
             if (randomSelectAtt.length == 0) {
                 i--;
+                System.out.println(-1);
                 continue;
             }
-            String randomTableName = randomTable.getTableName();
-            String[] randomConditionAtt = getRandomKeyAttributes(randomTable, randomTable.getKeyNum());
-            int[] rCA = getLoction(randomConditionAtt);
+            int conditionKeyNum=randomSqlAtt.conditionKeyNum(randomTable.getKeyNum(),true);
+            ArrayList<Integer> randomKeyIndex = getRandomList(0, randomTable.getKeyNum());
+            String[] randomConditionAtt = getAttributes(randomKeyIndex, randomKeyIndex.size());
             ArrayList<TupleType> tuples = randomTable.getTuples();
-            RandomValue[] selectRandom = new RandomValue[rCA.length];
-            for (int j = 0; j < rCA.length; j++) {
-                TupleType tuple = tuples.get(rCA[j]);
+            RandomValue[] selectRandom = new RandomValue[randomKeyIndex.size()];
+            for (int j = 0; j < randomKeyIndex.size(); j++) {
+                TupleType tuple = tuples.get(randomKeyIndex.get(j));
                 selectRandom[j] = getRandomValue(tuple);
             }
             selectTemplates[i] = st.selectTemplate(randomSelectAtt) +
-                    ct.singleTable(randomTableName)
+                    ct.singleTable(randomTable.getTableName())
                     + ct.singleCondition(randomConditionAtt);
             selectRandoms.add(selectRandom);
         }
@@ -100,7 +101,7 @@ public class TransactionTemplate {
             int randomTableIndex = randomSqlAtt.randomTable(tables.length);
             TableTemplate randomTable = tables[randomTableIndex];
             String randomTableName = randomTable.getTableName();
-            String[] randomInsertAtt = getRandomSecondIndexAttributes(randomTable, randomTable.getSecondIndexNum());
+            String[] randomInsertAtt = getRandomNotKeyAttributes(randomTable, randomTable.getSecondIndexNum());
             insertTemplates[i] = st.insertTemplate(randomTableName, randomInsertAtt, randomTable.getKeyNum());
         }
     }
@@ -140,14 +141,6 @@ public class TransactionTemplate {
         return temprv;
     }
 
-    public int[] getLoction(String[] loc) {
-        int[] il = new int[loc.length];
-        int count = 0;
-        for (; count < loc.length; count++) {
-            il[count] = Integer.valueOf(loc[count].substring(2));
-        }
-        return il;
-    }
 
     public ArrayList<String> getSql() {
         ArrayList<String> sqls = new ArrayList<>();
@@ -193,7 +186,9 @@ public class TransactionTemplate {
         return result;
     }
 
-    private String[] getRandomAllAttributes(TableTemplate table, int[] randomNum) {
+
+
+    private Integer[] getRandomAllAttributesIndex(TableTemplate table, int[] randomNum) {
         int[] allAtt = table.getAttNums().clone();
         if (allAtt.length - 1 >= 0) {
             System.arraycopy(allAtt, 0, allAtt, 1, allAtt.length - 1);
@@ -203,33 +198,17 @@ public class TransactionTemplate {
         }
         allAtt[0] = table.getKeyNum();
 
-        ArrayList<String> result = new ArrayList<>();
+        ArrayList<Integer> result = new ArrayList<>();
+
         for (int i = 0; i < randomNum.length; i++) {
-            int temp = table.getAttNums()[i] - allAtt[i];
-            for (int j = 0; j < randomNum[i] && j < temp; j++) {
-                if (allAtt[i] == 0) {
-                    System.out.println(-1);
-                }
-                result.add("tv" + String.valueOf(allAtt[i] + j));
+            for (int j = 0; j < randomNum[i]; j++) {
+                result.add(allAtt[i] + j);
             }
         }
-        String[] stockArr;
-        stockArr = new String[result.size()];
-        stockArr = result.toArray(stockArr);
-        return stockArr;
+        return result.toArray(new Integer[0]);
     }
 
-    private String[] getRandomAllAttributes(TableTemplate table, int randomNum) {
-        ArrayList<Integer> randomIndex = getRandomList(0, table.getTableAttNum());
-        return getAttributes(randomIndex, randomNum);
-    }
-
-    private String[] getRandomKeyAttributes(TableTemplate table, int randomNum) {
-        ArrayList<Integer> randomIndex = getRandomList(0, table.getKeyNum());
-        return getAttributes(randomIndex, randomNum);
-    }
-
-    private String[] getRandomSecondIndexAttributes(TableTemplate table, int randomNum) {
+    private String[] getRandomNotKeyAttributes(TableTemplate table, int randomNum) {
         ArrayList<Integer> randomIndex = getRandomList(table.getKeyNum(), table.getTableAttNum());
         return getAttributes(randomIndex, randomNum);
     }

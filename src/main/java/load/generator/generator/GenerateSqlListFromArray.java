@@ -12,10 +12,10 @@ public class GenerateSqlListFromArray {
             prefix = "= ?";
         }
         int attributesNum = values.length;
-        StringBuilder attributesStr = new StringBuilder(values[0].toString());
+        StringBuilder attributesStr = new StringBuilder("tv"+values[0].toString());
         attributesStr.append(prefix);
         for (int i = 1; i < attributesNum; i++) {
-            attributesStr.append(',').append(values[i].toString()).append(prefix);
+            attributesStr.append(',').append("tv"+values[i].toString()).append(prefix);
         }
         return attributesStr.toString();
     }

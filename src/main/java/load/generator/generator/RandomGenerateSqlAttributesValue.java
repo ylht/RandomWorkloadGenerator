@@ -158,6 +158,25 @@ public class RandomGenerateSqlAttributesValue {
         return attNum;
     }
 
+    public int conditionKeyNum(int keyNum,boolean allKey)
+    {
+        if(allKey)
+        {
+            return keyNum;
+        }
+        else
+        {
+            if(keyNum==1)
+            {
+                return keyNum;
+            }
+            else
+            {
+                return r.nextInt(keyNum-1)+1;
+            }
+        }
+    }
+
     public int insertNum() {
         return 0;
     }

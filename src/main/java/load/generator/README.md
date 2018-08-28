@@ -1,56 +1,111 @@
 # 负载生成器
 
-> 本文件夹内的子项目为负载生成器部分
+目录
 
-# 设计文档
+[TOC]
 
-## 表结构的生成
 
->  主要包括4个点，分别为表属性，表的主键，表的外键，表大小。
 
-### 表属性
+# 引言
 
-表的属性由基类TupleType描述，按照tuple的具体属性继承有tupleint,tupledecimal,tuplechar,tuplefloat,tupledate五种常见属性。
+在数据库的研究中，经常会用各种benchmark来做性能的评测，比如常见的tpcc，smallbank等等，但是他们主要是为单一应用场景设计的负载模式，无法满足多样化的性能评测和数据库研究的需求。因此我们需要一款随机的负载生成器来模拟更加复杂的负载模式。它生成的负载理论上应该能覆盖当前所有常见的benchmark负载，并且可以生成更多的具有实际应用意义的负载。
 
-tupletype主要负责功能有：
+# 设计思路
 
-1. 存储tuple的取值区间，并按照存储的取值类型输出表的结构中本tuple的结构信息，例如varchar(256)和decimal(4,2)等等
-2. 向随机数生成器传递随机区间，例如char中的template，和int的取值min和max。
+统计常用benchmark的数据，获取常见负载各种数据的频率分布，在对应区间内随机模拟生成负载。
 
-### 表主键
+# 数据统计
 
-按照统计的记录在生成表的时候随机生成主键的数量。
+本项目主要统计了常见的四个benchmark的负载数据，分别为TPCC，Tatp，SmallBank和Seats。其中前3个benchmark 的统计来自官方文档的表述，Seats的统计来自于oltp的实现。统计数据的结果放在本项目的根目录下，可自行查阅。统计数据包括table数据和事务的sql数据。下面将分别表述：
 
-### 表外键
+## table数据
 
-在表中维持一个tupleForeign类的链表，每一个tupleForegin负责记录来自一张表的外键。
+初始统计数据分别为：表的主键数量，外键数量，各个的属性的数量，其中包括int，decimal，timestamp，char，varchar，float，text，total，key，foreign key 。数据统计之后分析了table的tuple总数量概率分布，和具体的属性数量的概率分布。
 
-tupleForeign负责记录本表中tuple的位置，引用表的位置，引用的tuple的位置，其中本表的tuple和引用的tuple位置一一对应，并且tupleForeign按照对应关系记录引用外键的范围区间，并重写本地tuple的范围区间。
+## sql数据
 
-并设置引用表为不可delete
+1. 按照事务分别统计了事务的组成分布，主要包括select，update，delete和insert在每个事务中的数量。分析统计了每种语句在事务中的概率分布。
 
-### 表大小
+2. 对于select语句统计了各个属性的selcet数量，condition的类别，orderby的选择，limit的应用和是否存在sum，count等操作
+3. 对于update语句统计了各个属性的update数量，和rw和w的比例（rw：a=a+b型语句；w：a=b型语句）
+4. 对于insert语句统计了插入非主键属性的数量
+5. 对于delete语句统计了condition 的条件
+
+# 系统架构
+
+系统的架构图如下：
+
+![负载生成器架构图](https://ws1.sinaimg.cn/large/0069RVTdly1fupi472ejmj314j0gk76n.jpg)
+
+包含3个模块，分别是数据模块，功能模块和连接模块，箭头描述的是数据传递的路径，接下来将分3个章节来具体表述这3个模块。
+
+## 数据模块
+
+基础的数据结构模块，包含表格的结构和数据生成器的结构。
+
+### 表格结构
+
+表格table由tuple子结构，外键引用和表格基础属性组成。
+
+1. tuple子结构
+
+   Tuple的结构由基类TupleType派生，每个tuple维护自己的数据区间和数据类型。其中数据区间为数据的合法区间，在int/decimal等数值型tuple中为数据的最小值和最大值，在char类型中代表数据的长度或者数据的基础库，例如姓氏库或者省份名称库等等；数据类型代表数据的格式要求，例如在decimal中的总位数和小数点后的位数。
+
+2. 外键引用
+
+   由TupleForeign维护。记录本table引用的table名称，引用的列，引用的列在本表中对应的列和对应的范围区间
+
+3. 表格的基础属性
+
+   包括表格的主键数量，表大小等基础数据
+
+### 数据生成器的结构
+
+数据生成器从对应的tuple中获取数据区间，在数据区间中按照一定的规则生成随机数据。数据生成的类型有四种，分别为int，demical，date和char。
+
++ int维持两种数据生成器，一种是随机生成器用于生成随机的int数据，一种是自增列，用于生成主键的自增序列
++ demical维持在数值范围区间内的随机生成器
++ char维持3中随机生成器
+  + 从对应的主键列的数据int转化为char，超过长度则截断，不足长度在头部补0
+  + 在数据长度的范围内随机所有字母
+  + 首先生成字符库，之后在字符库中随机
++ date维持时间的生成器，返回当前的时间。
+
+## 功能模块
+
+功能模块主要包括3个表格的scheme生成，表格的数据生成，负载生成，下面简述主要功能逻辑：
+
++ scheme生成
+  1. 按照统计的数据生成table 的数量
+  2. 按照统计的频率生成每种类型的tuple的数量，并按照统计数据随机实例化不同的tuple
+  3. 生成主键属性数量（如果是第N张表，主键必定小于等于N个属性，否则没有参考值）
+  4. 如果主键属性的数量大于1，从前面的表中随机选择主键引入外键参考，刷新对应tuple的范围和区间
+
+## 连接模块
+
+
+
+# 部分点具体设计介绍
+
+##表大小与主键计算
 
 主键如果只有一个属性，则属性范围更新为表大小的范围，设置此表为不可insert，delete。
 
 如果主键有多个属性，则必然存在一个不参考外键数量值，则用表大小值，从右到左依次除以当前属性的范围，来获取此值的区间，然后将此区间设置为所求值的2倍，方便用来insert
 
-### 具体流程
+## 外键引用
 
-1. 随机生成表的数量，然后用tableTemplate类新建同等数量的实例
-2. 每一个tableTemplate首先按照统计数据随机各类属性的数量，然后按照数量实例化tupleType，在tupleType内部根据不同的类型按照已有的记录随机生成，生成顺序为int，demiacal，float，char，varchar，date。
-3. 按照记录生成主键数目，将此数目的int设置为key。
-4. 外键
-   1. 现有的主键数目减1为主键中需要引用的外键数目，然后按照统计记录生成非主键的tuple需要外键的数目
-   2. 随机一张在此表之前出现的表，引用此表中的所有主键属性，若数目不够此表所需的外键数，则继续随机，直到随需的外键数目达到，或者没有表可以引用，每次引用需要新建一个tupleForeign实例。
-   3. 由于可能会出现以下情况，如：B中的2属性引用A中的1属性，而此时新建的表C需要外键，首先C（2）从B中引用到2，然后数目不够则C（3）引用表A中的1属性，则C引用了C(2)->B(2)->A(1)和C（3）->A(1)，但是这在应用中是不存在的，所以C引用B之后，便会在随机区间中去处B引用的表，防止重复引用。
-   4. 从引用的表中继承相应tuple的数据范围
-5. 将主键固定，然后将引用外键的tuple固定，之后随机打乱其他键的顺序
+1. 现有的主键数目减1为主键中需要引用的外键数目，然后按照统计记录生成非主键的tuple需要外键的数目
+2. 随机一张在此表之前出现的表，引用此表中的所有主键属性，若数目不够此表所需的外键数，则继续随机，直到随需的外键数目达到，或者没有表可以引用，每次引用需要新建一个tupleForeign实例。
+3. 由于可能会出现以下情况，如：B中的2属性引用A中的1属性，而此时新建的表C需要外键，首先C（2）从B中引用到2，然后数目不够则C（3）引用表A中的1属性，则C引用了C(2)->B(2)->A(1)和C（3）->A(1)，但是这在应用中是不存在的，所以C引用B之后，便会在随机区间中去处B引用的表，防止重复引用。
+4. 从引用的表中继承相应tuple的数据范围
+
+1. 将主键固定，然后将引用外键的tuple固定，之后随机打乱其他键的顺序
 
 ## 数据生成
 
 1. 按照表的顺序生成数据，防止出现外键约束
-2. 每一个表数据的生成，由一条insert语句拼接出来，按照tuple的顺序组合一个randomValue lIst，其中每一个元素为一个randomValue生成器，从相应的tuple中记录随机值的范围和方式，例如 int主键的顺序和char键的range区间生成
+2. 每一个表数据的生成，由一条insert语句拼接出来，按照tuple的顺序组合一个randomValue list，其中每一个元素为一个randomValue生成器，从相应的tuple中记录随机值的范围和方式，例如 int主键的顺序和char键的range区间生成
 3. 将数据导出到文件中，之后将数据传输到数据库
 
 ## 负载生成
@@ -128,107 +183,4 @@ tupleForeign负责记录本表中tuple的位置，引用表的位置，引用的
 ### 事务执行
 
 将每个事务的实例分配给多个线程，每个线程维持一个数据库连接，每次随机一个事务，事务内部调用随机生成器，补全事务模板，输出sql语句交给线程连接提交。完成随机负载。
-
-
-## 架构
-
-项目架构图为：
-
-![随机负载生成器](https://ws1.sinaimg.cn/large/006tKfTcgy1ftaxuhztvkj31kw0o8tv9.jpg)
-
-主要包含四个部分，分别为Table生成，Transaction Template生成，基础组件，和sql 数据生成。按照任务划分，文字表述如下，已完成的任务标注为勾，在上图中也存在任务标注，根据预期当前进度约在30%左右：
-
-### Table 生成
-
-- Table Scheme
-  - Table属性
-    - [x] 属性比例
-    - [x] char/decimal的本身特征
-  - [x] Table主键数量
-  - [x] Table外键引用
-- Table Data
-  - Int
-    - 基于给定区间完全随机
-      - [ ] 数值区间
-      - [ ] 外键区间
-    - [ ] 顺序id
-  - Double
-    - [ ] 基于给定区间完全随机
-  - Char
-    - [ ] 基于给定长度完全随机
-    - [ ] 从主键int中转换为char
-    - [ ] 随机一组，然后从中抽取
-  - Date
-    - [ ] CurrentDateTime
-
-### Transaction Template生成
-
-- Sql Template
-  - Insert Template
-    - [x] Template
-    - [x] Record the range on all attributes
-  - [x] Delete Template
-  - [x] Select Template
-  - Update Template
-    - [x] Template
-    - [x] Record the range on all attributes
-  - Condition Template
-    - Table
-      - [x] Single Table
-      - [ ] Join Table
-    - [x] Range Or Single Point
-    - [ ] Record the range on all attributes
-- [ ] 组合Sql Template
-
-### 基础组件
-
-- 随机数生成器
-  - [ ] 填入统计之后的数据
-  - [x] Table相关属性随机数
-  - [x] Sql Template相关属性随机数
-  - [ ] 负载模版数值填充比例随机
-  - [ ] 稳定随机和不稳定随机
-- 数据库连接
-  - [ ] 导入 Table Scheme
-  - [ ] 导入Table数据
-  - [ ] 多线程压入负载
-
-### Sql 数据生成
-
-- 
-  - Int数据生成
-    - [ ] 给定范围区间
-  - Char数据生成
-    - [ ] 给定一组char，从里面随机选择
-    - [ ] 给定int区间，从int里面选择
-  - Double数据生成
-    - [ ] 给定范围区间
-
-## 文件架构
-
-<pre>
-
-.
-├── BenchMark�\237计记�\225表格.xlsx
-├── Main.java
-├── README.md
-├── generator
-│   ├── DataGenerator.java
-│   ├── GenerateSqlListFromArray.java
-│   ├── Generator.java
-│   ├── RandomGenerateSqlAttributesValue.java
-│   ├── RandomGenerateTableAttributesVaule.java
-│   └── RandomGenerateTupleValue.java
-└── template
-    ├── ConditionTemplate.java
-    ├── SqlTemplate.java
-    ├── TableTemplate.java
-    └── tuple
-        ├── TupleChar.java
-        ├── TupleDate.java
-        ├── TupleDouble.java
-        ├── TupleInt.java
-        └── TupleType.java
-
-</pre>
 

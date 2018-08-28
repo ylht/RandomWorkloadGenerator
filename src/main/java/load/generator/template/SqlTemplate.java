@@ -7,7 +7,7 @@ import load.generator.generator.GenerateSqlListFromArray;
  */
 
 public class SqlTemplate {
-    public String selectTemplate(String[] selectAttributes) {
+    public String selectTemplate(Integer[] selectAttributes) {
         return String.format("select %s ", GenerateSqlListFromArray.generateSelectListFromArray(selectAttributes));
     }
 
