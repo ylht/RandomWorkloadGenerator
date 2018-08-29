@@ -7,7 +7,6 @@ public class AccMain {
         GeneratorTable gt = new GeneratorTable();
         CreateTable ct = new CreateTable(gt.getAllTable());
         ct.work();
-
 //        LoadData ld = new LoadData(gt.getTables());
 //        ld.load();
 //

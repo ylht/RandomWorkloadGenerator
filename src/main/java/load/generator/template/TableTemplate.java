@@ -38,9 +38,6 @@ public class TableTemplate {
                     RandomGenerateTableAttributesVaule.tupleIntRange()));
         }
         for (int i = 0; i < keyNum; i++) {
-            if (i >= intNum) {
-                break;
-            }
             tuples.get(i).makeKey();
         }
 

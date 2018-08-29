@@ -54,8 +54,8 @@ public class RandomGenerateTableAttributesVaule {
         return r.nextInt(TABLE_MAX_NUM - TABLE_MIN_NUM) + TABLE_MIN_NUM;
     }
 
-    int keyNum(int tableIntNum) {
-        return min(tableIntNum, 4) + 1;
+    int keyNum(int tableIntNum, int tableIndex) {
+        return min(min(tableIntNum, tableIndex+1), 4);
     }
 
     int foreignKeyNum(int keyNum, int tableIntNum) {

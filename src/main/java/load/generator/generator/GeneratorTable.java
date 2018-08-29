@@ -14,7 +14,6 @@ import static java.lang.Math.min;
  * @author wangqingshuai
  */
 public class GeneratorTable {
-    Random r = new Random();
     private TableTemplate[] tables;
 
     public GeneratorTable() {
@@ -25,7 +24,7 @@ public class GeneratorTable {
         TableRefList trList = new TableRefList();
         for (int tableIndex = 0; tableIndex < tableNum; tableIndex++) {
             int intNum = rgta.intNum();
-            int keyNum = rgta.keyNum(intNum);
+            int keyNum = rgta.keyNum(intNum, tableIndex);
             if (tableIndex == 0) {
                 keyNum = 1;
             }
