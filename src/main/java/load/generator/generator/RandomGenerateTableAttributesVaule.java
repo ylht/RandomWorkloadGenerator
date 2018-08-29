@@ -2,6 +2,8 @@ package load.generator.generator;
 
 import java.util.Random;
 
+import static java.lang.Math.min;
+
 /**
  * 生成用于table随机的各种属性值
  *
@@ -20,8 +22,10 @@ public class RandomGenerateTableAttributesVaule {
     private static final double TABLE_INT_NUM31_TO40_PER = 1;
     private static RandomGenerateTableAttributesVaule instance = new RandomGenerateTableAttributesVaule();
     private static Random r = new Random();
+
     private RandomGenerateTableAttributesVaule() {
     }
+
 
     public static RandomGenerateTableAttributesVaule getInstance() {
         return instance;
@@ -48,6 +52,22 @@ public class RandomGenerateTableAttributesVaule {
      */
     int tableNum() {
         return r.nextInt(TABLE_MAX_NUM - TABLE_MIN_NUM) + TABLE_MIN_NUM;
+    }
+
+    int keyNum(int tableIntNum) {
+        return min(tableIntNum, 4) + 1;
+    }
+
+    int foreignKeyNum(int keyNum, int tableIntNum) {
+        if (keyNum > 1) {
+            if (tableIntNum > keyNum) {
+                return r.nextInt(tableIntNum - keyNum) + keyNum - 1;
+            } else {
+                return keyNum - 1;
+            }
+        } else {
+            return 0;
+        }
     }
 
     /**

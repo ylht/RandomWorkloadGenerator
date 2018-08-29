@@ -48,7 +48,6 @@ public class RandomChar extends RandomValue {
             } else {
                 return '\'' + rg.astring(min, max) + '\'';
             }
-
         }
     }
 }

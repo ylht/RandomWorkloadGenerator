@@ -4,14 +4,14 @@ package load.generator.template;
  * @author wangqingshuai
  */
 public class ConditionTemplate {
-    private String keyToSql(String[] keyNames, Boolean isRange) {
+    private String keyToSql(int[] keyNames, Boolean isRange) {
         StringBuilder sql = new StringBuilder();
         String sqlMiddle = " = ? ";
         if (isRange) {
             sqlMiddle = "between ? and ?";
         }
         for (int i = 0; i < keyNames.length; i++) {
-            sql.append(keyNames[i]).append(sqlMiddle);
+            sql.append("tv" + String.valueOf(keyNames[i])).append(sqlMiddle);
             if (i != keyNames.length - 1) {
                 sql.append(" and ");
             }
@@ -29,15 +29,15 @@ public class ConditionTemplate {
                 tableFirst, valueFirst, tableSecond, valueSecond);
     }
 
-    public String singleCondition(String[] keyNames) {
+    public String singleCondition(int[] keyNames) {
         return keyToSql(keyNames, false) + ';';
     }
 
-    public String rangeCondition(String[] keyNames) {
+    public String rangeCondition(int[] keyNames) {
         return keyToSql(keyNames, true) + ';';
     }
 
-    public String complexContion(String[] singleKeyNames, String[] rangeKeyNames) {
+    public String complexContion(int[] singleKeyNames, int[] rangeKeyNames) {
         return keyToSql(singleKeyNames, false) + " and " + keyToSql(rangeKeyNames, true) + ";";
     }
 

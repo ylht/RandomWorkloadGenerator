@@ -19,89 +19,95 @@ public class TransactionTemplate {
     private String[] deleteTemplates;
     private ArrayList<RandomValue[]> selectRandoms = new ArrayList<RandomValue[]>();
     private ArrayList<RandomValue[]> updateRandoms = new ArrayList<RandomValue[]>();
-    private RandomValue[] insertRandom;
-    private RandomValue[] deleteRandom;
+    private ArrayList<RandomValue[]> insertRandoms;
+    private ArrayList<RandomValue[]> deleteRandoms;
+    private RandomGenerateSqlAttributesValue randomSqlAtt = new RandomGenerateSqlAttributesValue();
 
     public TransactionTemplate(TableTemplate[] tables) {
         SqlTemplate st = new SqlTemplate();
         ConditionTemplate ct = new ConditionTemplate();
-        RandomGenerateSqlAttributesValue randomSqlAtt = new RandomGenerateSqlAttributesValue();
         selectTemplates = new String[randomSqlAtt.selectNum()];
         for (int i = 0; i < selectTemplates.length; i++) {
             int randomTableIndex = randomSqlAtt.randomTable(tables.length);
             TableTemplate randomTable = tables[randomTableIndex];
-            int[] selectAttLocation= randomSqlAtt.selectAttributesNum(randomTable.getAttNums());
-            Integer[] randomSelectAtt = getRandomAllAttributesIndex(randomTable,selectAttLocation);
+            int[] selectRangeNum = randomSqlAtt.selectAttributesNum(randomTable.getAttNums());
+            Integer[] randomSelectAtt = getSelectAttIndex(randomTable, selectRangeNum);
             if (randomSelectAtt.length == 0) {
-                i--;
-                System.out.println(-1);
-                continue;
+                System.out.println("err in get select att");
+                System.exit(-1);
             }
-            int conditionKeyNum=randomSqlAtt.conditionKeyNum(randomTable.getKeyNum(),true);
-            ArrayList<Integer> randomKeyIndex = getRandomList(0, randomTable.getKeyNum());
-            String[] randomConditionAtt = getAttributes(randomKeyIndex, randomKeyIndex.size());
+
+            int[] conditionAttIndex = getConditionAttIndex(randomTable.getKeyNum(), true);
             ArrayList<TupleType> tuples = randomTable.getTuples();
-            RandomValue[] selectRandom = new RandomValue[randomKeyIndex.size()];
-            for (int j = 0; j < randomKeyIndex.size(); j++) {
-                TupleType tuple = tuples.get(randomKeyIndex.get(j));
+            RandomValue[] selectRandom = new RandomValue[conditionAttIndex.length];
+            for (int j = 0; j < conditionAttIndex.length; j++) {
+                TupleType tuple = tuples.get(conditionAttIndex[j]);
                 selectRandom[j] = getRandomValue(tuple);
             }
             selectTemplates[i] = st.selectTemplate(randomSelectAtt) +
                     ct.singleTable(randomTable.getTableName())
-                    + ct.singleCondition(randomConditionAtt);
+                    + ct.singleCondition(conditionAttIndex);
+
             selectRandoms.add(selectRandom);
         }
         updateTemplates = new String[randomSqlAtt.updateNum()];
         for (int i = 0; i < updateTemplates.length; i++) {
             int randomTableIndex = randomSqlAtt.randomTable(tables.length);
             TableTemplate randomTable = tables[randomTableIndex];
-            String[] randomUpdateAtt = getRandomAllAttributes(randomTable, randomSqlAtt.updateAttributesNum(randomTable.getAttNums()));
-            int[] rUA = getLoction(randomUpdateAtt);
-            if (rUA.length == 0) {
-                i--;
-                continue;
+            int[] updateRangeNum = randomSqlAtt.updateAttributesNum(randomTable.getAttNums());
+            Integer[] updateAttIndex = getSelectAttIndex(randomTable, updateRangeNum);
+            if (updateAttIndex.length == 0) {
+                System.out.println("err in get update att");
+                System.exit(-1);
             }
             String randomTableName = randomTable.getTableName();
-            String[] randomConditionAtt = getRandomKeyAttributes(randomTable, randomTable.getKeyNum());
-            int[] rCA = getLoction(randomConditionAtt);
+            int[] conditionAttIndex = getConditionAttIndex(randomTable.getKeyNum(), true);
             ArrayList<TupleType> tuples = randomTable.getTuples();
-            RandomValue[] updateRandom = new RandomValue[rUA.length + rCA.length];
-            for (int j = 0; j < rUA.length; j++) {
+            RandomValue[] updateRandom = new RandomValue[updateAttIndex.length + conditionAttIndex.length];
+            for (int j = 0; j < updateAttIndex.length; j++) {
                 try {
-                    TupleType tuple = tuples.get(rUA[j]);
+                    TupleType tuple = tuples.get(updateAttIndex[j]);
                     updateRandom[j] = getRandomValue(tuple);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    for (int z : rUA) {
+                    for (int z : updateAttIndex) {
                         System.out.println(z);
                     }
                     System.exit(-1);
                 }
             }
-            for (int j = 0; j < rCA.length; j++) {
-                TupleType tuple = tuples.get(rCA[j]);
-                updateRandom[j + rUA.length] = getRandomValue(tuple);
+            for (int j = 0; j < conditionAttIndex.length; j++) {
+                TupleType tuple = tuples.get(conditionAttIndex[j]);
+                updateRandom[j + updateAttIndex.length] = getRandomValue(tuple);
             }
             updateRandoms.add(updateRandom);
-            updateTemplates[i] = st.updateTemplate(randomTableName, randomUpdateAtt) + "where " +
-                    ct.singleCondition(randomConditionAtt);
+            updateTemplates[i] = st.updateTemplate(randomTableName, updateAttIndex) + "where " +
+                    ct.singleCondition(conditionAttIndex);
         }
+
         deleteTemplates = new String[randomSqlAtt.deleteNum()];
         for (int i = 0; i < deleteTemplates.length; i++) {
             int randomTableIndex = randomSqlAtt.randomTable(tables.length);
             TableTemplate randomTable = tables[randomTableIndex];
             String randomTableName = randomTable.getTableName();
-            String[] randomConditionAtt = getRandomKeyAttributes(randomTable, randomTable.getKeyNum());
+            int[] conditionAttIndex = getConditionAttIndex(randomTable.getKeyNum(), true);
+            ArrayList<TupleType> tuples = randomTable.getTuples();
+            RandomValue[] deleteRandom = new RandomValue[conditionAttIndex.length];
+            for (int j = 0; j < conditionAttIndex.length; j++) {
+                TupleType tuple = tuples.get(conditionAttIndex[j]);
+                deleteRandom[j] = getRandomValue(tuple);
+            }
+            deleteRandoms.add(deleteRandom);
             deleteTemplates[i] = st.deleteTemplate() +
                     ct.singleTable(randomTableName) +
-                    ct.singleCondition(randomConditionAtt);
+                    ct.singleCondition(conditionAttIndex);
         }
         insertTemplates = new String[randomSqlAtt.insertNum()];
         for (int i = 0; i < insertTemplates.length; i++) {
             int randomTableIndex = randomSqlAtt.randomTable(tables.length);
             TableTemplate randomTable = tables[randomTableIndex];
             String randomTableName = randomTable.getTableName();
-            String[] randomInsertAtt = getRandomNotKeyAttributes(randomTable, randomTable.getSecondIndexNum());
+            Integer[] randomInsertAtt = getNotKeyAttIndex(randomTable, randomTable.getSecondIndexNum());
             insertTemplates[i] = st.insertTemplate(randomTableName, randomInsertAtt, randomTable.getKeyNum());
         }
     }
@@ -169,6 +175,17 @@ public class TransactionTemplate {
         }
     }
 
+
+    private int[] getConditionAttIndex(int keyNum, boolean allKey) {
+        int conditionKeyNum = randomSqlAtt.conditionKeyNum(keyNum, allKey);
+        ArrayList<Integer> randomKeyIndex = getRandomList(0, keyNum);
+        int[] result = new int[conditionKeyNum];
+        for (int i = 0; i < conditionKeyNum; i++) {
+            result[i] = randomKeyIndex.get(i);
+        }
+        return result;
+    }
+
     private ArrayList<Integer> getRandomList(int begin, int end) {
         ArrayList<Integer> randomIndex = new ArrayList<Integer>();
         for (int i = begin; i < end; i++) {
@@ -178,39 +195,45 @@ public class TransactionTemplate {
         return randomIndex;
     }
 
-    private String[] getAttributes(ArrayList<Integer> al, int totalNum) {
-        String[] result = new String[totalNum];
-        for (int i = 0; i < totalNum; i++) {
-            result[i] = "tv" + String.valueOf(al.get(i));
+
+    /**
+     * 从table中获取在rangeNum范围内，要操作的各个属性的位置索引，用于select，update等等
+     *
+     * @param table
+     * @param rangeNum
+     * @return
+     */
+    private Integer[] getSelectAttIndex(TableTemplate table, int[] rangeNum) {
+
+        int[] tableAtt = table.getAttNums().clone();
+        int[] allAtt = new int[tableAtt.length + 1];
+
+        System.arraycopy(tableAtt, 0, allAtt, 1, allAtt.length - 1);
+
+        for (int i = 1; i < allAtt.length; i++) {
+            allAtt[i] += allAtt[i - 1];
         }
-        return result;
-    }
-
-
-
-    private Integer[] getRandomAllAttributesIndex(TableTemplate table, int[] randomNum) {
-        int[] allAtt = table.getAttNums().clone();
-        if (allAtt.length - 1 >= 0) {
-            System.arraycopy(allAtt, 0, allAtt, 1, allAtt.length - 1);
-        }
-        for (int i = 0; i < allAtt.length - 1; i++) {
-            allAtt[i + 1] += allAtt[i];
-        }
-        allAtt[0] = table.getKeyNum();
-
+        allAtt[allAtt.length - 1] = table.getTableAttNum();
         ArrayList<Integer> result = new ArrayList<>();
 
-        for (int i = 0; i < randomNum.length; i++) {
-            for (int j = 0; j < randomNum[i]; j++) {
+        for (int i = 0; i < rangeNum.length; i++) {
+            for (int j = 0; j < rangeNum[i]; j++) {
+                if (allAtt[i] + j >= allAtt[i + 1]) {
+                    break;
+                }
                 result.add(allAtt[i] + j);
             }
         }
         return result.toArray(new Integer[0]);
     }
 
-    private String[] getRandomNotKeyAttributes(TableTemplate table, int randomNum) {
+    private Integer[] getNotKeyAttIndex(TableTemplate table, int rangeNum) {
         ArrayList<Integer> randomIndex = getRandomList(table.getKeyNum(), table.getTableAttNum());
-        return getAttributes(randomIndex, randomNum);
+        Integer[] result = new Integer[rangeNum];
+        for (int i = 0; i < rangeNum; i++) {
+            result[i] = randomIndex.get(i);
+        }
+        return result;
     }
 
 }

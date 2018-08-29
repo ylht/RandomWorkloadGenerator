@@ -1,6 +1,5 @@
 package load.generator.template;
 
-import load.generator.generator.GenerateSqlListFromArray;
 import load.generator.generator.RandomGenerateTableAttributesVaule;
 import load.generator.template.tuple.*;
 
@@ -62,13 +61,11 @@ public class TableTemplate {
         for (int i = 0; i < dateNum; i++) {
             tuples.add(new TupleDate());
         }
-
-        for (TupleForeign i : tf) {
-            int num = 0;
-            for (Object j : i.getSelfTVLoc()) {
-                int temp = (int) j;
-                tuples.get(temp).setMin(i.getRangeMin(num));
-                tuples.get(temp).setMax(i.getRangeMax(num++));
+        int index = 1;
+        for (TupleForeign tupleForeign : tf) {
+            ArrayList<TupleType> refTuples = tupleForeign.getTupleTypes();
+            for (TupleType refTuple : refTuples) {
+                tuples.set(index++, refTuple);
             }
         }
 
@@ -104,10 +101,6 @@ public class TableTemplate {
         return totalNum - keyNum;
     }
 
-    public ArrayList<TupleForeign> getTf() {
-        return tf;
-    }
-
     public String toSql() {
         StringBuilder sql = new StringBuilder("CREATE TABLE " + tableName + "(");
         for (int i = 0; i < totalNum; i++) {
@@ -124,18 +117,29 @@ public class TableTemplate {
             sql.substring(0, sql.length() - 1);
         }
         if (tf.size() != 0) {
-            int num = 0;
-            for (TupleForeign i : tf) {
+            int start = 1;
+            for (TupleForeign tupleForeign : tf) {
+                int tempSize = tupleForeign.getTupleTypes().size();
                 sql.append(',');
                 sql.append("FOREIGN KEY(");
-                sql.append(GenerateSqlListFromArray.generateForeignListFromArray(i.getSelfTVLoc()));
-                sql.append(")references t").append(String.valueOf(i.getTableLoc())).append('(');
-                sql.append(GenerateSqlListFromArray.generateForeignListFromArray(i.getRefTVLoc()));
+                sql.append(generateForeignListFromArray(start, tempSize));
+                sql.append(")references t").append(String.valueOf(tupleForeign.getTableLoc())).append('(');
+                sql.append(generateForeignListFromArray(0, tempSize));
                 sql.append(')');
+                start += tempSize;
             }
         }
         sql.append(");");
         return sql.toString();
+    }
+
+    private String generateForeignListFromArray(int start, int range) {
+
+        StringBuilder attributesStr = new StringBuilder("tv" + String.valueOf(start));
+        for (int i = 1; i < range; i++) {
+            attributesStr.append(',').append("tv").append(String.valueOf(start + i));
+        }
+        return attributesStr.toString();
     }
 
 }

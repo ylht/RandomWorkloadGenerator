@@ -1,37 +1,25 @@
 package load.generator.template.tuple;
 
+import java.util.ArrayList;
+
 public class TupleForeign {
     private int tableLoc;
-    private int[] selfTVLoc;
-    private int[] refTVLoc;
-    private int[] rangeMin;
-    private int[] rangeMax;
+    private ArrayList<TupleType> tupleTypes;
 
-    public TupleForeign(int tableLoc, int[] selfTVLoc, int[] refTVLoc, int[] rangeMin, int[] rangeMax) {
+
+    public TupleForeign(int tableLoc, ArrayList<TupleType> tupleTypes) {
         this.tableLoc = tableLoc;
-        this.selfTVLoc = selfTVLoc;
-        this.refTVLoc = refTVLoc;
-        this.rangeMin = rangeMin;
-        this.rangeMax = rangeMax;
+        this.tupleTypes = tupleTypes;
     }
 
-    public int getRangeMin(int index) {
-        return rangeMin[index];
+    public ArrayList<TupleType> getTupleTypes() {
+        return tupleTypes;
     }
 
-    public int getRangeMax(int index) {
-        return rangeMax[index];
-    }
 
     public int getTableLoc() {
         return tableLoc;
     }
 
-    public int[] getSelfTVLoc() {
-        return selfTVLoc;
-    }
 
-    public int[] getRefTVLoc() {
-        return refTVLoc;
-    }
 }

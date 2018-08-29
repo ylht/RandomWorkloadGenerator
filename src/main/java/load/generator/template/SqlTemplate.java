@@ -1,26 +1,24 @@
 package load.generator.template;
 
-import load.generator.generator.GenerateSqlListFromArray;
-
 /**
  * @author wangqingshuai
  */
 
-public class SqlTemplate {
-    public String selectTemplate(Integer[] selectAttributes) {
-        return String.format("select %s ", GenerateSqlListFromArray.generateSelectListFromArray(selectAttributes));
+class SqlTemplate {
+    String selectTemplate(Integer[] selectAttributes) {
+        return String.format("select %s ", generateSelectListFromArray(selectAttributes));
     }
 
-    public String deleteTemplate() {
+    String deleteTemplate() {
         return "delete ";
     }
 
-    public String updateTemplate(String tableName, String[] updateAttributes) {
+    String updateTemplate(String tableName, Integer[] updateAttributes) {
         return String.format("update %s set %s ", tableName,
-                GenerateSqlListFromArray.generateUpdateListFromArray(updateAttributes));
+                generateUpdateListFromArray(updateAttributes));
     }
 
-    public String insertTemplate(String tableName, String[] insertAttributes, int keyNum) {
+    String insertTemplate(String tableName, Integer[] insertAttributes, int keyNum) {
         StringBuilder sqlMiddle = new StringBuilder();
         StringBuilder sqlSelect = new StringBuilder();
         for (int i = 0; i < keyNum; i++) {
@@ -31,6 +29,33 @@ public class SqlTemplate {
             sqlMiddle.append(",%s");
         }
         return String.format("insert into %s (%s%s) values (%s);", tableName,
-                sqlSelect, GenerateSqlListFromArray.generateSelectListFromArray(insertAttributes), sqlMiddle);
+                sqlSelect, generateSelectListFromArray(insertAttributes), sqlMiddle);
     }
+
+    private String generateModule(Integer[] values, Boolean forUpdate) {
+        String prefix = "";
+        if (forUpdate) {
+            prefix = "= ?";
+        }
+        int attributesNum = values.length;
+        StringBuilder attributesStr = new StringBuilder("tv" + String.valueOf(values[0]));
+        attributesStr.append(prefix);
+        for (int i = 1; i < attributesNum; i++) {
+            attributesStr.append(',').append("tv").append(String.valueOf(values[i])).append(prefix);
+        }
+        return attributesStr.toString();
+    }
+
+    private String generateSelectListFromArray(Integer[] values) {
+        if (values.length == 0) {
+            return null;
+        }
+        return generateModule(values, false);
+    }
+
+
+    private String generateUpdateListFromArray(Integer[] values) {
+        return generateModule(values, true);
+    }
+
 }

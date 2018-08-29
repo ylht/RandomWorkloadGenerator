@@ -8,11 +8,11 @@ public class AccMain {
         CreateTable ct = new CreateTable(gt.getAllTable());
         ct.work();
 
-        LoadData ld = new LoadData(gt.getTables());
-        ld.load();
-
-        TransactionWork tw = new TransactionWork(gt.getTables());
-        tw.run(10, 100);
+//        LoadData ld = new LoadData(gt.getTables());
+//        ld.load();
+//
+//        TransactionWork tw = new TransactionWork(gt.getTables());
+//        tw.run(10, 100);
     }
 
 }

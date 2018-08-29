@@ -47,58 +47,53 @@ public class RandomGenerateSqlAttributesValue {
 
     public int[] selectAttributesNum(int[] maxNum) {
         int[] attNum = new int[4];
-        double t = r.nextDouble();
-        if (t < SELECT_INT_NUM0_PER) {
-            attNum[0] = 0;
-        } else if (t < SELECT_INT_NUM1_PER) {
-            attNum[0] = min(maxNum[0], 1);
-        } else if (t < SELECT_INT_NUM2_PER) {
-            attNum[0] = min(maxNum[0], 2);
-        } else if (t < SELECT_INT_NUM3_PER) {
-            attNum[0] = min(maxNum[0], 3);
-        } else if (t < SELECT_INT_NUM_MORE_THAN3_PER) {
-            attNum[0] = min(maxNum[0], r.nextInt(20) + 3);
-        }
-        t = r.nextDouble();
-        if (t < SELECT_DOUBLE_NUM0_PER) {
-            attNum[1] = 0;
-        } else if (t < SELECT_DOUBLE_NUM1_PER) {
-            attNum[1] = min(attNum[1], 1);
-        } else if (t < SELECT_DOUBLE_NUM2_PER) {
-            attNum[1] = min(attNum[1], 2);
-        } else if (t < SELECT_DOUBLE_NUM4_PER) {
-            attNum[1] = min(attNum[1], 4);
-        }
-        t = r.nextDouble();
-        if (t < SELECT_CHAR_NUM0_PER) {
-            attNum[2] = 0;
-        } else if (t < SELECT_CHAR_NUM1_PER) {
-            attNum[2] = min(1, maxNum[2]);
-        } else if (t < SELECT_CHAR_NUM2_PER) {
-            attNum[2] = min(2, maxNum[2]);
-        } else if (t < SELECT_CHAR_NUM_MORE_THAN2_PER) {
-            attNum[2] = min(r.nextInt(10) + 3, maxNum[2]);
-        }
-        t = r.nextDouble();
-        if (t < SELECT_DATE_NUM0_PER) {
-            attNum[3] = 0;
-        } else if (t < SELECT_DATE_NUM1_PER) {
-            attNum[3] = min(maxNum[3], 1);
-        } else if (t < SELECT_DATE_NUM2_PER) {
-            attNum[3] = min(maxNum[3], 2);
-        }
         int total = 0;
-        for (int i = 0; i < 4; i++) {
-            total += attNum[0];
-        }
-        if (total == 0) {
-            t = r.nextDouble();
-            if (t < 0.5) {
-                attNum[0] = 1;
-            } else {
-                attNum[1] = 1;
+        do {
+            double t = r.nextDouble();
+            if (t < SELECT_INT_NUM0_PER) {
+                attNum[0] = 0;
+            } else if (t < SELECT_INT_NUM1_PER) {
+                attNum[0] = min(maxNum[0], 1);
+            } else if (t < SELECT_INT_NUM2_PER) {
+                attNum[0] = min(maxNum[0], 2);
+            } else if (t < SELECT_INT_NUM3_PER) {
+                attNum[0] = min(maxNum[0], 3);
+            } else if (t < SELECT_INT_NUM_MORE_THAN3_PER) {
+                attNum[0] = min(maxNum[0], r.nextInt(20) + 3);
             }
-        }
+            t = r.nextDouble();
+            if (t < SELECT_DOUBLE_NUM0_PER) {
+                attNum[1] = 0;
+            } else if (t < SELECT_DOUBLE_NUM1_PER) {
+                attNum[1] = min(attNum[1], 1);
+            } else if (t < SELECT_DOUBLE_NUM2_PER) {
+                attNum[1] = min(attNum[1], 2);
+            } else if (t < SELECT_DOUBLE_NUM4_PER) {
+                attNum[1] = min(attNum[1], 4);
+            }
+            t = r.nextDouble();
+            if (t < SELECT_CHAR_NUM0_PER) {
+                attNum[2] = 0;
+            } else if (t < SELECT_CHAR_NUM1_PER) {
+                attNum[2] = min(1, maxNum[2]);
+            } else if (t < SELECT_CHAR_NUM2_PER) {
+                attNum[2] = min(2, maxNum[2]);
+            } else if (t < SELECT_CHAR_NUM_MORE_THAN2_PER) {
+                attNum[2] = min(r.nextInt(10) + 3, maxNum[2]);
+            }
+            t = r.nextDouble();
+            if (t < SELECT_DATE_NUM0_PER) {
+                attNum[3] = 0;
+            } else if (t < SELECT_DATE_NUM1_PER) {
+                attNum[3] = min(maxNum[3], 1);
+            } else if (t < SELECT_DATE_NUM2_PER) {
+                attNum[3] = min(maxNum[3], 2);
+            }
+
+            for (int i = 0; i < 4; i++) {
+                total += attNum[0];
+            }
+        } while (total == 0);
         return attNum;
     }
 
@@ -113,66 +108,54 @@ public class RandomGenerateSqlAttributesValue {
 
     public int[] updateAttributesNum(int[] maxNum) {
         int[] attNum = new int[4];
-        double t = r.nextDouble();
-        if (t < 0.33) {
-            attNum[0] = 0;
-        } else if (t < 0.74) {
-            attNum[0] = min(1, maxNum[0]);
-        } else if (t < 0.89) {
-            attNum[0] = min(2, maxNum[0]);
-        } else {
-            attNum[0] = min(r.nextInt(4) + 3, maxNum[0]);
-        }
-        t = r.nextDouble();
-        if (t < 0.52) {
-            attNum[1] = 0;
-        } else if (t < 0.89) {
-            attNum[1] = min(1, maxNum[1]);
-        } else {
-            attNum[1] = min(2, maxNum[1]);
-        }
-        t = r.nextDouble();
-        if (t < 0.96) {
-            attNum[2] = 0;
-        } else {
-            attNum[2] = min(1, maxNum[2]);
-        }
-        t = r.nextDouble();
-        if (t < 0.96) {
-            attNum[3] = 0;
-        } else {
-            attNum[3] = min(1, maxNum[3]);
-        }
         int total = 0;
-        for (int i = 0; i < 4; i++) {
-            total += attNum[0];
-        }
-        if (total == 0) {
-            t = r.nextDouble();
-            if (t < 0.5) {
-                attNum[0] = 1;
+        do {
+            double t = r.nextDouble();
+            if (t < 0.33) {
+                attNum[0] = 0;
+            } else if (t < 0.74) {
+                attNum[0] = min(1, maxNum[0]);
+            } else if (t < 0.89) {
+                attNum[0] = min(2, maxNum[0]);
             } else {
-                attNum[1] = 1;
+                attNum[0] = min(r.nextInt(4) + 3, maxNum[0]);
             }
-        }
+            t = r.nextDouble();
+            if (t < 0.52) {
+                attNum[1] = 0;
+            } else if (t < 0.89) {
+                attNum[1] = min(1, maxNum[1]);
+            } else {
+                attNum[1] = min(2, maxNum[1]);
+            }
+            t = r.nextDouble();
+            if (t < 0.96) {
+                attNum[2] = 0;
+            } else {
+                attNum[2] = min(1, maxNum[2]);
+            }
+            t = r.nextDouble();
+            if (t < 0.96) {
+                attNum[3] = 0;
+            } else {
+                attNum[3] = min(1, maxNum[3]);
+            }
+
+            for (int i = 0; i < 4; i++) {
+                total += attNum[0];
+            }
+        } while (total == 0);
         return attNum;
     }
 
-    public int conditionKeyNum(int keyNum,boolean allKey)
-    {
-        if(allKey)
-        {
+    public int conditionKeyNum(int keyNum, boolean allKey) {
+        if (allKey) {
             return keyNum;
-        }
-        else
-        {
-            if(keyNum==1)
-            {
+        } else {
+            if (keyNum == 1) {
                 return keyNum;
-            }
-            else
-            {
-                return r.nextInt(keyNum-1)+1;
+            } else {
+                return r.nextInt(keyNum - 1) + 1;
             }
         }
     }
