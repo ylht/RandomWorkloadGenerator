@@ -7,15 +7,15 @@ import load.generator.template.tuple.TupleType;
 import load.generator.utils.MysqlConnector;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import static java.lang.Float.min;
 
 public class LoadData {
     private ArrayList<ArrayList<RandomValue>> randomLists = new ArrayList<ArrayList<RandomValue>>();
     private ArrayList<Integer> keyNums = new ArrayList<Integer>();
-    private ArrayList<Integer> tableLineNum=new ArrayList<>();
+    private ArrayList<Integer> tableLineNum = new ArrayList<>();
     private MysqlConnector mysqlConnector = new MysqlConnector();
+
     LoadData(TableTemplate[] tables) {
         for (TableTemplate table : tables) {
             ArrayList<TupleType> tt = table.getTuples();
@@ -64,26 +64,21 @@ public class LoadData {
 
     private String getValues(ArrayList<RandomValue> randomList, int keyNum) {
         StringBuilder values = new StringBuilder("(");
-        int i=keyNum-1;
-        boolean keyContinue=true;
-        for(int j=0;j<keyNum;j++)
-        {
-            values.append(((RandomInt)randomList.get(j)).getKeyValue()).append(',');
+        int i = keyNum - 1;
+        boolean keyContinue = true;
+        for (int j = 0; j < keyNum; j++) {
+            values.append(((RandomInt) randomList.get(j)).getKeyValue()).append(',');
         }
 
-        while (keyContinue)
-        {
-            keyContinue=!((RandomInt)randomList.get(i)).getNext();
-            if(keyContinue)
-            {
+        while (keyContinue) {
+            keyContinue = !((RandomInt) randomList.get(i)).getNext();
+            if (keyContinue) {
                 i--;
-                if(i<0)
-                {
+                if (i < 0) {
                     break;
                 }
             }
         }
-
 
 
         for (int j = keyNum; j < randomList.size(); j++) {
@@ -95,20 +90,19 @@ public class LoadData {
     }
 
     public boolean load() {
-        for (int current=0;current<randomLists.size();current++) {
-            System.out.println("开始导入第"+String.valueOf(current)+"张表");
-            int tableLineNum=1;
+        for (int current = 0; current < randomLists.size(); current++) {
+            System.out.println("开始导入第" + String.valueOf(current) + "张表");
+            int tableLineNum = 1;
 
-            ArrayList<RandomValue> randomList=randomLists.get(current);
-            for(int i=0;i<keyNums.get(current);i++)
-            {
-                tableLineNum*=((RandomInt)randomList.get(i)).getRange();
+            ArrayList<RandomValue> randomList = randomLists.get(current);
+            for (int i = 0; i < keyNums.get(current); i++) {
+                tableLineNum *= ((RandomInt) randomList.get(i)).getRange();
             }
-            while (tableLineNum>0) {
+            while (tableLineNum > 0) {
                 StringBuilder sql = new StringBuilder("INSERT INTO t" + String.valueOf(current) +
                         " values ");
                 int count = 0;
-                while (count< min(tableLineNum,100)) {
+                while (count < min(tableLineNum, 100)) {
                     count++;
                     String values = getValues(randomList, keyNums.get(current));
                     sql.append(values).append(',');
@@ -116,7 +110,7 @@ public class LoadData {
                 sql.deleteCharAt(sql.length() - 1);
                 sql.append(";");
                 mysqlConnector.excuteSql(sql.toString());
-                tableLineNum-=count;
+                tableLineNum -= count;
             }
         }
         return true;

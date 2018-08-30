@@ -49,23 +49,23 @@ class CreateTable {
                 foreignKeyNum -= refKeyNum;
             }
             trList.addNode(parent);
-            int level=trList.getLevel(tableIndex);
+            int level = trList.getLevel(tableIndex);
             //System.out.println(String.valueOf(tableIndex)+" "+String.valueOf(level));
-            int tableLineRate=rgta.tableLineRate(level);
+            int tableLineRate = rgta.tableLineRate(level);
             tables[tableIndex] = new TableTemplate("t" + String.valueOf(tableIndex), intNum,
                     rgta.decimalNum(),
                     rgta.charNum(),
                     rgta.dateNum(),
                     rgta.varcharNum(),
                     rgta.floatNum(),
-                    keyNum, tfs,tableLineRate
+                    keyNum, tfs, tableLineRate
             );
 
         }
 
     }
-    TableTemplate[] getTables()
-    {
+
+    TableTemplate[] getTables() {
         return tables;
     }
 

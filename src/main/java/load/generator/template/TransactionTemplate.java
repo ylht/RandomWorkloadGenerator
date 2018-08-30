@@ -28,8 +28,11 @@ public class TransactionTemplate {
         ConditionTemplate ct = new ConditionTemplate();
         selectTemplates = new String[randomSqlAtt.selectNum()];
         for (int i = 0; i < selectTemplates.length; i++) {
-            int randomTableIndex = randomSqlAtt.randomTable(tables.length);
-            TableTemplate randomTable = tables[randomTableIndex];
+            TableTemplate randomTable;
+            do {
+                int randomTableIndex = randomSqlAtt.randomTable(tables.length);
+                randomTable = tables[randomTableIndex];
+            }while (randomTable.getTableAttNum()==randomTable.getKeyNum());
             int[] selectRangeNum = randomSqlAtt.selectAttributesNum(randomTable.getAttNums());
             Integer[] randomSelectAtt = getSelectAttIndex(randomTable, selectRangeNum);
             if (randomSelectAtt.length == 0) {
@@ -52,8 +55,11 @@ public class TransactionTemplate {
         }
         updateTemplates = new String[randomSqlAtt.updateNum()];
         for (int i = 0; i < updateTemplates.length; i++) {
-            int randomTableIndex = randomSqlAtt.randomTable(tables.length);
-            TableTemplate randomTable = tables[randomTableIndex];
+            TableTemplate randomTable;
+            do {
+                int randomTableIndex = randomSqlAtt.randomTable(tables.length);
+                randomTable = tables[randomTableIndex];
+            }while (randomTable.getTableAttNum()==randomTable.getKeyNum());
             int[] updateRangeNum = randomSqlAtt.updateAttributesNum(randomTable.getAttNums());
             Integer[] updateAttIndex = getSelectAttIndex(randomTable, updateRangeNum);
             if (updateAttIndex.length == 0) {
@@ -209,13 +215,12 @@ public class TransactionTemplate {
         int[] allAtt = new int[tableAtt.length + 1];
 
         System.arraycopy(tableAtt, 0, allAtt, 1, allAtt.length - 1);
-
+        allAtt[0]=table.getKeyNum();
         for (int i = 1; i < allAtt.length; i++) {
             allAtt[i] += allAtt[i - 1];
         }
         allAtt[allAtt.length - 1] = table.getTableAttNum();
         ArrayList<Integer> result = new ArrayList<>();
-
         for (int i = 0; i < rangeNum.length; i++) {
             for (int j = 0; j < rangeNum[i]; j++) {
                 if (allAtt[i] + j >= allAtt[i + 1]) {
@@ -224,6 +229,7 @@ public class TransactionTemplate {
                 result.add(allAtt[i] + j);
             }
         }
+
         return result.toArray(new Integer[0]);
     }
 

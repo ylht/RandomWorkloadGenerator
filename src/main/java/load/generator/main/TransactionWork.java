@@ -5,6 +5,8 @@ import load.generator.template.TableTemplate;
 import load.generator.template.TransactionTemplate;
 import load.generator.utils.MultiThreadSql;
 
+import java.util.ArrayList;
+
 class TransactionWork {
 
     private TransactionTemplate[] tt = new TransactionTemplate[RandomGenerateSqlAttributesValue.tranNum()];
@@ -19,7 +21,11 @@ class TransactionWork {
         int index = 0;
         for (TransactionTemplate t : tt) {
             System.out.println(index++);
-            System.out.println(t.getSql());
+            ArrayList<String> sqls=t.getSql();
+            for(String sql:sqls)
+            {
+                System.out.println(sql);
+            }
         }
         Thread[] threads = new Thread[threadsNum];
         for (int i = 0; i < threadsNum; i++) {

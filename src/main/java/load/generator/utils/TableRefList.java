@@ -37,20 +37,17 @@ public class TableRefList {
         return false;
     }
 
-    public int getLevel(int index)
-    {
-        ArrayList<Integer>parents=listNodes.get(index).getParent();
-        int max=0;
-        for(Integer parent:parents)
-        {
-            int temp=listNodes.get(parent).getLevel();
-            if(temp>max)
-            {
-                max=temp;
+    public int getLevel(int index) {
+        ArrayList<Integer> parents = listNodes.get(index).getParent();
+        int max = 0;
+        for (Integer parent : parents) {
+            int temp = listNodes.get(parent).getLevel();
+            if (temp > max) {
+                max = temp;
             }
         }
-        listNodes.get(index).setLevel(max+1);
-        return max+1;
+        listNodes.get(index).setLevel(max + 1);
+        return max + 1;
     }
 
 
@@ -66,10 +63,8 @@ public class TableRefList {
         TreeNode node = new TreeNode(index);
         node.setParents(parent);
         for (Integer aParent : parent) {
-            listNodes.get(aParent).addChildren(index);
             listNodes.get(aParent).setCanRef(true);
         }
         listNodes.add(node);
     }
-
 }

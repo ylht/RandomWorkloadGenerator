@@ -1,7 +1,7 @@
 package load.generator.generator.random;
 
-import load.generator.template.CharTemplate;
 import load.generator.generator.RandomGenerator;
+import load.generator.template.CharTemplate;
 
 public class RandomChar extends RandomValue {
     private int min;

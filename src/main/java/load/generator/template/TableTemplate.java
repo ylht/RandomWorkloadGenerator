@@ -24,13 +24,13 @@ public class TableTemplate {
                          int intNum, int doubleNum, int charNum, int dateNum,
                          int varCharNum, int floatNum,
                          int keyNum,
-                         ArrayList<TupleForeign> tableForeign,int tableLineRate) {
+                         ArrayList<TupleForeign> tableForeign, int tableLineRate) {
         int totalNum = intNum + charNum + doubleNum + dateNum + varCharNum + floatNum;
         this.tableName = tableName;
         this.totalNum = totalNum;
-        this.tableLineRate=tableLineRate;
+        this.tableLineRate = tableLineRate;
         this.keyNum = keyNum;
-        attNums[0] = intNum;
+        attNums[0] = intNum-keyNum;
         attNums[1] = doubleNum + floatNum;
         attNums[2] = charNum + varCharNum;
         attNums[3] = dateNum;
@@ -67,8 +67,8 @@ public class TableTemplate {
                 tuples.set(index++, refTuple);
             }
         }
-        TupleType temptype=tuples.get(0);
-        temptype.setMax((int)temptype.getMin()+tableLineRate);
+        TupleType temptype = tuples.get(0);
+        temptype.setMax((int) temptype.getMin() + tableLineRate);
 
 //        for (int i = keyNum - 1; i < totalNum; i++) {
 //            int randomIndex = i + (int) (Math.random() * (totalNum - i));
@@ -78,12 +78,11 @@ public class TableTemplate {
 //        }
     }
 
-    public String getTableName() {
+    String getTableName() {
         return tableName;
     }
 
-    public int getTableLineRate()
-    {
+    public int getTableLineRate() {
         return tableLineRate;
     }
 
@@ -91,11 +90,11 @@ public class TableTemplate {
         return tuples;
     }
 
-    public int[] getAttNums() {
+    int[] getAttNums() {
         return attNums;
     }
 
-    public int getTableAttNum() {
+    int getTableAttNum() {
         return totalNum;
     }
 
@@ -103,7 +102,7 @@ public class TableTemplate {
         return keyNum;
     }
 
-    public int getSecondIndexNum() {
+    int getSecondIndexNum() {
         return totalNum - keyNum;
     }
 

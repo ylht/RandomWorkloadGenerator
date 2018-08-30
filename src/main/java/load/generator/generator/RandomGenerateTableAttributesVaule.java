@@ -55,7 +55,7 @@ public class RandomGenerateTableAttributesVaule {
     }
 
     public int keyNum(int tableIntNum, int tableIndex) {
-        return min(min(tableIntNum, tableIndex+1), 4);
+        return min(min(tableIntNum, tableIndex + 1), 4);
     }
 
     public int foreignKeyNum(int keyNum, int tableIntNum) {
@@ -70,8 +70,7 @@ public class RandomGenerateTableAttributesVaule {
         }
     }
 
-    public int tableLineRate(int level)
-    {
+    public int tableLineRate(int level) {
         return 5;
     }
 

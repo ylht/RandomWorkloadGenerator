@@ -18,18 +18,15 @@ public class RandomInt extends RandomValue {
     public boolean getNext() {
         current++;
         if (current >= max) {
-            current=min;
+            current = min;
             return false;
-        }
-        else
-        {
+        } else {
             return true;
         }
     }
 
-    public int getRange()
-    {
-        return max-min;
+    public int getRange() {
+        return max - min;
     }
 
     public String getKeyValue() {

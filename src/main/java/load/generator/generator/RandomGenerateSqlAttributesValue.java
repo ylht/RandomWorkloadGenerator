@@ -37,7 +37,7 @@ public class RandomGenerateSqlAttributesValue {
     }
 
     public int selectNum() {
-        return r.nextInt(3) + 2;
+        return r.nextInt(3) + 20;
     }
 
     public int randomTable(int totalNum) {
@@ -91,7 +91,7 @@ public class RandomGenerateSqlAttributesValue {
             }
 
             for (int i = 0; i < 4; i++) {
-                total += attNum[0];
+                total += attNum[i];
             }
         } while (total == 0);
         return attNum;
@@ -103,7 +103,7 @@ public class RandomGenerateSqlAttributesValue {
 
 
     public int updateNum() {
-        return r.nextInt(1) + 2;
+        return r.nextInt(1) + 20;
     }
 
     public int[] updateAttributesNum(int[] maxNum) {
@@ -142,7 +142,7 @@ public class RandomGenerateSqlAttributesValue {
             }
 
             for (int i = 0; i < 4; i++) {
-                total += attNum[0];
+                total += attNum[i];
             }
         } while (total == 0);
         return attNum;
