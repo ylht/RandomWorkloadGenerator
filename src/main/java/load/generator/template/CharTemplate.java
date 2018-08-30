@@ -1,6 +1,6 @@
 package load.generator.template;
 
-import load.generator.utils.RandomGenerator;
+import load.generator.generator.RandomGenerator;
 
 import java.util.ArrayList;
 import java.util.Random;

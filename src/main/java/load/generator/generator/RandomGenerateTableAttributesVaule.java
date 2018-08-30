@@ -50,15 +50,15 @@ public class RandomGenerateTableAttributesVaule {
     /**
      * @return 在本次负载中需要随机的表格数量
      */
-    int tableNum() {
+    public int tableNum() {
         return r.nextInt(TABLE_MAX_NUM - TABLE_MIN_NUM) + TABLE_MIN_NUM;
     }
 
-    int keyNum(int tableIntNum, int tableIndex) {
+    public int keyNum(int tableIntNum, int tableIndex) {
         return min(min(tableIntNum, tableIndex+1), 4);
     }
 
-    int foreignKeyNum(int keyNum, int tableIntNum) {
+    public int foreignKeyNum(int keyNum, int tableIntNum) {
         if (keyNum > 1) {
             if (tableIntNum > keyNum) {
                 return r.nextInt(tableIntNum - keyNum) + keyNum - 1;
@@ -70,10 +70,15 @@ public class RandomGenerateTableAttributesVaule {
         }
     }
 
+    public int tableLineRate(int level)
+    {
+        return 5;
+    }
+
     /**
      * @return 在本张表中，int属性的数量
      */
-    int intNum() {
+    public int intNum() {
         double temp = r.nextDouble();
         if (temp < TABLE_INT_NUM1_TO5_PER) {
             return r.nextInt(5) + 1;
@@ -93,7 +98,7 @@ public class RandomGenerateTableAttributesVaule {
     /**
      * @return 在本张表中，double属性的数量
      */
-    int decimalNum() {
+    public int decimalNum() {
         double t = r.nextDouble() * 100;
         if (t < 69.23) {
             return 0;
@@ -102,7 +107,7 @@ public class RandomGenerateTableAttributesVaule {
         }
     }
 
-    int floatNum() {
+    public int floatNum() {
         double t = r.nextDouble() * 100;
         if (t < 65.38) {
             return 0;
@@ -116,7 +121,7 @@ public class RandomGenerateTableAttributesVaule {
     /**
      * @return 在本张表中，char属性的数量
      */
-    int charNum() {
+    public int charNum() {
         double t = r.nextDouble() * 100;
         if (t < 80.77) {
             return 0;
@@ -127,7 +132,7 @@ public class RandomGenerateTableAttributesVaule {
         }
     }
 
-    int varcharNum() {
+    public int varcharNum() {
         double t = r.nextDouble() * 100;
         if (t < 34.62) {
             return 0;
@@ -143,7 +148,7 @@ public class RandomGenerateTableAttributesVaule {
     /**
      * @return 在本张表中，date属性的数量
      */
-    int dateNum() {
+    public int dateNum() {
         double t = r.nextDouble() * 100;
         if (t < 76.92) {
             return 0;

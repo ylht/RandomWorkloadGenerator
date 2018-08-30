@@ -15,25 +15,29 @@ public class RandomInt extends RandomValue {
         this.current = min;
     }
 
-    public String getNext() {
-        if (current > max) {
-            current = min;
-            return String.valueOf(current);
+    public boolean getNext() {
+        current++;
+        if (current >= max) {
+            current=min;
+            return false;
         }
-        if (!getMin && current == min) {
-            getMin = true;
-            return String.valueOf(min);
+        else
+        {
+            return true;
         }
-        return String.valueOf(++current);
     }
 
-    public String getSameValue() {
-        getMin = true;
+    public int getRange()
+    {
+        return max-min;
+    }
+
+    public String getKeyValue() {
         return String.valueOf(current);
     }
 
     @Override
     public String getValue() {
-        return String.valueOf(r.nextInt(max - min + 1) + min);
+        return String.valueOf(r.nextInt(max - min) + min);
     }
 }

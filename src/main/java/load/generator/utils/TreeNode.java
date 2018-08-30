@@ -8,6 +8,16 @@ public class TreeNode {
     private ArrayList<Integer> children = new ArrayList<>();
     private boolean canRef = true;
 
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    private int level;
+
     public TreeNode(int value) {
         this.value = value;
     }

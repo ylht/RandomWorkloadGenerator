@@ -28,7 +28,7 @@
  * @date 2018.8.21
  */
 
-package load.generator.utils;
+package load.generator.generator;
 
 import java.util.HashSet;
 import java.util.Random;

@@ -10,6 +10,7 @@ public class TableRefList {
     private List<TreeNode> currentNodes = new LinkedList<>();
     private Random r = new Random();
 
+
     public int randomGetNode() {
         int result = -1;
         currentNodes.clear();
@@ -35,6 +36,23 @@ public class TableRefList {
         }
         return false;
     }
+
+    public int getLevel(int index)
+    {
+        ArrayList<Integer>parents=listNodes.get(index).getParent();
+        int max=0;
+        for(Integer parent:parents)
+        {
+            int temp=listNodes.get(parent).getLevel();
+            if(temp>max)
+            {
+                max=temp;
+            }
+        }
+        listNodes.get(index).setLevel(max+1);
+        return max+1;
+    }
+
 
     private void makeNotRef(int index) {
         listNodes.get(index).setCanRef(false);

@@ -1,7 +1,7 @@
 package load.generator.generator.random;
 
 import load.generator.template.CharTemplate;
-import load.generator.utils.RandomGenerator;
+import load.generator.generator.RandomGenerator;
 
 public class RandomChar extends RandomValue {
     private int min;
@@ -32,7 +32,7 @@ public class RandomChar extends RandomValue {
         if (cvt != null) {
             return cvt.getWord();
         } else if (ri != null) {
-            String t = String.valueOf(ri.getSameValue());
+            String t = String.valueOf(ri.getKeyValue());
             if (t.length() > max) {
                 return t.substring(0, t.length() - max);
             } else {
@@ -40,7 +40,7 @@ public class RandomChar extends RandomValue {
                 for (int i = 0; i < max - t.length(); i++) {
                     str.append('0');
                 }
-                return str.toString() + ri.getSameValue();
+                return str.toString() + ri.getKeyValue();
             }
         } else {
             if (forTransaction) {

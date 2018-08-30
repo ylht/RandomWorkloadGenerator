@@ -7,13 +7,15 @@ import load.generator.template.tuple.TupleType;
 import load.generator.utils.MysqlConnector;
 
 import java.util.ArrayList;
+import java.util.Random;
+
+import static java.lang.Float.min;
 
 public class LoadData {
     private ArrayList<ArrayList<RandomValue>> randomLists = new ArrayList<ArrayList<RandomValue>>();
     private ArrayList<Integer> keyNums = new ArrayList<Integer>();
-    private int[] temp = new int[200];
+    private ArrayList<Integer> tableLineNum=new ArrayList<>();
     private MysqlConnector mysqlConnector = new MysqlConnector();
-
     LoadData(TableTemplate[] tables) {
         for (TableTemplate table : tables) {
             ArrayList<TupleType> tt = table.getTuples();
@@ -56,31 +58,33 @@ public class LoadData {
             }
             randomLists.add(rv);
             keyNums.add(table.getKeyNum());
+
         }
     }
 
     private String getValues(ArrayList<RandomValue> randomList, int keyNum) {
         StringBuilder values = new StringBuilder("(");
-        int i;
-        for (i = 0; i < keyNum; i++) {
-            RandomInt ri = (RandomInt) (randomList.get(i));
-            String nv = ri.getNext();
-            values.append(nv).append(',');
-            if (temp[i] > Integer.valueOf(nv)) {
-                temp[i] = Integer.valueOf(nv);
-                if (i == keyNum - 1) {
-                    return null;
+        int i=keyNum-1;
+        boolean keyContinue=true;
+        for(int j=0;j<keyNum;j++)
+        {
+            values.append(((RandomInt)randomList.get(j)).getKeyValue()).append(',');
+        }
+
+        while (keyContinue)
+        {
+            keyContinue=!((RandomInt)randomList.get(i)).getNext();
+            if(keyContinue)
+            {
+                i--;
+                if(i<0)
+                {
+                    break;
                 }
-            } else {
-                temp[i++] = Integer.valueOf(nv);
-                break;
             }
         }
-        for (; i < keyNum; i++) {
-            String t = ((RandomInt) (randomList.get(i))).getSameValue();
-            temp[i] = Integer.valueOf(t);
-            values.append(t).append(',');
-        }
+
+
 
         for (int j = keyNum; j < randomList.size(); j++) {
             values.append(randomList.get(j).getValue()).append(',');
@@ -91,44 +95,28 @@ public class LoadData {
     }
 
     public boolean load() {
-        int current = 0;
-        for (ArrayList<RandomValue> randomList : randomLists) {
-            while (true) {
-                StringBuilder sql = new StringBuilder("INSERT INTO t" + String.valueOf(current) +
-                        " values");
-                int count = 1;
-                boolean continueExe = true;
-                while (true) {
-                    if (count++ > 100) {
-                        break;
-                    }
-                    String values = getValues(randomList, keyNums.get(current));
-                    if (values != null) {
-                        sql.append(values).append(',');
-                    } else {
-                        continueExe = false;
-                        if (sql.charAt(sql.length() - 1) != ',') {
-                            sql = null;
-                        } else {
-                            sql.deleteCharAt(sql.length() - 1);
-                            sql.append(";");
-                        }
-                        break;
-                    }
-                }
-                if (sql != null) {
-                    sql.deleteCharAt(sql.length() - 1);
-                    sql.append(";");
-                    mysqlConnector.excuteSql(sql.toString());
-                }
+        for (int current=0;current<randomLists.size();current++) {
+            System.out.println("开始导入第"+String.valueOf(current)+"张表");
+            int tableLineNum=1;
 
-                if (!continueExe) {
-                    break;
-                }
+            ArrayList<RandomValue> randomList=randomLists.get(current);
+            for(int i=0;i<keyNums.get(current);i++)
+            {
+                tableLineNum*=((RandomInt)randomList.get(i)).getRange();
             }
-            current++;
-            for (int j = 0; j < temp.length; j++) {
-                temp[j] = 0;
+            while (tableLineNum>0) {
+                StringBuilder sql = new StringBuilder("INSERT INTO t" + String.valueOf(current) +
+                        " values ");
+                int count = 0;
+                while (count< min(tableLineNum,100)) {
+                    count++;
+                    String values = getValues(randomList, keyNums.get(current));
+                    sql.append(values).append(',');
+                }
+                sql.deleteCharAt(sql.length() - 1);
+                sql.append(";");
+                mysqlConnector.excuteSql(sql.toString());
+                tableLineNum-=count;
             }
         }
         return true;

@@ -15,6 +15,7 @@ public class TableTemplate {
 
     private ArrayList<TupleForeign> tf;
     private int totalNum;
+    private int tableLineRate;
     private int keyNum;
     private int[] attNums = new int[4];
     private ArrayList<TupleType> tuples = new ArrayList<TupleType>();
@@ -23,10 +24,11 @@ public class TableTemplate {
                          int intNum, int doubleNum, int charNum, int dateNum,
                          int varCharNum, int floatNum,
                          int keyNum,
-                         ArrayList<TupleForeign> tableForeign) {
+                         ArrayList<TupleForeign> tableForeign,int tableLineRate) {
         int totalNum = intNum + charNum + doubleNum + dateNum + varCharNum + floatNum;
         this.tableName = tableName;
         this.totalNum = totalNum;
+        this.tableLineRate=tableLineRate;
         this.keyNum = keyNum;
         attNums[0] = intNum;
         attNums[1] = doubleNum + floatNum;
@@ -65,6 +67,8 @@ public class TableTemplate {
                 tuples.set(index++, refTuple);
             }
         }
+        TupleType temptype=tuples.get(0);
+        temptype.setMax((int)temptype.getMin()+tableLineRate);
 
 //        for (int i = keyNum - 1; i < totalNum; i++) {
 //            int randomIndex = i + (int) (Math.random() * (totalNum - i));
@@ -76,6 +80,11 @@ public class TableTemplate {
 
     public String getTableName() {
         return tableName;
+    }
+
+    public int getTableLineRate()
+    {
+        return tableLineRate;
     }
 
     public ArrayList<TupleType> getTuples() {
