@@ -49,6 +49,7 @@ public class MysqlConnector {
             for (int i = 0; i < val.size(); i++) {
                 pstmt.setObject(i + 1, val.get(i));
             }
+            System.out.println(pstmt);
             pstmt.execute();
         } catch (Exception e) {
             e.printStackTrace();

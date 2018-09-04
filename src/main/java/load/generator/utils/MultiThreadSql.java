@@ -1,16 +1,16 @@
 package load.generator.utils;
 
-import load.generator.template.TransactionTemplate;
+import load.generator.template.Transaction;
 
 import java.util.Random;
 
 public class MultiThreadSql extends Thread {
-    private TransactionTemplate[] tts;
+    private Transaction[] tts;
     private int runTimes;
     private int indexThread;
     private Random r = new Random();
 
-    public MultiThreadSql(int indexThread, TransactionTemplate[] tts, int runTimes) {
+    public MultiThreadSql(int indexThread, Transaction[] tts, int runTimes) {
         this.tts = tts.clone();
         this.runTimes = runTimes;
         this.indexThread = indexThread;
@@ -20,12 +20,12 @@ public class MultiThreadSql extends Thread {
     public void run() {
         int num = tts.length;
         for (int i = 0; i < runTimes; i++) {
-            int index = r.nextInt(num);
-            tts[index].executeSql();
             if (i % 100 == 0) {
                 System.out.println(String.valueOf(indexThread) + ',' + String.valueOf(i));
             }
-
+            int index = r.nextInt(num);
+            System.out.println(index);
+            tts[index].executeSql();
         }
     }
 }

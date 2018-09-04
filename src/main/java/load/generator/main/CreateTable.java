@@ -22,7 +22,7 @@ class CreateTable {
         int tableNum = rgta.tableNum();
         tables = new TableTemplate[tableNum];
         Random r = new Random();
-        TableRefList trList = new TableRefList();
+        TableRefList trList = TableRefList.getInstance();
         for (int tableIndex = 0; tableIndex < tableNum; tableIndex++) {
             int intNum = rgta.intNum();
             int keyNum = rgta.keyNum(intNum, tableIndex);

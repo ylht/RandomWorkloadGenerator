@@ -5,7 +5,7 @@ package load.generator.template;
  */
 public class ConditionTemplate {
     private String keyToSql(int[] keyNames, Boolean isRange) {
-        StringBuilder sql = new StringBuilder();
+        StringBuilder sql = new StringBuilder(" where ");
         String sqlMiddle = " = ? ";
         if (isRange) {
             sqlMiddle = "between ? and ?";
@@ -20,7 +20,7 @@ public class ConditionTemplate {
     }
 
     public String singleTable(String tableName) {
-        return String.format("from %s where ", tableName);
+        return String.format("from %s", tableName);
     }
 
     public String joinTable(String tableFirst, String tableSecond,

@@ -8,10 +8,9 @@ public class RandomChar extends RandomValue {
     private int max;
     private boolean forTransaction;
     private CharTemplate cvt;
-    private RandomInt ri;
     private RandomGenerator rg = new RandomGenerator(20);
 
-    public RandomChar(CharTemplate cvt, boolean forTransaction) {
+    public RandomChar(CharTemplate cvt) {
         this.cvt = cvt;
     }
 
@@ -21,27 +20,10 @@ public class RandomChar extends RandomValue {
         this.forTransaction = forTransaction;
     }
 
-    public RandomChar(int len, RandomInt ri) {
-        this.ri = ri;
-        this.max = len;
-    }
-
-
     @Override
     public String getValue() {
         if (cvt != null) {
             return cvt.getWord();
-        } else if (ri != null) {
-            String t = String.valueOf(ri.getKeyValue());
-            if (t.length() > max) {
-                return t.substring(0, t.length() - max);
-            } else {
-                StringBuilder str = new StringBuilder();
-                for (int i = 0; i < max - t.length(); i++) {
-                    str.append('0');
-                }
-                return str.toString() + ri.getKeyValue();
-            }
         } else {
             if (forTransaction) {
                 return rg.astring(min, max);

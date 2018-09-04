@@ -30,7 +30,7 @@ public class TableTemplate {
         this.totalNum = totalNum;
         this.tableLineRate = tableLineRate;
         this.keyNum = keyNum;
-        attNums[0] = intNum-keyNum;
+        attNums[0] = intNum - keyNum;
         attNums[1] = doubleNum + floatNum;
         attNums[2] = charNum + varCharNum;
         attNums[3] = dateNum;
@@ -52,10 +52,10 @@ public class TableTemplate {
                     RandomGenerateTableAttributesVaule.tupleDoubleRange()));
         }
         for (int i = 0; i < charNum; i++) {
-            tuples.add(new TupleChar(false, false));
+            tuples.add(new TupleChar(false, 0));
         }
         for (int i = 0; i < varCharNum; i++) {
-            tuples.add(new TupleChar(true, false));
+            tuples.add(new TupleChar(true, 0));
         }
         for (int i = 0; i < dateNum; i++) {
             tuples.add(new TupleDate());

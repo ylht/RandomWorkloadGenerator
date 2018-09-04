@@ -5,6 +5,7 @@ import java.util.ArrayList;
 class TreeNode {
     private int value;
     private ArrayList<Integer> parents;
+    private ArrayList<Integer> children=new ArrayList<>();
     private boolean canRef = true;
     private int level;
 
@@ -30,6 +31,22 @@ class TreeNode {
 
     ArrayList<Integer> getParent() {
         return parents;
+    }
+
+    boolean hasChildren()
+    {
+        if(children.size()>0)
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    void addChild(int childIndex)
+    {
+        children.add(childIndex);
     }
 
     boolean isCanRef() {

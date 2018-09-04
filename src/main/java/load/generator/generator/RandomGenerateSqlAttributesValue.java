@@ -2,6 +2,7 @@ package load.generator.generator;
 
 import java.util.Random;
 
+import static java.lang.Math.max;
 import static java.lang.Math.min;
 
 /**
@@ -37,10 +38,12 @@ public class RandomGenerateSqlAttributesValue {
     }
 
     public int selectNum() {
-        return r.nextInt(3) + 20;
+        return 0;
+        //return r.nextInt(3) + 20;
     }
 
     public int randomTable(int totalNum) {
+
         return r.nextInt(totalNum);
     }
 
@@ -65,11 +68,11 @@ public class RandomGenerateSqlAttributesValue {
             if (t < SELECT_DOUBLE_NUM0_PER) {
                 attNum[1] = 0;
             } else if (t < SELECT_DOUBLE_NUM1_PER) {
-                attNum[1] = min(attNum[1], 1);
+                attNum[1] = min(maxNum[1], 1);
             } else if (t < SELECT_DOUBLE_NUM2_PER) {
-                attNum[1] = min(attNum[1], 2);
+                attNum[1] = min(maxNum[1], 2);
             } else if (t < SELECT_DOUBLE_NUM4_PER) {
-                attNum[1] = min(attNum[1], 4);
+                attNum[1] = min(maxNum[1], 4);
             }
             t = r.nextDouble();
             if (t < SELECT_CHAR_NUM0_PER) {
@@ -103,7 +106,8 @@ public class RandomGenerateSqlAttributesValue {
 
 
     public int updateNum() {
-        return r.nextInt(1) + 20;
+        return 0;
+        //return r.nextInt(1) + 1;
     }
 
     public int[] updateAttributesNum(int[] maxNum) {
@@ -164,12 +168,12 @@ public class RandomGenerateSqlAttributesValue {
         return 0;
     }
 
-    public int insertAttributesNum(int maxNum) {
-        return r.nextInt(min(maxNum, 5));
+    public int[] insertAttributesNum(int[] maxNum) {
+        return maxNum;
     }
 
     public int deleteNum() {
-        return 0;
+        return 5;
     }
 
 }

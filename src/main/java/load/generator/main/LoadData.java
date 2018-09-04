@@ -4,16 +4,17 @@ import load.generator.generator.random.*;
 import load.generator.template.TableTemplate;
 import load.generator.template.tuple.TupleChar;
 import load.generator.template.tuple.TupleType;
+import load.generator.utils.KeyValue;
 import load.generator.utils.MysqlConnector;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicIntegerArray;
 
 import static java.lang.Float.min;
 
 public class LoadData {
     private ArrayList<ArrayList<RandomValue>> randomLists = new ArrayList<ArrayList<RandomValue>>();
     private ArrayList<Integer> keyNums = new ArrayList<Integer>();
-    private ArrayList<Integer> tableLineNum = new ArrayList<>();
     private MysqlConnector mysqlConnector = new MysqlConnector();
 
     LoadData(TableTemplate[] tables) {
@@ -34,13 +35,10 @@ public class LoadData {
                         int l = chart.getCharType();
                         switch (l) {
                             case 0:
-                                temprv = new RandomChar((int) t.getMax(), (RandomInt) rv.get(0));
-                                break;
-                            case 1:
                                 temprv = new RandomChar((int) t.getMin(), (int) t.getMax(), false);
                                 break;
-                            case 2:
-                                temprv = new RandomChar(chart.getcT(), false);
+                            case 1:
+                                temprv = new RandomChar(chart.getcT());
                                 break;
                             default:
                                 System.out.println("没有匹配到应生成的随机数据类型");
@@ -58,29 +56,15 @@ public class LoadData {
             }
             randomLists.add(rv);
             keyNums.add(table.getKeyNum());
-
         }
     }
 
-    private String getValues(ArrayList<RandomValue> randomList, int keyNum) {
+    private String getValues(ArrayList<RandomValue> randomList, AtomicIntegerArray keyValues) {
+        int keyNum=keyValues.length();
         StringBuilder values = new StringBuilder("(");
-        int i = keyNum - 1;
-        boolean keyContinue = true;
         for (int j = 0; j < keyNum; j++) {
-            values.append(((RandomInt) randomList.get(j)).getKeyValue()).append(',');
+            values.append(keyValues.get(j)).append(',');
         }
-
-        while (keyContinue) {
-            keyContinue = !((RandomInt) randomList.get(i)).getNext();
-            if (keyContinue) {
-                i--;
-                if (i < 0) {
-                    break;
-                }
-            }
-        }
-
-
         for (int j = keyNum; j < randomList.size(); j++) {
             values.append(randomList.get(j).getValue()).append(',');
         }
@@ -95,16 +79,18 @@ public class LoadData {
             int tableLineNum = 1;
 
             ArrayList<RandomValue> randomList = randomLists.get(current);
-            for (int i = 0; i < keyNums.get(current); i++) {
-                tableLineNum *= ((RandomInt) randomList.get(i)).getRange();
-            }
+            KeyValue keys=new KeyValue(randomList.subList(0,keyNums.get(current)));
+
+            tableLineNum *= keys.getLines();
+
             while (tableLineNum > 0) {
                 StringBuilder sql = new StringBuilder("INSERT INTO t" + String.valueOf(current) +
                         " values ");
                 int count = 0;
                 while (count < min(tableLineNum, 100)) {
                     count++;
-                    String values = getValues(randomList, keyNums.get(current));
+                    AtomicIntegerArray keyVaules=keys.getInsertValue();
+                    String values = getValues(randomList, keyVaules);
                     sql.append(values).append(',');
                 }
                 sql.deleteCharAt(sql.length() - 1);

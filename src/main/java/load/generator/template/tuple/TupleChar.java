@@ -17,25 +17,26 @@ public class TupleChar extends TupleType {
     private CharTemplate cT;
     private boolean isVarChar;
 
-    public TupleChar(boolean isVarChar, boolean getVauleByInt) {
+    public TupleChar(boolean isVarChar) {
         super("char");
         this.isVarChar = isVarChar;
-        if (getVauleByInt) {
-            cvt = charValueType.transFromInt;
-            charNum = 10;
-        } else {
-            cvt = charValueType.rangeOfLength;
-            RandomGenerateTableAttributesVaule rgta = RandomGenerateTableAttributesVaule.getInstance();
-            charNum = rgta.tupleCharNum();
-        }
+
     }
 
     public TupleChar(boolean isVarChar, int num) {
         super("char");
         this.isVarChar = isVarChar;
-        cvt = charValueType.choiceFromTemplate;
-        cT = new CharTemplate((int) (Math.log(num) / Math.log(6)) + 1, 6);
-        charNum = 24;
+        if(num==0)
+        {
+            cvt = charValueType.rangeOfLength;
+            RandomGenerateTableAttributesVaule rgta = RandomGenerateTableAttributesVaule.getInstance();
+            charNum = rgta.tupleCharNum();
+        }
+        else {
+            cvt = charValueType.choiceFromTemplate;
+            cT = new CharTemplate((int) (Math.log(num) / Math.log(6)) + 1, 6);
+            charNum = 24;
+        }
     }
 
     public CharTemplate getcT() {
@@ -76,8 +77,6 @@ public class TupleChar extends TupleType {
      */
 
     private enum charValueType {
-        //转换int为char
-        transFromInt,
         //根据特定的长度随机char
         rangeOfLength,
         //在模版库中选择
