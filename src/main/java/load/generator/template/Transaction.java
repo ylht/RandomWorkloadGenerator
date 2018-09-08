@@ -8,17 +8,19 @@ import load.generator.utils.KeyValue;
 import load.generator.utils.MysqlConnector;
 import load.generator.utils.TableRefList;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class Transaction {
-    private MysqlConnector msc = new MysqlConnector();
-    private ArrayList<TransactionSql> transactionSqls=new ArrayList<>();
-
-
+    private ArrayList<TransactionSql> transactionSqls = new ArrayList<>();
+    private Connection conn = (new MysqlConnector()).getConn();
     private RandomGenerateSqlAttributesValue randomSqlAtt = new RandomGenerateSqlAttributesValue();
-    
+
     public Transaction(TableTemplate[] tables) {
+
         //获取sql模板
         SqlTemplate st = new SqlTemplate();
 
@@ -26,11 +28,10 @@ public class Transaction {
         ConditionTemplate ct = new ConditionTemplate();
 
         //获取全部表的keys
-        KeyValue[] tableKeys=new KeyValue[tables.length];
-        for(int i=0;i<tables.length;i++)
-        {
+        KeyValue[] tableKeys = new KeyValue[tables.length];
+        for (int i = 0; i < tables.length; i++) {
             ArrayList<TupleType> tuples = tables[i].getTuples();
-            tableKeys[i]=new KeyValue(tuples.subList(0,tables[i].getKeyNum()),true);
+            tableKeys[i] = new KeyValue(tuples.subList(0, tables[i].getKeyNum()), true);
         }
         TransactionSql.setTableKeys(tableKeys);
 
@@ -57,12 +58,14 @@ public class Transaction {
                     ct.singleTable(randomTable.getTableName())
                     + ct.singleCondition(conditionAttIndex);
 
-            transactionSqls.add(new TransactionSql(selectTemplate,null,
+
+            transactionSqls.add(new TransactionSql(
+                    getPstmt(selectTemplate), null,
                     randomTableIndex, TransactionSql.sqlTypes.SELECT));
         }
 
         //生成update模板
-        int updateNum=  randomSqlAtt.updateNum();
+        int updateNum = randomSqlAtt.updateNum();
         for (int i = 0; i < updateNum; i++) {
             //获取进行update的table，如果表中只有主键则重新随机
             TableTemplate randomTable;
@@ -80,20 +83,21 @@ public class Transaction {
             int[] conditionAttIndex = getConditionAttIndex(randomTable.getKeyNum(), true);
 
             //拼接update模板
-            String  updateTemplate = st.updateTemplate(randomTable.getTableName(), updateAttIndex)
+            String updateTemplate = st.updateTemplate(randomTable.getTableName(), updateAttIndex)
                     + ct.singleCondition(conditionAttIndex);
 
             //获取update的值的randomvalue
             RandomValue[] updateRandom =
-                    getNotKeyRandomValue(randomTable.getTuples(),updateAttIndex) ;
+                    getNotKeyRandomValue(randomTable.getTuples(), updateAttIndex);
 
-            transactionSqls.add(new TransactionSql(updateTemplate,updateRandom,
+            transactionSqls.add(new TransactionSql(
+                    getPstmt(updateTemplate), updateRandom,
                     randomTableIndex, TransactionSql.sqlTypes.UPDATE));
         }
 
         //获取可以供给delete和insert的表格，主要是一定要不存在其他的表格引用，否则会出现外键约束
-        ArrayList<Integer> deleteAndInsertTableIndex= TableRefList.getInstance().getLastLevelIndex();
-        int deleteAndInsertTableNum=deleteAndInsertTableIndex.size();
+        ArrayList<Integer> deleteAndInsertTableIndex = TableRefList.getInstance().getLastLevelIndex();
+        int deleteAndInsertTableNum = deleteAndInsertTableIndex.size();
 
         //生成delete模板
         int deleteNum = randomSqlAtt.deleteNum();
@@ -104,14 +108,15 @@ public class Transaction {
             TableTemplate randomTable = tables[randomTableIndex];
 
             //获取condition上的属性
-            int[] conditionAttIndex = getConditionAttIndex(randomTable.getKeyNum(),true);
+            int[] conditionAttIndex = getConditionAttIndex(randomTable.getKeyNum(), true);
 
             //拼接delete模板
             String deleteTemplate = st.deleteTemplate() +
                     ct.singleTable(randomTable.getTableName()) +
                     ct.singleCondition(conditionAttIndex);
 
-            transactionSqls.add(new TransactionSql(deleteTemplate,null,
+            transactionSqls.add(new TransactionSql(
+                    getPstmt(deleteTemplate), null,
                     randomTableIndex, TransactionSql.sqlTypes.DELETE));
         }
 
@@ -133,20 +138,22 @@ public class Transaction {
 
             //insert的randomValue
             RandomValue[] insertRandom =
-                    getNotKeyRandomValue(randomTable.getTuples(),insertAttIndex);
+                    getNotKeyRandomValue(randomTable.getTuples(), insertAttIndex);
 
-            transactionSqls.add(new TransactionSql(insertTemplate,insertRandom,
+            transactionSqls.add(new TransactionSql(
+                    getPstmt(insertTemplate), insertRandom,
                     randomTableIndex, TransactionSql.sqlTypes.INSERT));
         }
+
+        Collections.shuffle(transactionSqls);
     }
 
-    private RandomValue[] getNotKeyRandomValue(ArrayList<TupleType> tuples ,Integer[] loc)
-    {
-        RandomValue[] result=new RandomValue[loc.length];
+    private RandomValue[] getNotKeyRandomValue(ArrayList<TupleType> tuples, Integer[] loc) {
+        RandomValue[] result = new RandomValue[loc.length];
         for (int j = 0; j < loc.length; j++) {
 
-                TupleType tuple = tuples.get(loc[j]);
-                result[j] = getRandomValue(tuple);
+            TupleType tuple = tuples.get(loc[j]);
+            result[j] = getRandomValue(tuple);
         }
         return result;
     }
@@ -185,25 +192,39 @@ public class Transaction {
         return temprv;
     }
 
-    public ArrayList<String>getSql()
-    {
-        ArrayList<String> result=new ArrayList<>();
-        for (TransactionSql transactionSql : transactionSqls) {
-            result.add(transactionSql.getSqlTemplate());
+    private PreparedStatement getPstmt(String sql) {
+        try {
+            return conn.prepareStatement(sql);
+        }catch (SQLException e) {
+            e.printStackTrace();
+            return null;
         }
-        return result;
     }
 
     public void executeSql() {
-        for (TransactionSql transactionSql : transactionSqls) {
-            msc.excuteSql(transactionSql.getSqlTemplate(),
-                    transactionSql.getSqlValues());
+        try {
+            for (TransactionSql transactionSql : transactionSqls) {
+                ArrayList<String> sv = transactionSql.getSqlValues();
+                PreparedStatement ps = transactionSql.getPstmt();
+                for (int i = 0; i < sv.size(); i++) {
+                    ps.setObject(i + 1, sv.get(i));
+                }
+                ps.execute();
+            }
+            conn.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            try {
+                conn.rollback();//只要有一个sql语句出现错误，则将事务回滚
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 
     private int[] getConditionAttIndex(int keyNum, boolean allKey) {
         int conditionKeyNum = randomSqlAtt.conditionKeyNum(keyNum, allKey);
-        ArrayList<Integer> randomKeyIndex = getRandomList(0, keyNum,allKey);
+        ArrayList<Integer> randomKeyIndex = getRandomList(0, keyNum, allKey);
         int[] result = new int[conditionKeyNum];
         for (int i = 0; i < conditionKeyNum; i++) {
             result[i] = randomKeyIndex.get(i);
@@ -211,13 +232,12 @@ public class Transaction {
         return result;
     }
 
-    private ArrayList<Integer> getRandomList(int begin, int end,boolean allkey) {
+    private ArrayList<Integer> getRandomList(int begin, int end, boolean allkey) {
         var randomIndex = new ArrayList<Integer>();
         for (int i = begin; i < end; i++) {
             randomIndex.add(i);
         }
-        if(!allkey)
-        {
+        if (!allkey) {
             Collections.shuffle(randomIndex);
         }
         return randomIndex;

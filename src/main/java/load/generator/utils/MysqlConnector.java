@@ -2,9 +2,8 @@ package load.generator.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 
 public class MysqlConnector {
@@ -43,18 +42,13 @@ public class MysqlConnector {
         }
     }
 
-    public void excuteSql(String sql, ArrayList<String> val) {
+    public Connection getConn() {
         try {
-            PreparedStatement pstmt = conn.prepareStatement(sql);
-            for (int i = 0; i < val.size(); i++) {
-                pstmt.setObject(i + 1, val.get(i));
-            }
-            System.out.println(pstmt);
-            pstmt.execute();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println(sql);
+            conn.setAutoCommit(false);
+        } catch (SQLException se) {
+            System.out.println(se.getErrorCode());
             System.exit(-1);
         }
+        return conn;
     }
 }

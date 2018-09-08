@@ -20,7 +20,13 @@
 
 ## table数据
 
-初始统计数据分别为：表的主键数量，外键数量，各个的属性的数量，其中包括int，decimal，timestamp，char，varchar，float，text，total，key，foreign key 。数据统计之后分析了table的tuple总数量概率分布，和具体的属性数量的概率分布。
+初始统计数据分别为：表的主键数量，外键的数量，各个的属性的数量，其中统计的属性包括int，decimal，timestamp，char，varchar，float 。数据统计之后分析了table的tuple总数量概率分布，和具体的属性数量的概率分布。分析结果如下：
+
+![image-20180904213539372](https://ws1.sinaimg.cn/large/006tNbRwly1fuxu5ciwuxj30p80smdjl.jpg)
+
+除了属性的数量信息，还统计了属性的一些内容信息，比如varchar和char的区间长度，decimal整数位和小数位的区别，最后统计了下对于所有的table来说每个属性的范围值
+
+![image-20180904213700763](https://ws3.sinaimg.cn/large/006tNbRwly1fuxu51rc58j30pm0v8jvm.jpg)
 
 ## sql数据
 

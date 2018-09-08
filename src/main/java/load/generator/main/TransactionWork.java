@@ -18,14 +18,6 @@ class TransactionWork {
     }
 
     void run(int threadsNum, int runTimes) {
-        int index = 0;
-        for (Transaction t : tt) {
-            System.out.println(index++);
-            ArrayList<String> sqls = t.getSql();
-            for (String sql : sqls) {
-                System.out.println(sql);
-            }
-        }
         Thread[] threads = new Thread[threadsNum];
         for (int i = 0; i < threadsNum; i++) {
             threads[i] = new MultiThreadSql(i, tt, runTimes);

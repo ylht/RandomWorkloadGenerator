@@ -13,7 +13,6 @@ public class TupleChar extends TupleType {
     private int min = 1;
     private charValueType cvt;
 
-    ;
     private CharTemplate cT;
     private boolean isVarChar;
 
@@ -26,13 +25,11 @@ public class TupleChar extends TupleType {
     public TupleChar(boolean isVarChar, int num) {
         super("char");
         this.isVarChar = isVarChar;
-        if(num==0)
-        {
+        if (num == 0) {
             cvt = charValueType.rangeOfLength;
             RandomGenerateTableAttributesVaule rgta = RandomGenerateTableAttributesVaule.getInstance();
             charNum = rgta.tupleCharNum();
-        }
-        else {
+        } else {
             cvt = charValueType.choiceFromTemplate;
             cT = new CharTemplate((int) (Math.log(num) / Math.log(6)) + 1, 6);
             charNum = 24;

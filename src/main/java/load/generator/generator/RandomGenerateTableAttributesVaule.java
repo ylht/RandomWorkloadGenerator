@@ -1,5 +1,10 @@
 package load.generator.generator;
 
+import load.generator.utils.LoadConfig;
+import org.dom4j.Document;
+import org.dom4j.Node;
+
+import java.util.List;
 import java.util.Random;
 
 import static java.lang.Math.min;
@@ -11,16 +16,8 @@ import static java.lang.Math.min;
  */
 public class RandomGenerateTableAttributesVaule {
 
-    private static final int TABLE_MIN_NUM = 3;
-
-    ;
-    private static final int TABLE_MAX_NUM = 10;
-    private static final double TABLE_INT_NUM1_TO5_PER = 0.69;
-    private static final double TABLE_INT_NUM6_TO10_PER = 0.73;
-    private static final double TABLE_INT_NUM11_TO20_PER = 0.88;
-    private static final double TABLE_INT_NUM21_TO30_PER = 0.92;
-    private static final double TABLE_INT_NUM31_TO40_PER = 1;
     private static RandomGenerateTableAttributesVaule instance = new RandomGenerateTableAttributesVaule();
+    private static Document dc = LoadConfig.getConfig();
     private static Random r = new Random();
 
     private RandomGenerateTableAttributesVaule() {
@@ -47,13 +44,25 @@ public class RandomGenerateTableAttributesVaule {
         return r.nextDouble() * 10000 + 5000;
     }
 
+    public static void main(String[] args) {
+        RandomGenerateTableAttributesVaule rgsav = new RandomGenerateTableAttributesVaule();
+        System.out.println(rgsav.tupleDoubleIntNum());
+        System.out.println(rgsav.tupleDoublePointNum());
+    }
+
     /**
      * @return 在本次负载中需要随机的表格数量
      */
     public int tableNum() {
-        return r.nextInt(TABLE_MAX_NUM - TABLE_MIN_NUM) + TABLE_MIN_NUM;
+        Node tableNum = dc.selectSingleNode("//generator/table/tableNum");
+        int maxnum = Integer.valueOf(tableNum.valueOf("max"));
+        int minnum = Integer.valueOf(tableNum.valueOf("min"));
+        return r.nextInt(maxnum - minnum + 1) + minnum;
     }
 
+    /**
+     * @return 在本次负载中需要随机的
+     */
     public int keyNum(int tableIntNum, int tableIndex) {
         return min(min(tableIntNum, tableIndex + 1), 4);
     }
@@ -78,146 +87,87 @@ public class RandomGenerateTableAttributesVaule {
      * @return 在本张表中，int属性的数量
      */
     public int intNum() {
-        double temp = r.nextDouble();
-        if (temp < TABLE_INT_NUM1_TO5_PER) {
-            return r.nextInt(5) + 1;
-        } else if (temp < TABLE_INT_NUM6_TO10_PER) {
-            return r.nextInt(5) + 6;
-        } else if (temp < TABLE_INT_NUM11_TO20_PER) {
-            return r.nextInt(10) + 11;
-        } else if (temp < TABLE_INT_NUM21_TO30_PER) {
-            return r.nextInt(10) + 21;
-        } else if (temp < TABLE_INT_NUM31_TO40_PER) {
-            return r.nextInt(10) + 31;
-        } else {
-            return -1;
+        return tupleNum("int");
+    }
+
+    private int tupleNum(String tupleType)
+    {
+        return getConfigNum("//generator/table/" + tupleType + "/num/range");
+    }
+
+    /**
+     * 返回对应类型tuple的数值
+     *
+     * @param location
+     * @return
+     */
+    private int getConfigNum(String location) {
+        List<Node> nodeList = dc.selectNodes(location);
+        double t = r.nextDouble();
+        double sum = 0;
+        int result = -1;
+        for (Node node : nodeList) {
+            sum += Double.valueOf(node.valueOf("probability"));
+            assert sum < 1.001;
+            if (t < sum) {
+                int max = Integer.valueOf(node.valueOf("max"));
+                int min = Integer.valueOf(node.valueOf("min"));
+                assert max >= min;
+                result = r.nextInt(max - min + 1) + min;
+                break;
+            }
         }
+        return result;
     }
 
     /**
      * @return 在本张表中，double属性的数量
      */
     public int decimalNum() {
-        double t = r.nextDouble() * 100;
-        if (t < 69.23) {
-            return 0;
-        } else {
-            return r.nextInt(5) + 1;
-        }
+        return tupleNum("decimal");
     }
 
     public int floatNum() {
-        double t = r.nextDouble() * 100;
-        if (t < 65.38) {
-            return 0;
-        } else if (t < 96.15) {
-            return 1;
-        } else {
-            return 3;
-        }
+        return tupleNum("float");
     }
 
     /**
      * @return 在本张表中，char属性的数量
      */
     public int charNum() {
-        double t = r.nextDouble() * 100;
-        if (t < 80.77) {
-            return 0;
-        } else if (t < 96.15) {
-            return 1 + r.nextInt(5);
-        } else {
-            return 6 + r.nextInt(5);
-        }
+        return tupleNum("char");
     }
 
     public int varcharNum() {
-        double t = r.nextDouble() * 100;
-        if (t < 34.62) {
-            return 0;
-        } else if (t < 92.31) {
-            return r.nextInt(5) + 1;
-        } else if (t < 96.15) {
-            return r.nextInt(5) + 6;
-        } else {
-            return r.nextInt(20) + 11;
-        }
+        return tupleNum("varchar");
     }
 
     /**
      * @return 在本张表中，date属性的数量
      */
     public int dateNum() {
-        double t = r.nextDouble() * 100;
-        if (t < 76.92) {
-            return 0;
-        } else if (t < 92.31) {
-            return 1;
-        } else {
-            return 2;
-        }
+        return tupleNum("date");
     }
 
-    //value
-
-    /**
-     * @return char属性在本tuple采用varchar或者char
-     */
     public int tupleCharNum() {
-        double t = r.nextDouble() * 100;
-        if (t < 24) {
-            return r.nextInt(4) + 2;
-        } else if (t < 38) {
-            return r.nextInt(5) + 6;
-        } else if (t < 43) {
-            return r.nextInt(5) + 16;
-        } else {
-            return r.nextInt(10) + 21;
-        }
+        return getConfigNum("//generator/table/char/value/length/range");
     }
 
-    int tupleVarCharNum() {
-        double t = r.nextDouble() * 100;
-        if (t < 16) {
-            return r.nextInt(4) + 2;
-        } else if (t < 59) {
-            return r.nextInt(5) + 6;
-        } else if (t < 65) {
-            return r.nextInt(5) + 11;
-        } else if (t < 86) {
-            return r.nextInt(5) + 16;
-        } else if (t < 94) {
-            return r.nextInt(60) + 21;
-        } else {
-            return r.nextInt(200) + 81;
-        }
+    public int tupleVarCharNum() {
+        return getConfigNum("//generator/table/varchar/value/length/range");
     }
 
     /**
      * @return double属性在本tuple中整数部分的位数
      */
     public int tupleDoubleIntNum() {
-        double t = r.nextDouble() * 100;
-        if (t < 63.16) {
-            return 4 + r.nextInt(2);
-        } else if (t < 78.95) {
-            return 6 + r.nextInt(5);
-        } else {
-            return 11 + r.nextInt(5);
-        }
+        return getConfigNum("//generator/table/decimal/value/int/range");
     }
 
     /**
      * @return double属性在本tuple中小数部分的位数
      */
     public int tupleDoublePointNum() {
-        double t = r.nextDouble() * 100;
-        if (t < 47.37) {
-            return 0;
-        } else if (t < 84.21) {
-            return 2;
-        } else {
-            return 4;
-        }
+        return getConfigNum("//generator/table/decimal/value/point/range");
     }
 }

@@ -24,12 +24,18 @@ class SqlTemplate {
         for (int i = 0; i < keyNum; i++) {
             sqlSelect.append("tv").append(String.valueOf(i)).append(",");
         }
-        sqlMiddle.append("%s");
+        sqlMiddle.append("?");
         for (int i = 1; i < insertAttributes.length + keyNum; i++) {
-            sqlMiddle.append(",%s");
+            sqlMiddle.append(",?");
         }
-        return String.format("insert into %s (%s%s) values (%s);", tableName,
-                sqlSelect, generateSelectListFromArray(insertAttributes), sqlMiddle);
+        if (insertAttributes.length == 0) {
+            return String.format("insert into %s (%s) values (%s);", tableName,
+                    sqlSelect, sqlMiddle);
+        } else {
+            return String.format("insert into %s (%s%s) values (%s);", tableName,
+                    sqlSelect, generateSelectListFromArray(insertAttributes), sqlMiddle);
+        }
+
     }
 
     private String generateModule(Integer[] values, Boolean forUpdate) {

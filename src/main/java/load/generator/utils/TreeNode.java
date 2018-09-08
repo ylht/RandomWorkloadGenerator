@@ -5,7 +5,7 @@ import java.util.ArrayList;
 class TreeNode {
     private int value;
     private ArrayList<Integer> parents;
-    private ArrayList<Integer> children=new ArrayList<>();
+    private ArrayList<Integer> children = new ArrayList<>();
     private boolean canRef = true;
     private int level;
 
@@ -33,19 +33,11 @@ class TreeNode {
         return parents;
     }
 
-    boolean hasChildren()
-    {
-        if(children.size()>0)
-        {
-            return true;
-        }
-        else{
-            return false;
-        }
+    boolean hasChildren() {
+        return children.size() > 0;
     }
 
-    void addChild(int childIndex)
-    {
+    void addChild(int childIndex) {
         children.add(childIndex);
     }
 

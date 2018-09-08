@@ -18,7 +18,9 @@ public class RandomInt extends RandomValue {
     }
 
 
-    public int getMin(){return min;}
+    public int getMin() {
+        return min;
+    }
 
     @Override
     public String getValue() {

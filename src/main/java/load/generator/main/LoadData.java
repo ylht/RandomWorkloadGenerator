@@ -60,7 +60,7 @@ public class LoadData {
     }
 
     private String getValues(ArrayList<RandomValue> randomList, AtomicIntegerArray keyValues) {
-        int keyNum=keyValues.length();
+        int keyNum = keyValues.length();
         StringBuilder values = new StringBuilder("(");
         for (int j = 0; j < keyNum; j++) {
             values.append(keyValues.get(j)).append(',');
@@ -79,7 +79,7 @@ public class LoadData {
             int tableLineNum = 1;
 
             ArrayList<RandomValue> randomList = randomLists.get(current);
-            KeyValue keys=new KeyValue(randomList.subList(0,keyNums.get(current)));
+            KeyValue keys = new KeyValue(randomList.subList(0, keyNums.get(current)));
 
             tableLineNum *= keys.getLines();
 
@@ -89,7 +89,7 @@ public class LoadData {
                 int count = 0;
                 while (count < min(tableLineNum, 100)) {
                     count++;
-                    AtomicIntegerArray keyVaules=keys.getInsertValue();
+                    AtomicIntegerArray keyVaules = keys.getDeleteValue();
                     String values = getValues(randomList, keyVaules);
                     sql.append(values).append(',');
                 }

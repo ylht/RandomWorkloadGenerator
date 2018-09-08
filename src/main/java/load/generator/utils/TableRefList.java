@@ -6,13 +6,15 @@ import java.util.List;
 import java.util.Random;
 
 public class TableRefList {
+    private static TableRefList instance = new TableRefList();
     private List<TreeNode> listNodes = new LinkedList<>();
     private List<TreeNode> currentNodes = new LinkedList<>();
     private Random r = new Random();
-    private static TableRefList instance=new TableRefList();
-    private TableRefList(){};
-    public static TableRefList getInstance()
-    {
+
+    private TableRefList() {
+    }
+
+    public static TableRefList getInstance() {
         return instance;
     }
 
@@ -52,18 +54,15 @@ public class TableRefList {
                 max = temp;
             }
         }
-        int currentLevel=max+1;
+        int currentLevel = max + 1;
         listNodes.get(index).setLevel(currentLevel);
         return currentLevel;
     }
 
-    public ArrayList<Integer> getLastLevelIndex()
-    {
-        ArrayList<Integer> result=new ArrayList<>();
-        for(TreeNode node:listNodes)
-        {
-            if(!node.hasChildren())
-            {
+    public ArrayList<Integer> getLastLevelIndex() {
+        ArrayList<Integer> result = new ArrayList<>();
+        for (TreeNode node : listNodes) {
+            if (!node.hasChildren()) {
                 result.add(node.getValue());
             }
         }
