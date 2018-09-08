@@ -33,7 +33,7 @@ public class RandomGenerateTableAttributesVaule {
     }
 
     public static int tupleIntRange() {
-        return r.nextInt(50) + 10;
+        return r.nextInt(50) + 1000;
     }
 
     public static double tupleDoubleMin() {
@@ -46,8 +46,8 @@ public class RandomGenerateTableAttributesVaule {
 
     public static void main(String[] args) {
         RandomGenerateTableAttributesVaule rgsav = new RandomGenerateTableAttributesVaule();
-        System.out.println(rgsav.tupleDoubleIntNum());
-        System.out.println(rgsav.tupleDoublePointNum());
+        System.out.println(rgsav.foreignKeyNum(5,20));
+        System.out.println(rgsav.keyNum(20,5));
     }
 
     /**
@@ -64,23 +64,25 @@ public class RandomGenerateTableAttributesVaule {
      * @return 在本次负载中需要随机的
      */
     public int keyNum(int tableIntNum, int tableIndex) {
-        return min(min(tableIntNum, tableIndex + 1), 4);
+        int keyNumMax=Integer.valueOf(dc.selectSingleNode("//generator/table/keyNum").valueOf("max"));
+        return min(min(tableIntNum, tableIndex + 1), keyNumMax);
     }
 
     public int foreignKeyNum(int keyNum, int tableIntNum) {
+        int result=0;
+        int foreignKeymax=Integer.valueOf(dc.selectSingleNode("//generator/table/foreignKeyNum").valueOf("max"));
         if (keyNum > 1) {
             if (tableIntNum > keyNum) {
-                return r.nextInt(tableIntNum - keyNum) + keyNum - 1;
+                result = r.nextInt(tableIntNum - keyNum) + keyNum - 1;
             } else {
-                return keyNum - 1;
+                result = keyNum - 1;
             }
-        } else {
-            return 0;
         }
+        return min(result,foreignKeymax);
     }
 
     public int tableLineRate(int level) {
-        return 5;
+        return 5*level;
     }
 
     /**

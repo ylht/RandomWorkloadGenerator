@@ -1,5 +1,10 @@
 package load.generator.generator;
 
+import load.generator.utils.LoadConfig;
+import org.dom4j.Document;
+import org.dom4j.Node;
+
+import java.util.List;
 import java.util.Random;
 
 import static java.lang.Math.min;
@@ -9,40 +14,21 @@ import static java.lang.Math.min;
  */
 
 public class RandomGenerateSqlAttributesValue {
-
-    private static final double SELECT_INT_NUM0_PER = 0.32;
-    private static final double SELECT_INT_NUM1_PER = 0.75;
-    private static final double SELECT_INT_NUM2_PER = 0.86;
-    private static final double SELECT_INT_NUM3_PER = 0.895;
-    private static final double SELECT_INT_NUM_MORE_THAN3_PER = 1;
-
-    private static final double SELECT_DOUBLE_NUM0_PER = 0.59;
-    private static final double SELECT_DOUBLE_NUM1_PER = 0.93;
-    private static final double SELECT_DOUBLE_NUM2_PER = 0.965;
-    private static final double SELECT_DOUBLE_NUM4_PER = 1;
-
-    private static final double SELECT_CHAR_NUM0_PER = 0.57;
-    private static final double SELECT_CHAR_NUM1_PER = 0.77;
-    private static final double SELECT_CHAR_NUM2_PER = 0.82;
-    private static final double SELECT_CHAR_NUM_MORE_THAN2_PER = 1;
-
-    private static final double SELECT_DATE_NUM0_PER = 0.91;
-    private static final double SELECT_DATE_NUM1_PER = 0.98;
-    private static final double SELECT_DATE_NUM2_PER = 1;
-
     private static Random r = new Random();
-
+    private static Document dc = LoadConfig.getConfig();
     public static int tranNum() {
-        return r.nextInt(5) + 4;
+        Node transaction=dc.selectSingleNode("//generator/transaction/num");
+        int max=Integer.valueOf(transaction.valueOf("max"));
+        int min=Integer.valueOf(transaction.valueOf("min"));
+        assert max>min;
+        return r.nextInt(max-min+1) + min;
     }
 
     public int selectNum() {
-        return 0;
-        //return r.nextInt(3) + 20;
+        return getSqlNum("select");
     }
 
     public int randomTable(int totalNum) {
-
         return r.nextInt(totalNum);
     }
 
@@ -50,52 +36,8 @@ public class RandomGenerateSqlAttributesValue {
     public int[] selectAttributesNum(int[] maxNum) {
         int[] attNum = new int[4];
         int total = 0;
-        do {
-            double t = r.nextDouble();
-            if (t < SELECT_INT_NUM0_PER) {
-                attNum[0] = 0;
-            } else if (t < SELECT_INT_NUM1_PER) {
-                attNum[0] = min(maxNum[0], 1);
-            } else if (t < SELECT_INT_NUM2_PER) {
-                attNum[0] = min(maxNum[0], 2);
-            } else if (t < SELECT_INT_NUM3_PER) {
-                attNum[0] = min(maxNum[0], 3);
-            } else if (t < SELECT_INT_NUM_MORE_THAN3_PER) {
-                attNum[0] = min(maxNum[0], r.nextInt(20) + 3);
-            }
-            t = r.nextDouble();
-            if (t < SELECT_DOUBLE_NUM0_PER) {
-                attNum[1] = 0;
-            } else if (t < SELECT_DOUBLE_NUM1_PER) {
-                attNum[1] = min(maxNum[1], 1);
-            } else if (t < SELECT_DOUBLE_NUM2_PER) {
-                attNum[1] = min(maxNum[1], 2);
-            } else if (t < SELECT_DOUBLE_NUM4_PER) {
-                attNum[1] = min(maxNum[1], 4);
-            }
-            t = r.nextDouble();
-            if (t < SELECT_CHAR_NUM0_PER) {
-                attNum[2] = 0;
-            } else if (t < SELECT_CHAR_NUM1_PER) {
-                attNum[2] = min(1, maxNum[2]);
-            } else if (t < SELECT_CHAR_NUM2_PER) {
-                attNum[2] = min(2, maxNum[2]);
-            } else if (t < SELECT_CHAR_NUM_MORE_THAN2_PER) {
-                attNum[2] = min(r.nextInt(10) + 3, maxNum[2]);
-            }
-            t = r.nextDouble();
-            if (t < SELECT_DATE_NUM0_PER) {
-                attNum[3] = 0;
-            } else if (t < SELECT_DATE_NUM1_PER) {
-                attNum[3] = min(maxNum[3], 1);
-            } else if (t < SELECT_DATE_NUM2_PER) {
-                attNum[3] = min(maxNum[3], 2);
-            }
 
-            for (int i = 0; i < 4; i++) {
-                total += attNum[i];
-            }
-        } while (total == 0);
+
         return attNum;
     }
 
@@ -105,49 +47,12 @@ public class RandomGenerateSqlAttributesValue {
 
 
     public int updateNum() {
-        return 0;
-        //return r.nextInt(1) + 1;
+        return getSqlNum("update");
     }
 
     public int[] updateAttributesNum(int[] maxNum) {
         int[] attNum = new int[4];
-        int total = 0;
-        do {
-            double t = r.nextDouble();
-            if (t < 0.33) {
-                attNum[0] = 0;
-            } else if (t < 0.74) {
-                attNum[0] = min(1, maxNum[0]);
-            } else if (t < 0.89) {
-                attNum[0] = min(2, maxNum[0]);
-            } else {
-                attNum[0] = min(r.nextInt(4) + 3, maxNum[0]);
-            }
-            t = r.nextDouble();
-            if (t < 0.52) {
-                attNum[1] = 0;
-            } else if (t < 0.89) {
-                attNum[1] = min(1, maxNum[1]);
-            } else {
-                attNum[1] = min(2, maxNum[1]);
-            }
-            t = r.nextDouble();
-            if (t < 0.96) {
-                attNum[2] = 0;
-            } else {
-                attNum[2] = min(1, maxNum[2]);
-            }
-            t = r.nextDouble();
-            if (t < 0.96) {
-                attNum[3] = 0;
-            } else {
-                attNum[3] = min(1, maxNum[3]);
-            }
 
-            for (int i = 0; i < 4; i++) {
-                total += attNum[i];
-            }
-        } while (total == 0);
         return attNum;
     }
 
@@ -164,7 +69,7 @@ public class RandomGenerateSqlAttributesValue {
     }
 
     public int insertNum() {
-        return 0;
+        return getSqlNum("insert");
     }
 
     public int[] insertAttributesNum(int[] maxNum) {
@@ -172,7 +77,60 @@ public class RandomGenerateSqlAttributesValue {
     }
 
     public int deleteNum() {
-        return 5;
+        return getSqlNum("delete");
     }
+
+    private int getSqlAttNum(String sqlType,String tupleType)
+    {
+        List<Node> nodeList=dc.selectNodes("//generator/transaction/sql/"+sqlType+"value"+tupleType+"range");
+        double t = r.nextDouble();
+        double sum = 0;
+        int result = -1;
+        int old=-1;
+        for (Node node : nodeList) {
+            sum += Double.valueOf(node.valueOf("probability"));
+            assert sum < 1.001;
+            if (t < sum) {
+               if("inf".equals(node.valueOf("value")))
+               {
+                   return old+r.nextInt();
+               }
+               else
+               {
+                   return Integer.valueOf(node.valueOf("value"));
+               }
+            }
+            else
+            {
+                old=Integer.valueOf(node.valueOf("value"));
+            }
+        }
+        return result;
+    }
+
+    private int getSqlNum(String sqlType)
+    {
+        return getConfigNum("//generator/transaction/sql/"+sqlType+"/num/range");
+    }
+
+    private int getConfigNum(String location) {
+        List<Node> nodeList = dc.selectNodes(location);
+        double t = r.nextDouble();
+        double sum = 0;
+        int result = -1;
+        for (Node node : nodeList) {
+            sum += Double.valueOf(node.valueOf("probability"));
+            assert sum < 1.001;
+            if (t < sum) {
+                int max = Integer.valueOf(node.valueOf("max"));
+                int min = Integer.valueOf(node.valueOf("min"));
+                assert max >= min;
+                result = r.nextInt(max - min + 1) + min;
+                break;
+            }
+        }
+        return result;
+    }
+
 
 }
