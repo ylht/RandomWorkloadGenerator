@@ -148,6 +148,14 @@ public class Transaction {
         Collections.shuffle(transactionSqls);
     }
 
+    public void printSqls()
+    {
+        for(TransactionSql ts:transactionSqls)
+        {
+            System.out.println(ts.getPstmt().toString());
+        }
+    }
+
     private RandomValue[] getNotKeyRandomValue(ArrayList<TupleType> tuples, Integer[] loc) {
         RandomValue[] result = new RandomValue[loc.length];
         for (int j = 0; j < loc.length; j++) {

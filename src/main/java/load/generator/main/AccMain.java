@@ -11,6 +11,6 @@ public class AccMain {
         ld.load();
         System.out.println("数据导入完成！");
         TransactionWork tw = new TransactionWork(ct.getTables());
-        tw.run(1, 1000);
+        tw.run(50, 50);
     }
 }

@@ -468,59 +468,49 @@
                 <value>
                     <int>
                         <range>
-                            <min>0</min>
-                            <max>0</max>
+                            <value>0</value>
                             <probability>0.2</probability>
                         </range>
                         <range>
-                            <min>1</min>
-                            <max>5</max>
+                            <value>1</value>
+                            <probability>0.2</probability>
+                        </range>
+                        <range>
+                            <value>inf</value>
                             <probability>0.6</probability>
-                        </range>
-                        <range>
-                            <min>inf</min>
-                            <max>inf</max>
-                            <probability>0.2</probability>
                         </range>
                     </int>
                     <decimal>
                         <range>
-                            <min>0</min>
-                            <max>0</max>
+                            <value>0</value>
                             <probability>0.2</probability>
                         </range>
                         <range>
-                            <min>1</min>
-                            <max>1</max>
+                            <value>1</value>
                             <probability>0.4</probability>
                         </range>
                         <range>
-                            <min>2</min>
-                            <max>2</max>
+                            <value>2</value>
                             <probability>0.4</probability>
                         </range>
                     </decimal>
                     <char>
                         <range>
-                            <min>0</min>
-                            <max>0</max>
+                            <value>0</value>
                             <probability>0.6</probability>
                         </range>
                         <range>
-                            <min>1</min>
-                            <max>1</max>
+                            <value>1</value>
                             <probability>0.4</probability>
                         </range>
                     </char>
                     <date>
                         <range>
-                            <min>0</min>
-                            <max>0</max>
+                            <value>0</value>
                             <probability>0.4</probability>
                         </range>
                         <range>
-                            <min>1</min>
-                            <max>1</max>
+                            <value>1</value>
                             <probability>0.6</probability>
                         </range>
                     </date>

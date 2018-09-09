@@ -21,10 +21,9 @@ public class MultiThreadSql extends Thread {
         int num = tts.length;
         for (int i = 0; i < runTimes; i++) {
             if (i % 100 == 0) {
-                System.out.println(String.valueOf(indexThread) + ',' + String.valueOf(i));
+                System.out.println("第"+String.valueOf(indexThread) + "个线程执行到" + String.valueOf(i)+"次");
             }
             int index = r.nextInt(num);
-            System.out.println(index);
             tts[index].executeSql();
         }
     }
