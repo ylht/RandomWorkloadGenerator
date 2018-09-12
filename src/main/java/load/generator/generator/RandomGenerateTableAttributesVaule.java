@@ -46,8 +46,8 @@ public class RandomGenerateTableAttributesVaule {
 
     public static void main(String[] args) {
         RandomGenerateTableAttributesVaule rgsav = new RandomGenerateTableAttributesVaule();
-        System.out.println(rgsav.foreignKeyNum(5,20));
-        System.out.println(rgsav.keyNum(20,5));
+        System.out.println(rgsav.foreignKeyNum(5, 20));
+        System.out.println(rgsav.keyNum(20, 5));
     }
 
     /**
@@ -64,13 +64,13 @@ public class RandomGenerateTableAttributesVaule {
      * @return 在本次负载中需要随机的
      */
     public int keyNum(int tableIntNum, int tableIndex) {
-        int keyNumMax=Integer.valueOf(dc.selectSingleNode("//generator/table/keyNum").valueOf("max"));
+        int keyNumMax = Integer.valueOf(dc.selectSingleNode("//generator/table/keyNum").valueOf("max"));
         return min(min(tableIntNum, tableIndex + 1), keyNumMax);
     }
 
     public int foreignKeyNum(int keyNum, int tableIntNum) {
-        int result=0;
-        int foreignKeymax=Integer.valueOf(dc.selectSingleNode("//generator/table/foreignKeyNum").valueOf("max"));
+        int result = 0;
+        int foreignKeymax = Integer.valueOf(dc.selectSingleNode("//generator/table/foreignKeyNum").valueOf("max"));
         if (keyNum > 1) {
             if (tableIntNum > keyNum) {
                 result = r.nextInt(tableIntNum - keyNum) + keyNum - 1;
@@ -78,7 +78,7 @@ public class RandomGenerateTableAttributesVaule {
                 result = keyNum - 1;
             }
         }
-        return min(result,foreignKeymax);
+        return min(result, foreignKeymax);
     }
 
     public int tableLineRate(int level) {
@@ -92,8 +92,7 @@ public class RandomGenerateTableAttributesVaule {
         return tupleNum("int");
     }
 
-    private int tupleNum(String tupleType)
-    {
+    private int tupleNum(String tupleType) {
         return getConfigNum("//generator/table/" + tupleType + "/num/range");
     }
 

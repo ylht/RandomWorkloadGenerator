@@ -50,7 +50,6 @@ class CreateTable {
             }
             trList.addNode(parent);
             int level = trList.getLevel(tableIndex);
-            //System.out.println(String.valueOf(tableIndex)+" "+String.valueOf(level));
             int tableLineRate = rgta.tableLineRate(level);
             tables[tableIndex] = new TableTemplate("t" + String.valueOf(tableIndex), intNum,
                     rgta.decimalNum(),

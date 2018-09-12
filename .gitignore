@@ -26,3 +26,6 @@ hs_err_pid*
 .idea/
 Adaptive_Concurrency_Control.iml
 out/
+
+#osx
+.DS_Store

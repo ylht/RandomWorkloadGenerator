@@ -148,10 +148,8 @@ public class Transaction {
         Collections.shuffle(transactionSqls);
     }
 
-    public void printSqls()
-    {
-        for(TransactionSql ts:transactionSqls)
-        {
+    public void printSqls() {
+        for (TransactionSql ts : transactionSqls) {
             System.out.println(ts.getPstmt().toString());
         }
     }
@@ -203,7 +201,7 @@ public class Transaction {
     private PreparedStatement getPstmt(String sql) {
         try {
             return conn.prepareStatement(sql);
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }

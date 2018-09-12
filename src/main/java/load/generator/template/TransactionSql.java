@@ -14,9 +14,10 @@ class TransactionSql {
     private PreparedStatement pstmt;
     private RandomValue[] randomValues;
     private int tableIndex;
+
     TransactionSql(PreparedStatement pstmt, RandomValue[] randomValues,
                    int tableIndex, sqlTypes sqlType) {
-        this.pstmt=pstmt;
+        this.pstmt = pstmt;
         this.randomValues = randomValues;
         this.tableIndex = tableIndex;
         this.sqlType = sqlType;

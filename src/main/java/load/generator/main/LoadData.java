@@ -77,17 +77,15 @@ public class LoadData {
         for (int current = 0; current < randomLists.size(); current++) {
             System.out.println("开始导入第" + String.valueOf(current) + "张表");
             int tableLineNum = 1;
-
             ArrayList<RandomValue> randomList = randomLists.get(current);
             KeyValue keys = new KeyValue(randomList.subList(0, keyNums.get(current)));
-
             tableLineNum *= keys.getLines();
-
+            int insertNumOnce = 100;
             while (tableLineNum > 0) {
                 StringBuilder sql = new StringBuilder("INSERT INTO t" + String.valueOf(current) +
                         " values ");
                 int count = 0;
-                while (count < min(tableLineNum, 100)) {
+                while (count < min(tableLineNum, insertNumOnce)) {
                     count++;
                     AtomicIntegerArray keyVaules = keys.getDeleteValue();
                     String values = getValues(randomList, keyVaules);
