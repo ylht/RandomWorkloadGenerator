@@ -13,7 +13,7 @@ public class LoadConfig {
 
     static {
         try {
-            document = reader.read("config/config.tld");
+            document = reader.read("config/benchmarkConfig.xml");
         } catch (DocumentException e) {
             e.printStackTrace();
         }

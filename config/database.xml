@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<database>
+    <url>111.231.50.91:3306/accDB?useSSL=false</url>
+    <name>sqxdz</name>
+    <pwd>Biui1227..</pwd>
+</database>

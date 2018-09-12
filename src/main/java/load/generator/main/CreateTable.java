@@ -21,7 +21,6 @@ class CreateTable {
         RandomGenerateTableAttributesVaule rgta = RandomGenerateTableAttributesVaule.getInstance();
         int tableNum = rgta.tableNum();
         tables = new TableTemplate[tableNum];
-        Random r = new Random();
         TableRefList trList = TableRefList.getInstance();
         for (int tableIndex = 0; tableIndex < tableNum; tableIndex++) {
             int intNum = rgta.intNum();

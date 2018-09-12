@@ -249,7 +249,7 @@
             </num>
         </date>
     </table>
-    <transaction>
+    <transactionN>
         <num>
             <min>5</min>
             <max>7</max>
@@ -527,5 +527,5 @@
                 </num>
             </delete>
         </sql>
-    </transaction>
+    </transactionN>
 </generator>
