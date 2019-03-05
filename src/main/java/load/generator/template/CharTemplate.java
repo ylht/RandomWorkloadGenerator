@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class CharTemplate {
-    private ArrayList<String> words;
+    private ArrayList<String> words=new ArrayList<>();
     private int counts;
     private int current = 0;
     private int[] wordCount;

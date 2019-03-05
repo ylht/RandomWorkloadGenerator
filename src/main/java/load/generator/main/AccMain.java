@@ -2,7 +2,6 @@ package load.generator.main;
 
 public class AccMain {
     public static void main(String[] args) {
-
         CreateTable ct = new CreateTable();
         if (ct.work()) {
             System.out.println("表格建立完成！");
