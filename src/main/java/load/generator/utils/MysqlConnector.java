@@ -9,12 +9,12 @@ import java.sql.Statement;
 public class MysqlConnector {
     // JDBC 驱动名及数据库 URL
 
-    private final String DB_URL = "jdbc:mysql://111.231.50.91:3306/accDB?useSSL=false";
+    private final String DB_URL = "jdbc:mysql://10.11.1.193:13306/accDB?useSSL=false";
 
     // 数据库的用户名与密码，需要根据自己的设置
 
-    private final String USER = "sqxdz";
-    private final String PASS = "Biui1227..";
+    private final String USER = "root";
+    private final String PASS = "root";
     private Connection conn = null;
     private Statement stmt = null;
 
