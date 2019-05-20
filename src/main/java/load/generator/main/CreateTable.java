@@ -70,7 +70,7 @@ class CreateTable {
     boolean work() {
         String drop = "DROP TABLE IF EXISTS t";
         for (int i = 9; i > -1; i--) {
-            mc.excuteSql(drop + String.valueOf(i));
+            mc.excuteSql(drop + i);
         }
         String[] tableSql = new String[tables.length];
         int num = 0;

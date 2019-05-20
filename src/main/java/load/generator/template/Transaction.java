@@ -16,9 +16,8 @@ import java.util.Collections;
 
 public class Transaction {
     private ArrayList<TransactionSql> transactionSqls = new ArrayList<>();
-    private Connection conn = (new MysqlConnector()).getConn();
     private RandomGenerateSqlAttributesValue randomSqlAtt = new RandomGenerateSqlAttributesValue();
-
+    private Connection conn;
     public Transaction(TableTemplate[] tables) {
 
         //获取sql模板
@@ -60,7 +59,7 @@ public class Transaction {
 
 
             transactionSqls.add(new TransactionSql(
-                    getPstmt(selectTemplate), null,
+                    selectTemplate, null,
                     randomTableIndex, TransactionSql.sqlTypes.SELECT));
         }
 
@@ -91,7 +90,7 @@ public class Transaction {
                     getNotKeyRandomValue(randomTable.getTuples(), updateAttIndex);
 
             transactionSqls.add(new TransactionSql(
-                    getPstmt(updateTemplate), updateRandom,
+                    updateTemplate, updateRandom,
                     randomTableIndex, TransactionSql.sqlTypes.UPDATE));
         }
 
@@ -116,7 +115,7 @@ public class Transaction {
                     ct.singleCondition(conditionAttIndex);
 
             transactionSqls.add(new TransactionSql(
-                    getPstmt(deleteTemplate), null,
+                    deleteTemplate, null,
                     randomTableIndex, TransactionSql.sqlTypes.DELETE));
         }
 
@@ -141,18 +140,25 @@ public class Transaction {
                     getNotKeyRandomValue(randomTable.getTuples(), insertAttIndex);
 
             transactionSqls.add(new TransactionSql(
-                    getPstmt(insertTemplate), insertRandom,
+                    insertTemplate, insertRandom,
                     randomTableIndex, TransactionSql.sqlTypes.INSERT));
         }
 
         Collections.shuffle(transactionSqls);
     }
 
-    public void printSqls() {
-        for (TransactionSql ts : transactionSqls) {
-            System.out.println(ts.getPstmt().toString());
+    public void setConn(Connection conn) throws SQLException {
+        for (TransactionSql transactionSql : transactionSqls) {
+            transactionSql.setConn(conn);
         }
+        this.conn=conn;
     }
+
+//    public void printSqls() {
+//        for (TransactionSql ts : transactionSqls) {
+//            System.out.println(ts.getPstmt().toString());
+//        }
+//    }
 
     private RandomValue[] getNotKeyRandomValue(ArrayList<TupleType> tuples, Integer[] loc) {
         RandomValue[] result = new RandomValue[loc.length];
@@ -198,16 +204,7 @@ public class Transaction {
         return temprv;
     }
 
-    private PreparedStatement getPstmt(String sql) {
-        try {
-            return conn.prepareStatement(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public void executeSql() {
+    public int executeSql() {
         try {
             for (TransactionSql transactionSql : transactionSqls) {
                 ArrayList<String> sv = transactionSql.getSqlValues();
@@ -218,6 +215,7 @@ public class Transaction {
                 ps.execute();
             }
             conn.commit();
+            return 1;
         } catch (SQLException e) {
             e.printStackTrace();
             try {
@@ -225,6 +223,7 @@ public class Transaction {
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
+            return 0;
         }
     }
 
@@ -239,7 +238,7 @@ public class Transaction {
     }
 
     private ArrayList<Integer> getRandomList(int begin, int end, boolean allkey) {
-        var randomIndex = new ArrayList<Integer>();
+        ArrayList<Integer> randomIndex = new ArrayList<Integer>();
         for (int i = begin; i < end; i++) {
             randomIndex.add(i);
         }

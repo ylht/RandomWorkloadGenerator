@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <generator>
+    <threadNum>20</threadNum>
+    <runCount>1000</runCount>
     <table>
         <tableNum>
             <min>3</min>

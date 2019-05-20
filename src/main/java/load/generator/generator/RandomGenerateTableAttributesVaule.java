@@ -82,7 +82,7 @@ public class RandomGenerateTableAttributesVaule {
     }
 
     public int tableLineRate(int level) {
-        return 5;
+        return 20;
     }
 
     /**

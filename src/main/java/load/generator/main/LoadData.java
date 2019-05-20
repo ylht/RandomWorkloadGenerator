@@ -80,7 +80,7 @@ public class LoadData {
             ArrayList<RandomValue> randomList = randomLists.get(current);
             KeyValue keys = new KeyValue(randomList.subList(0, keyNums.get(current)));
             tableLineNum *= keys.getLines();
-            int insertNumOnce = 100;
+            int insertNumOnce = 1000;
             while (tableLineNum > 0) {
                 StringBuilder sql = new StringBuilder("INSERT INTO t" + String.valueOf(current) +
                         " values ");

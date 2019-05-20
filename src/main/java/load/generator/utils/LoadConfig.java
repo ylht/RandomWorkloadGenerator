@@ -24,6 +24,7 @@ public class LoadConfig {
     }
 
 
+
     public static void main(String[] args) {
         Document dc = LoadConfig.getConfig();
         String xpath = "//generator/table/tableNum";

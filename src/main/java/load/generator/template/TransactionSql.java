@@ -3,7 +3,9 @@ package load.generator.template;
 import load.generator.generator.random.RandomValue;
 import load.generator.utils.KeyValue;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 
@@ -14,10 +16,10 @@ class TransactionSql {
     private PreparedStatement pstmt;
     private RandomValue[] randomValues;
     private int tableIndex;
-
-    TransactionSql(PreparedStatement pstmt, RandomValue[] randomValues,
+    private String sql;
+    TransactionSql(String sql, RandomValue[] randomValues,
                    int tableIndex, sqlTypes sqlType) {
-        this.pstmt = pstmt;
+        this.sql=sql;
         this.randomValues = randomValues;
         this.tableIndex = tableIndex;
         this.sqlType = sqlType;
@@ -25,6 +27,10 @@ class TransactionSql {
 
     static void setTableKeys(KeyValue[] inputTableKeys) {
         tableKeys = inputTableKeys;
+    }
+
+    public void setConn(Connection connection) throws SQLException {
+        pstmt=connection.prepareStatement(sql);
     }
 
     PreparedStatement getPstmt() {
